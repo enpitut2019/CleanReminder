@@ -9,12 +9,13 @@ public class MainBase : MonoBehaviour
     /// </summary>
     public enum CurrentMode
     {
-        DISPLAY, INPUT, ADD
+        DISPLAY, ADDPLACEMODE, DATAUPDATE
     }
     [SerializeField]CurrentMode currentMode = CurrentMode.DISPLAY;
 
-    [SerializeField]CleanDataListNew cleanDataListNew = new CleanDataListNew();
+    [SerializeField]protected CleanDataListNew cleanDataListNew = new CleanDataListNew();
     [SerializeField] string inputData;//受け取った入力
+    [SerializeField] bool inputMode;
 
     
     // Start is called before the first frame update
@@ -28,60 +29,138 @@ public class MainBase : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        switch (currentMode)//currentModeごとにUpdate関数を呼び出す
+        if (inputMode)
         {
-            case CurrentMode.DISPLAY:
-                CurrentUpdate_Display();
-                break;
-            case CurrentMode.INPUT:
-                CurrentUpdate_Input();
-                break;
-            case CurrentMode.ADD:
-                CurrentUpdate_Add();
-                break;
+            InputUpdate();
         }
+        else
+        {
+            switch (currentMode)//currentModeごとにUpdate関数を呼び出す
+            {
+                case CurrentMode.DISPLAY:
+                    if (inputData == "i")
+                    {
+                        ChangeMode(CurrentMode.ADDPLACEMODE);
+                        StartInputMode();
+                    }
+                    else
+                    {
+                        StartInputMode();
+                    }
+                    break;
+                case CurrentMode.ADDPLACEMODE:
+                    if (inputData == "display")
+                    {
+                        ChangeMode(CurrentMode.DISPLAY);
+                        StartInputMode();
+                    }
+                    else if (inputData != "")
+                    {
+                        ChangeMode(CurrentMode.DATAUPDATE);
+
+                    }
+                    else
+                    {
+                        StartInputMode();
+                    }
+                    break;
+                case CurrentMode.DATAUPDATE:
+                        cleanDataListNew.AddPlaceList(inputData);
+                        ResetInputData();
+                        ChangeMode(CurrentMode.ADDPLACEMODE);
+
+                    break;
+            }
+        }
+        
     }
     
+    void InputUpdate()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            FinishInputMode();
+        }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            SetInputData("i");
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            SetInputData("display");
+        }
+
+
+    }
+
     /// <summary>
     /// currentModeの変更
     /// </summary>
     /// <param name="mode"></param>
     void ChangeMode(CurrentMode mode)
     {
+        if (currentMode != mode)
+        {
+            EndModeAction(currentMode);
+            AwakeModeAction(mode);
+            //ChengeModeActoin(mode);
+        }
+
         currentMode = mode;
         Debug.Log(currentMode);
+        
     }
-    #region CurrentUpdate
-    protected virtual void CurrentUpdate_Display()
+
+    /*protected virtual void ChengeModeAction(CurrentMode mode)
     {
-        if (Inputaa())
+        switch (mode)
         {
-            ChangeMode(CurrentMode.INPUT);
+            case CurrentMode.DISPLAY:
+                Debug.Log(currentMode);
+                break;
+            case CurrentMode.ADDPLACEMODE:
+                Debug.Log(currentMode);
+                break;
+        }
+    }*/
+    protected virtual void EndModeAction(CurrentMode mode)
+    {
+        switch (mode)
+        {
+            case CurrentMode.DISPLAY:
+                Debug.Log(currentMode);
+                break;
+            case CurrentMode.ADDPLACEMODE:
+                Debug.Log(currentMode);
+                break;
+        }
+    }
+    protected virtual void AwakeModeAction(CurrentMode mode)
+    {
+        switch (mode)
+        {
+            case CurrentMode.DISPLAY:
+                Debug.Log(currentMode);
+                break;
+            case CurrentMode.ADDPLACEMODE:
+                Debug.Log(currentMode);
+                break;
         }
     }
 
-    protected virtual void CurrentUpdate_Input()
-    {
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            SetInputData(inputData + "b");
-        }
-        if (Inputaa())
-        {
-            ChangeMode(CurrentMode.ADD);
-        }
-    }
-
-    protected virtual void CurrentUpdate_Add()
-    {
-        cleanDataListNew.AddPlaceList(inputData);
-        ChangeMode(CurrentMode.DISPLAY);
-        ResetInputData();
-    }
-    #endregion
     protected virtual bool Inputaa()
     {
         return Input.GetKeyDown(KeyCode.A);
+    }
+
+    protected void FinishInputMode()
+    {
+        inputMode = false;
+    }
+
+    void StartInputMode()
+    {
+        inputMode = true;
     }
 
     /// <summary>

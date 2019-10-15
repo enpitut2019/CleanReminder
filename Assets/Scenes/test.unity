@@ -279,8 +279,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1335159378}
-        m_MethodName: SetStateDisplay
+      - m_Target: {fileID: 648793232}
+        m_MethodName: ChangeInputMode
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -663,6 +663,7 @@ GameObject:
   m_Component:
   - component: {fileID: 648793231}
   - component: {fileID: 648793230}
+  - component: {fileID: 648793232}
   m_Layer: 0
   m_Name: Main
   m_TagString: Untagged
@@ -677,7 +678,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 648793229}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fbd6f5c2c47b49543b719ce46efcb6bc, type: 3}
   m_Name: 
@@ -686,6 +687,7 @@ MonoBehaviour:
   cleanDataListNew:
     placeList: []
   inputData: 
+  inputMode: 1
 --- !u!4 &648793231
 Transform:
   m_ObjectHideFlags: 0
@@ -700,6 +702,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &648793232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648793229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 564b0a539a7e3204f85b4a6295baeb67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentMode: 0
+  cleanDataListNew:
+    placeList: []
+  inputData: 
+  inputMode: 0
+  inputPanel: {fileID: 338512865}
+  inputField: {fileID: 1739383902}
+  displayText: {fileID: 1497447745}
 --- !u!1 &669319896
 GameObject:
   m_ObjectHideFlags: 0
@@ -1042,8 +1064,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1335159378}
-        m_MethodName: SetStateInput
+      - m_Target: {fileID: 648793232}
+        m_MethodName: ChangeAddPlaceMode
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1105,7 +1127,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1335159378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1781,8 +1803,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1335159378}
-        m_MethodName: SetStateAdd
+      - m_Target: {fileID: 648793232}
+        m_MethodName: AddPlaceData
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
