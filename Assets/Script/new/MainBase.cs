@@ -14,6 +14,7 @@ public class MainBase : MonoBehaviour
     [SerializeField]CurrentMode currentMode = CurrentMode.DISPLAY;
 
     [SerializeField]protected CleanDataListNew cleanDataListNew = new CleanDataListNew();
+    DataSave dataSave=new DataSave();
     [SerializeField] string inputData;//受け取った入力
     [SerializeField] bool inputMode;
 
@@ -23,7 +24,7 @@ public class MainBase : MonoBehaviour
     {
         cleanDataListNew.AddPlaceList("unko");
         cleanDataListNew.RemoveData(0);
-
+        LoadData();
     }
 
     // Update is called once per frame
@@ -68,7 +69,7 @@ public class MainBase : MonoBehaviour
                         cleanDataListNew.AddPlaceList(inputData);
                         ResetInputData();
                         ChangeMode(CurrentMode.ADDPLACEMODE);
-
+                        SaveData();
                     break;
             }
         }
@@ -178,5 +179,13 @@ public class MainBase : MonoBehaviour
     protected virtual void ResetInputData()
     {
         inputData = "";
+    }
+
+    void SaveData(){
+        dataSave.savePlayerData(cleanDataListNew);
+    }
+
+    void LoadData(){
+        cleanDataListNew=dataSave.loadPlayerData();
     }
 }
