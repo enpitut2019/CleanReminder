@@ -16,8 +16,9 @@ public class MainBase : MonoBehaviour
     [SerializeField]protected CleanDataListNew cleanDataListNew = new CleanDataListNew();
     [SerializeField] string inputData;//受け取った入力
     [SerializeField] bool inputMode;
+ 
 
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,6 +42,7 @@ public class MainBase : MonoBehaviour
                     if (inputData == "i")
                     {
                         ChangeMode(CurrentMode.ADDPLACEMODE);
+                        ResetInputData();
                         StartInputMode();
                     }
                     else
@@ -67,8 +69,7 @@ public class MainBase : MonoBehaviour
                 case CurrentMode.DATAUPDATE:
                         cleanDataListNew.AddPlaceList(inputData);
                         ResetInputData();
-                        ChangeMode(CurrentMode.ADDPLACEMODE);
-
+                        ChangeMode(CurrentMode.DISPLAY);
                     break;
             }
         }
