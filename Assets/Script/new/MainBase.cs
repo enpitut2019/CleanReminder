@@ -9,7 +9,7 @@ public class MainBase : MonoBehaviour
     /// </summary>
     public enum CurrentMode
     {
-        DISPLAY, ADDPLACEMODE, DATAUPDATE
+        START,DISPLAY, ADDPLACEMODE, DATAUPDATE
     }
     [SerializeField]CurrentMode currentMode = CurrentMode.DISPLAY;
 
@@ -26,6 +26,7 @@ public class MainBase : MonoBehaviour
         cleanDataListNew.AddPlaceList("unko");
         cleanDataListNew.RemoveData(0);
         LoadData();
+        ChangeMode(CurrentMode.DISPLAY);
     }
 
     // Update is called once per frame
@@ -70,7 +71,7 @@ public class MainBase : MonoBehaviour
                 case CurrentMode.DATAUPDATE:
                         cleanDataListNew.AddPlaceList(inputData);
                         ResetInputData();
-                        ChangeMode(CurrentMode.ADDPLACEMODE);
+                        ChangeMode(CurrentMode.DISPLAY);
                         SaveData();
                     break;
             }
