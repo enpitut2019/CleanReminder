@@ -25,6 +25,8 @@ public class Main_UI : MainBase
         }
     }*/
     //モードの立ち上がりの処理
+
+
     protected override void AwakeModeAction(CurrentMode mode)
     {
         base.AwakeModeAction(mode);
@@ -32,6 +34,7 @@ public class Main_UI : MainBase
         {
             case CurrentMode.DISPLAY:
                 NonActiveInputPanel();
+                DisplayData();
                 break;
             case CurrentMode.ADDPLACEMODE:
                 ActiveInputPanel();
@@ -52,7 +55,7 @@ public class Main_UI : MainBase
                 SetInputFieldText();
                 break;
             case CurrentMode.DATAUPDATE:
-                DisplayData();
+                //DisplayData();
                 break;
         }
     }
@@ -85,7 +88,7 @@ public class Main_UI : MainBase
         SetInputData(inputField.textComponent.text);
         FinishInputMode();
         SetInputFieldText();
-        DisplayData();
+        //DisplayData();
     }
     //inputFieldの初期化
     void SetInputFieldText()
