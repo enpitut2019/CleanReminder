@@ -3,30 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
+/// <summary>
+/// GameObjectなどを操作し、データを画面に表示するクラス
+/// </summary>
 public class Main_UI : MainBase
 {
-    [SerializeField] GameObject inputPanel;
-    [SerializeField] InputField inputField;
-    [SerializeField] Text displayText;
+    [SerializeField] GameObject addPlacePanel;//データを追加するときに出てくるパネル
+    [SerializeField] InputField addPlaceInputField;//データを追加するときに使うinputField
+    [SerializeField] Text displayPlaceText;//プレイスリストのデータを一覧表示するText
 
-
-
-    /*protected override void ChengeModeAction(CurrentMode mode)
-    {
-        switch (mode)
-        {
-            case CurrentMode.DISPLAY:
-                NonActiveInputPanel();
-                break;
-            case CurrentMode.ADDPLACEMODE:
-                ActiveInputPanel();
-                break;
-        }
-    }*/
     //モードの立ち上がりの処理
-
-
     protected override void AwakeModeAction(CurrentMode mode)
     {
         base.AwakeModeAction(mode);
@@ -52,56 +38,68 @@ public class Main_UI : MainBase
             case CurrentMode.DISPLAY:
                 break;
             case CurrentMode.ADDPLACEMODE:
-                SetInputFieldText();
+                InitInputFieldText();
                 break;
             case CurrentMode.DATAUPDATE:
                 //DisplayData();
                 break;
         }
     }
-    //追加ウィンドウの表示
-    public void ActiveInputPanel()
+    /// <summary>
+    /// 追加ウィンドウの表示
+    /// </summary>
+    void ActiveInputPanel()
     {
-        inputPanel.SetActive(true);
+        addPlacePanel.SetActive(true);
 
     }
-    //追加ウィンドウの非表示
-    public void NonActiveInputPanel()
+    /// <summary>
+    ///追加ウィンドウの非表示
+    /// </summary>
+    void NonActiveInputPanel()
     {
-        inputPanel.SetActive(false);
+        addPlacePanel.SetActive(false);
     }
+    #region ボタンで呼ぶ関数 
+    // 入力と入力の確定だけを呼ぶ
+
+
     //+ボタンから追加ウィンドウを表示
     public void ChangeAddPlaceMode()
     {
         SetInputData("i");
-        FinishInputMode();
+        Enter();
     }
     //キャンセル押したときに追加ウィンドウを閉じる
     public void ChangeInputMode()
     {
         SetInputData("display");
-        FinishInputMode();
+        Enter();
     }
     //データの追加と表示
     public void AddPlaceData()
     {
-        SetInputData(inputField.textComponent.text);
-        FinishInputMode();
-        SetInputFieldText();
-        //DisplayData();
+        SetInputData(addPlaceInputField.textComponent.text);
+        Enter();
     }
-    //inputFieldの初期化
-    void SetInputFieldText()
+    #endregion
+    /// <summary>
+    /// inputFieldの初期化
+    /// </summary>
+    void InitInputFieldText()
     {
-        inputField.text = "";
+        addPlaceInputField.text = "";
     }
-    //配列中身の表示
+
+    /// <summary>
+    /// placeListのデータをtextに表示する
+    /// </summary>
     void DisplayData()
     {
-        displayText.text = "";
-        for (int i = 0; i < cleanDataListNew.placeList.Count; i++)
+        displayPlaceText.text = "";
+        for (int i = 0; i < cleanDataList.placeList.Count; i++)
         {
-            displayText.text += cleanDataListNew.placeList[i] + "\n";
+            displayPlaceText.text += cleanDataList.placeList[i] + "\n";
         }
     }
 
