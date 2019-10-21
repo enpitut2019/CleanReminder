@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 /// <summary>
@@ -11,6 +12,10 @@ public class Main_UI : MainBase
     [SerializeField] GameObject addPlacePanel;//データを追加するときに出てくるパネル
     [SerializeField] InputField addPlaceInputField;//データを追加するときに使うinputField
     [SerializeField] Text displayPlaceText;//プレイスリストのデータを一覧表示するText
+    [SerializeField] LayOutTextList layoutTextList;//プレイリストのデータ
+    [SerializeField] GameObject PlaceDataPanel;
+
+    [SerializeField]int nowTargetIndex=-1;//MainBaseに実装を映したい
 
     //モードの立ち上がりの処理
     protected override void AwakeModeAction(CurrentMode mode)
@@ -27,6 +32,9 @@ public class Main_UI : MainBase
                 break;
             case CurrentMode.DATAUPDATE:
                 break;
+            case CurrentMode.PLACEDATAMODE:
+                PlaceDataPanel.SetActive(true);
+                break;
         }
     }
     //モード終了時の処理
@@ -42,6 +50,13 @@ public class Main_UI : MainBase
                 break;
             case CurrentMode.DATAUPDATE:
                 //DisplayData();
+                break;
+            case CurrentMode.REMOVE:
+                nowTargetIndex = -1;
+                //ClosePlaceData();
+                break;
+            case CurrentMode.PLACEDATAMODE:
+                PlaceDataPanel.SetActive(false);
                 break;
         }
     }
@@ -71,9 +86,15 @@ public class Main_UI : MainBase
         Enter();
     }
     //キャンセル押したときに追加ウィンドウを閉じる
-    public void ChangeInputMode()
+    public void ChangeDisplayMode()
     {
         SetInputData("display");
+        Enter();
+    }
+    public void OpenPlaceDataMode(int n)
+    {
+        nowTargetIndex =n;
+        SetInputData("placeData");
         Enter();
     }
     //データの追加と表示
@@ -82,6 +103,20 @@ public class Main_UI : MainBase
         SetInputData(addPlaceInputField.textComponent.text);
         Enter();
     }
+    /// <summary>
+    /// データの削除
+    /// </summary>
+    public void RemovePlaceData()
+    {
+        SetInputData("remove");
+        Enter();
+
+        StartCoroutine(WaitFrame(1,()=> SetInputData(nowTargetIndex.ToString())));
+        StartCoroutine(WaitFrame(1, () => Enter()));
+    }
+    #region InputDataを扱わないボタン
+    
+    #endregion
     #endregion
     /// <summary>
     /// inputFieldの初期化
@@ -96,11 +131,25 @@ public class Main_UI : MainBase
     /// </summary>
     void DisplayData()
     {
-        displayPlaceText.text = "";
+        layoutTextList.ResetText();
         for (int i = 0; i < cleanDataList.placeList.Count; i++)
         {
-            displayPlaceText.text += cleanDataList.placeList[i] + "\n";
+            layoutTextList.AddText(cleanDataList.placeList[i]);
         }
     }
 
+    /// <summary>
+    /// nフレーム後にuaを実行
+    /// </summary>
+    /// <param name="n"></param>
+    /// <param name="ua"></param>
+    /// <returns></returns>
+    IEnumerator WaitFrame(int n,UnityAction ua)
+    {
+        for (int i = 0; i < n; i++)
+        {
+            yield return null;
+        }
+        ua.Invoke();
+    }
 }

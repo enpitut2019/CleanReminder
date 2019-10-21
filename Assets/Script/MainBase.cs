@@ -17,7 +17,8 @@ public class MainBase : MonoBehaviour
         DISPLAY,//掃除場所の一覧を表示している状態
         ADDPLACEMODE,//場所のデータを追加する状態
         DATAUPDATE,//データを更新する状態
-        REMOVE//データを削除する状態
+        REMOVE,//データを削除する状態
+        PLACEDATAMODE//場所のデータの詳細を表示している状態
     }
     [SerializeField]CurrentMode currentMode = CurrentMode.DISPLAY;
     [SerializeField]protected CleanDataList cleanDataList = new CleanDataList();//掃除場所のデータリストを扱うクラス
@@ -50,9 +51,9 @@ public class MainBase : MonoBehaviour
                         ChangeMode(CurrentMode.ADDPLACEMODE);
                         ResetInputData();
                         WaitInput();
-                    }else if (inputData =="remove")
+                    }else if (inputData =="placeData")
                     {
-                        ChangeMode(CurrentMode.REMOVE);
+                        ChangeMode(CurrentMode.PLACEDATAMODE);
                         ResetInputData();
                         WaitInput();
                     }
@@ -85,12 +86,7 @@ public class MainBase : MonoBehaviour
                 case CurrentMode.REMOVE:
                     int num = 0;
                     bool result = int.TryParse(inputData, out num);
-                    if(inputData == "display")//display modeに戻る
-                    {
-                        ChangeMode(CurrentMode.DISPLAY);
-                        ResetInputData();
-                    }
-                    else if (result)//入力が数字だった時
+                    if (result)//入力が数字だった時
                     {
                         cleanDataList.RemoveData(num);
                         ChangeMode(CurrentMode.DATAUPDATE);
@@ -102,6 +98,19 @@ public class MainBase : MonoBehaviour
                         WaitInput();
                     }
                     
+                    break;
+                case CurrentMode.PLACEDATAMODE:
+                    if (inputData == "display")
+                    {
+                        ChangeMode(CurrentMode.DISPLAY);
+                        ResetInputData();
+                    }
+                    else if(inputData == "remove")
+                    {
+                        ChangeMode(CurrentMode.REMOVE);
+                        ResetInputData();
+                        WaitInput();
+                    }
                     break;
             }
         }
@@ -129,6 +138,10 @@ public class MainBase : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             SetInputData("remove");
+        }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            SetInputData("placeData");
         }
     }
 
