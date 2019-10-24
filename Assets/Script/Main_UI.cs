@@ -132,9 +132,10 @@ public class Main_UI : MainBase
     void DisplayData()
     {
         layoutTextList.ResetText();
-        for (int i = 0; i < cleanDataList.placeList.Count; i++)
+        for (int i = 0; i < cleanDataList.placeDataList.Count; i++)
         {
-            layoutTextList.AddText(cleanDataList.placeList[i]);
+            layoutTextList.AddText(cleanDataList.GetPlaceData(i) +
+                cleanDataList.GetDateData(i));
         }
     }
 
