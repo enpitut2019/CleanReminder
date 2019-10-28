@@ -18,13 +18,16 @@ public class MainBase : MonoBehaviour
         ADDPLACEMODE,//場所のデータを追加する状態
         DATAUPDATE,//データを更新する状態
         REMOVE,//データを削除する状態
-        PLACEDATAMODE//場所のデータの詳細を表示している状態
+        PLACEDATAMODE,//場所のデータの詳細を表示している状態
+        SETINTERVALMODE//掃除する間隔の登録をする状態
     }
     [SerializeField]CurrentMode currentMode = CurrentMode.DISPLAY;
     [SerializeField]protected CleanDataList cleanDataList = new CleanDataList();//掃除場所のデータリストを扱うクラス
     [SerializeField] string inputData;//受け取った入力を入れる変数
     [SerializeField] bool canInput;//入力受け取り状態を表す変数
-    
+
+    [SerializeField] protected int nowTargetIndex = -1;//MainBaseに実装を映したい
+
     DataSaveClass dataSave = new DataSaveClass();//セーブとロードを行うクラス
     #region データをセーブするpath群
     string cleanDataListPath = "cleanPlaceData";
@@ -84,21 +87,23 @@ public class MainBase : MonoBehaviour
                         SaveData();
                     break;
                 case CurrentMode.REMOVE:
-                    int num = 0;
-                    bool result = int.TryParse(inputData, out num);
-                    if (result)//入力が数字だった時
                     {
-                        cleanDataList.RemoveData(num);
-                        ChangeMode(CurrentMode.DATAUPDATE);
-                        ResetInputData();
+                        int num = 0;
+                        bool result = int.TryParse(inputData, out num);
+                        if (result)//入力が数字だった時
+                        {
+                            cleanDataList.RemoveData(num);
+                            ChangeMode(CurrentMode.DATAUPDATE);
+                            ResetInputData();
+                        }
+                        else//入力が数字以外だった場合
+                        {
+                            ResetInputData();
+                            WaitInput();
+                        }
+
+                        break;
                     }
-                    else//入力が数字以外だった場合
-                    {
-                        ResetInputData();
-                        WaitInput();
-                    }
-                    
-                    break;
                 case CurrentMode.PLACEDATAMODE:
                     if (inputData == "display")
                     {
@@ -110,8 +115,31 @@ public class MainBase : MonoBehaviour
                         ChangeMode(CurrentMode.REMOVE);
                         ResetInputData();
                         WaitInput();
+                    }else if (inputData == "interval")
+                    {
+                        ChangeMode(CurrentMode.SETINTERVALMODE);
+                        ResetInputData();
+                        WaitInput();
                     }
                     break;
+                case CurrentMode.SETINTERVALMODE:
+                    {
+                        int num = 0;
+                        bool result = int.TryParse(inputData, out num);
+                        if (result)//入力が数字だった時
+                        {
+                            var nowData = cleanDataList.GetCleanPlaceData(nowTargetIndex);
+                            nowData.SetCleanInterval_day(num);
+                            ChangeMode(CurrentMode.DATAUPDATE);
+                            ResetInputData();
+                        }
+                        else//入力が数字以外だった場合
+                        {
+                            ResetInputData();
+                            WaitInput();
+                        }
+                        break;
+                    }
             }
         }
         
@@ -142,6 +170,11 @@ public class MainBase : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             SetInputData("placeData");
+            SetTargetIndex(0);
+        }
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            SetInputData("interval");
         }
     }
 
@@ -187,6 +220,7 @@ public class MainBase : MonoBehaviour
         {
             case CurrentMode.DISPLAY:
                 Debug.Log(currentMode);
+                ResetInputData();
                 break;
             case CurrentMode.ADDPLACEMODE:
                 Debug.Log(currentMode);
@@ -225,6 +259,20 @@ public class MainBase : MonoBehaviour
     protected virtual void ResetInputData()
     {
         inputData = "";
+    }
+
+    /// <summary>
+    /// 現在のplaceDataの番号
+    /// </summary>
+    /// <param name="i"></param>
+    protected void SetTargetIndex(int i)
+    {
+        nowTargetIndex = i;
+    }
+
+    protected void ResetTargetIndex()
+    {
+        nowTargetIndex = -1;
     }
     /// <summary>
     /// データをjsonファイルに書き込む

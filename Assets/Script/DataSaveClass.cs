@@ -59,6 +59,11 @@ public class DataSaveClass
     /// <returns></returns>
     string CreateDataPath(string path)
     {
+#if UNITY_EDITOR
         return Application.dataPath + "/" + path + ".json";
+#else
+        
+        return Application.persistentDataPath + "/" + path + ".json";
+#endif
     }
 }

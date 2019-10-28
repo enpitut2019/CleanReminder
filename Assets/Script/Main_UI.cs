@@ -13,9 +13,13 @@ public class Main_UI : MainBase
     [SerializeField] InputField addPlaceInputField;//データを追加するときに使うinputField
     [SerializeField] Text displayPlaceText;//プレイスリストのデータを一覧表示するText
     [SerializeField] LayOutTextList layoutTextList;//プレイリストのデータ
-    [SerializeField] GameObject PlaceDataPanel;
+    [SerializeField] DisplayCleanPlaceData PlaceDataPanel;//現在選択しているplaceDataの情報を表示するパネル
 
-    [SerializeField]int nowTargetIndex=-1;//MainBaseに実装を映したい
+    [SerializeField] GameObject setIntervalPanel;//インターバルの入力をする時のパネル
+    [SerializeField] InputField setIntervalDataInputField;//インターバルの入力をするためのinputField
+
+
+    //[SerializeField]int nowTargetIndex=-1;//MainBaseに実装を映したい
 
     //モードの立ち上がりの処理
     protected override void AwakeModeAction(CurrentMode mode)
@@ -33,7 +37,12 @@ public class Main_UI : MainBase
             case CurrentMode.DATAUPDATE:
                 break;
             case CurrentMode.PLACEDATAMODE:
-                PlaceDataPanel.SetActive(true);
+                PlaceDataPanel.gameObject.SetActive(true);
+                PlaceDataPanel.SetCleanPlaceData(cleanDataList.GetCleanPlaceData(nowTargetIndex));
+                PlaceDataPanel.DisplayData();
+                break;
+            case CurrentMode.SETINTERVALMODE:
+                setIntervalPanel.SetActive(true);
                 break;
         }
     }
@@ -49,14 +58,14 @@ public class Main_UI : MainBase
                 InitInputFieldText();
                 break;
             case CurrentMode.DATAUPDATE:
-                //DisplayData();
                 break;
             case CurrentMode.REMOVE:
-                nowTargetIndex = -1;
-                //ClosePlaceData();
                 break;
             case CurrentMode.PLACEDATAMODE:
-                PlaceDataPanel.SetActive(false);
+                PlaceDataPanel.gameObject.SetActive(false);
+                break;
+            case CurrentMode.SETINTERVALMODE:
+                setIntervalPanel.SetActive(false);
                 break;
         }
     }
@@ -93,7 +102,7 @@ public class Main_UI : MainBase
     }
     public void OpenPlaceDataMode(int n)
     {
-        nowTargetIndex =n;
+        SetTargetIndex(n);
         SetInputData("placeData");
         Enter();
     }
@@ -113,6 +122,19 @@ public class Main_UI : MainBase
 
         StartCoroutine(WaitFrame(1,()=> SetInputData(nowTargetIndex.ToString())));
         StartCoroutine(WaitFrame(1, () => Enter()));
+    }
+
+
+    public void ChengeSetIntervalMode()
+    {
+        SetInputData("interval");
+        Enter();
+    }
+
+    public void SetIntervalData()
+    {
+        SetInputData(setIntervalDataInputField.textComponent.text);
+        Enter();
     }
     #region InputDataを扱わないボタン
     
@@ -134,8 +156,7 @@ public class Main_UI : MainBase
         layoutTextList.ResetText();
         for (int i = 0; i < cleanDataList.placeDataList.Count; i++)
         {
-            layoutTextList.AddText(cleanDataList.GetPlaceData(i) +
-                cleanDataList.GetDateData(i));
+            layoutTextList.AddText(cleanDataList.GetPlaceData(i));
         }
     }
 

@@ -11,18 +11,27 @@ public class CleanPlaceData
 {
     [SerializeField] string place;
     public string Place { get { return place; }private set { place = value; } }
-    DateTime time;
-    [SerializeField] SEDataTime seDate;
+    
+    [SerializeField] SEDataTime lastUpdateTime;
+    [SerializeField] SEDataTime cleanInterval;
     [SerializeField] string dateData;
-    public string DateData { get { return dateData; } }
-    public DateTime Time { get { return time; } }
+    public string DateDataText { get { return dateData; } }
+    [SerializeField] string cleanIntervalText;
+    public string CleanIntervalText { get { return cleanIntervalText; } }
     
     public CleanPlaceData(string place)
     {
         this.place = place;
-        this.time = DateTime.Now;
-        seDate = new SEDataTime(time);
-        dateData = seDate.EntryDate();
+        lastUpdateTime = new SEDataTime(DateTime.Now);
+        dateData = lastUpdateTime.EntryDate();
+        cleanInterval = new SEDataTime();
+        cleanIntervalText = cleanInterval.DayInterval();
+    }
+
+    public void SetCleanInterval_day(int i)
+    {
+        cleanInterval.ChengeData_day(i);
+        cleanIntervalText = cleanInterval.DayInterval();
     }
 }
 [System.Serializable]
@@ -44,9 +53,57 @@ public class SEDataTime{
         this.second = time.Second;
     }
 
+    public SEDataTime()
+    {
+        this.year = 0;
+        this.month = 0;
+        this.day = 0;
+        this.hour = 0;
+        this.minute = 0;
+        this.second = 0;
+    }
+
     public string EntryDate()
     {
-        return this.year + "年" + this.month + "月" + this.day + "日" + this.hour + "時" + this.minute + "分" + this.second + "秒"; 
+        return  this.month + "月" + this.day + "日" + this.hour + "時" + this.minute + "分" + this.second + "秒"; 
+    }
+    public string DayInterval()
+    {
+        string Result="";
+        if(this.year != 0)
+        {
+            Result += year + "年";
+        }
+        if (this.month != 0)
+        {
+            Result += month + "月";
+        }
+        if (this.day != 0)
+        {
+            Result += day + "日";
+        }
+        if (this.hour != 0)
+        {
+            Result += hour + "時";
+        }
+        if (this.minute != 0)
+        {
+            Result += minute + "分";
+        }
+        if (this.second != 0)
+        {
+            Result += second + "秒";
+        }
+        if(Result == "")
+        {
+            return "0秒";
+        }
+        return Result;
+    }
+
+    public void ChengeData_day(int i)
+    {
+        day = i;
     }
 }
 
@@ -91,7 +148,17 @@ public class CleanDataList
 
     public string GetDateData(int index)
     {
-        return placeDataList[index].DateData;
+        return placeDataList[index].DateDataText;
+    }
+
+    /// <summary>
+    /// CleanPlaceDataを丸ごと取得
+    /// </summary>
+    /// <param name="index"></param>
+    /// <returns></returns>
+    public CleanPlaceData GetCleanPlaceData(int index)
+    {
+        return placeDataList[index];
     }
 
     /// <summary>
