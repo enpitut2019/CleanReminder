@@ -14,6 +14,7 @@ public class CleanPlaceData
     
     [SerializeField] SEDataTime lastUpdateTime;
     [SerializeField] SEDataTime cleanInterval;
+    public SEDataTime CleanInterval { get { return cleanInterval; } }
     [SerializeField] string dateData;
     public string DateDataText { get { return dateData; } }
     [SerializeField] string cleanIntervalText;
@@ -28,9 +29,9 @@ public class CleanPlaceData
         cleanIntervalText = cleanInterval.DayInterval();
     }
 
-    public void SetCleanInterval_day(int i)
+    public void SetCleanIntervalDate(int i)
     {
-        cleanInterval.ChengeData_day(i);
+        cleanInterval.ChangeDate(i);
         cleanIntervalText = cleanInterval.DayInterval();
     }
 }
@@ -42,6 +43,9 @@ public class SEDataTime{
     [SerializeField] int hour;
     [SerializeField] int minute;
     [SerializeField] int second;
+    string targetkey="";
+    Dictionary<string,int> dataTimeDictionary;
+    
 
     public SEDataTime(DateTime time)
     {
@@ -105,6 +109,86 @@ public class SEDataTime{
     {
         day = i;
     }
+
+    public bool ChangeTarget(string key)
+    {
+        if (dataTimeDictionary == null)
+        {
+            InitDictionary();
+        }
+        if (dataTimeDictionary.ContainsKey(key))
+        {
+            targetkey = key;
+            return true;
+        }
+        return false;
+    }
+
+    public void ChangeDate(int value)
+    {
+        if (dataTimeDictionary == null)
+        {
+            InitDictionary();
+        }
+        if (dataTimeDictionary.ContainsKey(targetkey))
+        {
+            //dataTimeDictionary[targetkey] = value;
+            switch (targetkey)
+            {
+                case "Year":
+                    year = value;
+                    break;
+                case "Month":
+                    month = value;
+                    break;
+                case "Day":
+                    day = value;
+                    break;
+                case "Hour":
+                    hour = value;
+                    break;
+                case "Minute":
+                    minute = value;
+                    break;
+                case "Second":
+                    second = value;
+                    break;
+            }
+        }
+    }
+
+    public void ChangeDate(string key,int value)
+    {
+        ChangeTarget(key);
+        ChangeDate(value);
+    }
+
+    public int GetDate(string key)
+    {
+        if(dataTimeDictionary == null)
+        {
+            InitDictionary();
+        }
+        int result = -1;
+        if (dataTimeDictionary.ContainsKey(key))
+        {
+            result = dataTimeDictionary[key];
+        }
+        return result;
+    }
+
+    void InitDictionary()
+    {
+        dataTimeDictionary = new Dictionary<string, int>();
+        dataTimeDictionary.Add("Year", year);
+        dataTimeDictionary.Add("Month", month);
+        dataTimeDictionary.Add("Day", day);
+        dataTimeDictionary.Add("Hour", hour);
+        dataTimeDictionary.Add("Minute", minute);
+        dataTimeDictionary.Add("Second", second);
+    }
+
+    
 }
 
 /// <summary>
