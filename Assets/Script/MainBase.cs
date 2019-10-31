@@ -129,12 +129,18 @@ public class MainBase : MonoBehaviour
                         if (result)//入力が数字だった時
                         {
                             var nowData = cleanDataList.GetCleanPlaceData(nowTargetIndex);
-                            nowData.SetCleanInterval_day(num);
+                            //nowData.CleanInterval.ChangeDate(num);
+                            nowData.SetCleanIntervalDate(num);
                             ChangeMode(CurrentMode.DATAUPDATE);
                             ResetInputData();
                         }
                         else//入力が数字以外だった場合
                         {
+                            var nowData = cleanDataList.GetCleanPlaceData(nowTargetIndex);
+                            if (!nowData.CleanInterval.ChangeTarget(inputData))
+                            {
+                                Debug.Log("error Input : "+inputData);
+                            }
                             ResetInputData();
                             WaitInput();
                         }
