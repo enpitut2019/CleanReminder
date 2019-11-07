@@ -126,6 +126,11 @@ public class MainBase : MonoBehaviour
                     {
                         int num = 0;
                         bool result = int.TryParse(inputData, out num);
+                        if (inputData == "display")
+                        {
+                            ChangeMode(CurrentMode.DISPLAY);
+                            ResetInputData();
+                        }
                         if (result)//入力が数字だった時
                         {
                             var nowData = cleanDataList.GetCleanPlaceData(nowTargetIndex);
