@@ -125,6 +125,7 @@ public class MainBase : MonoBehaviour
                 case CurrentMode.SETINTERVALMODE:
                     {
                         int num = 0;
+                        Debug.Log(inputData);
                         bool result = int.TryParse(inputData, out num);
                         if (inputData == "display")
                         {
@@ -134,10 +135,19 @@ public class MainBase : MonoBehaviour
                         if (result)//入力が数字だった時
                         {
                             var nowData = cleanDataList.GetCleanPlaceData(nowTargetIndex);
-                            //nowData.CleanInterval.ChangeDate(num);
-                            nowData.SetCleanIntervalDate(num);
-                            ChangeMode(CurrentMode.DATAUPDATE);
-                            ResetInputData();
+                            if (nowData.CleanInterval.CheackHaveTarget())
+                            {
+                                nowData.SetCleanIntervalDate(num);
+                                ChangeMode(CurrentMode.DATAUPDATE);
+                                ResetInputData();
+                            }
+                            else
+                            {
+                                WaitInput();
+                                ResetInputData();
+                            }
+
+
                         }
                         else//入力が数字以外だった場合
                         {

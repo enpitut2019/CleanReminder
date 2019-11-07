@@ -80,7 +80,7 @@ public class SEDataTime{
         }
         if (this.month != 0)
         {
-            Result += month + "月";
+            Result += month + "ヶ月";
         }
         if (this.day != 0)
         {
@@ -121,7 +121,13 @@ public class SEDataTime{
             targetkey = key;
             return true;
         }
+        targetkey = "";
         return false;
+    }
+
+    public bool CheackHaveTarget()
+    {
+        return !(targetkey=="");
     }
 
     public void ChangeDate(int value)
