@@ -67,6 +67,8 @@ public class Main_UI : MainBase
                 break;
             case CurrentMode.SETINTERVALMODE:
                 setIntervalPanel.SetActive(false);
+                setIntervalDataDropdownDay.value = 0;
+                setIntervalDataDropdownNumber.value = 0;
                 break;
         }
     }
