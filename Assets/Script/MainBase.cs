@@ -36,6 +36,10 @@ public class MainBase : MonoBehaviour
     {
         LoadData();
         ChangeMode(CurrentMode.DISPLAY);
+
+        SEDataTime data = new SEDataTime();
+        data.CalcuToHour();
+        data.TimeSpanCalculater();
     }
     
     void Update()

@@ -56,6 +56,16 @@ public class SEDataTime{
         this.minute = time.Minute;
         this.second = time.Second;
     }
+    
+    public SEDataTime(TimeSpan time)
+    {
+        this.year = 0;
+        this.month = 0;
+        this.day = time.Days;
+        this.hour = time.Hours;
+        this.minute = time.Minutes;
+        this.second = time.Seconds;
+    }
 
     public SEDataTime()
     {
@@ -188,7 +198,37 @@ public class SEDataTime{
         dataTimeDictionary.Add("Second", second);
     }
 
-    
+    //時間に換算する関数
+    public void CalcuToHour()
+    {
+        DateTime date1 = new DateTime(2010, 1, 1, 8, 0, 15);
+        DateTime date2 = new DateTime(2010, 6, 1, 11, 2, 16);
+        TimeSpan interval = date2 - date1;
+        Debug.Log(interval);
+        DateTime date3 = new DateTime(1,1,1,0,0,0);
+        date3 += interval;
+        //Debug.Log(date3);
+        interval = new TimeSpan(1, 2, 3);
+        date2 += interval;
+        //Debug.Log(date2);
+    }
+    //二つのタイムの差を返す関数
+    public SEDataTime TimeSpanCalculater(DateTime date1,DateTime date2)
+    {
+        TimeSpan interval = date2 - date1;
+        Debug.Log(interval);
+        SEDataTime SEinterval = new SEDataTime(interval); //SEDataTime型に変換
+        return SEinterval;
+    }
+    //次の掃除予定日までの残り時間を返す関数
+    public SEDataTime DayDataUntilNextClean()
+    {
+        //掃除間隔データ-(今日-最終掃除日)
+        new DateTime();
+        return TimeSpanCalculater(cleanInterval, TimeSpanCalculater(DateTime.Now, lastUpdateTime));
+    }
+
+
 }
 
 /// <summary>
