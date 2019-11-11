@@ -34,6 +34,12 @@ public class CleanPlaceData
         cleanInterval.ChangeDate(i);
         cleanIntervalText = cleanInterval.DayInterval();
     }
+
+    public void ResetLastUpdateTime()//lastUpdateTimeを現在の時間にする.
+    {
+        lastUpdateTime = new SEDataTime(DateTime.Now);
+        dateData = lastUpdateTime.EntryDate();
+    }
 }
 [System.Serializable]
 public class SEDataTime{
@@ -262,6 +268,8 @@ public class CleanDataList
             placeDataList.RemoveAt(index);
         }
     }
+
+
 
 
 }
