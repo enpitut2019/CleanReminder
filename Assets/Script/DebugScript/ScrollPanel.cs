@@ -11,8 +11,8 @@ public class ScrollPanel : MonoBehaviour
 {
     [SerializeField] RectTransform strechPanel;
     [SerializeField] VerticalLayoutGroup myLayOut;
-    //SerializeField]List<RectTransform> childComponets;
-    
+    [SerializeField] float startWait = 0.1f;//開始までの時間
+
     float firstHeight;//自身の最初の高さ
     float spaceing;//子の要素の間隔
     int beforeChildCount=-1;
@@ -23,7 +23,7 @@ public class ScrollPanel : MonoBehaviour
     {
         firstHeight = strechPanel.sizeDelta.y;
         spaceing = myLayOut.spacing;
-        StartCoroutine(StartUpdate(1.0f));
+        StartCoroutine(StartUpdate(startWait));
     }
     private void Update()
     {
@@ -47,12 +47,21 @@ public class ScrollPanel : MonoBehaviour
         var compHeight = GetChildHeight();
         var size = strechPanel.sizeDelta;
         size.y = (compHeight+spaceing) * count;
+        bool isStrech=true;
         if (size.y < firstHeight)//初期サイズより小さいなら初期サイズにする
         {
            size.y = firstHeight;
+            isStrech = false;
         }
         strechPanel.sizeDelta = size;
-        strechPanel.position = GetUpdatePosition();
+        if (isStrech)
+        {
+            strechPanel.position = GetUpdatePosition();
+        }
+        else
+        {
+            strechPanel.position = Vector2.zero;
+        }
     }
 
 
@@ -70,7 +79,7 @@ public class ScrollPanel : MonoBehaviour
     /// <returns></returns>
     Vector2 GetUpdatePosition()
     {
-        return new Vector2(0, (strechPanel.sizeDelta.y - firstHeight) / 2.0f);
+        return - new  Vector2(0, (strechPanel.sizeDelta.y - firstHeight) / 2.0f)/2.0f;
     }
 
     /// <summary>
