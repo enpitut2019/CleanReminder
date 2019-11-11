@@ -70,6 +70,8 @@ public class Main_UI : MainBase
                 setIntervalDataDropdownDay.value = 0;
                 setIntervalDataDropdownNumber.value = 0;
                 break;
+            case CurrentMode.RESET://RESETMODEの時
+                break;
         }
     }
     /// <summary>
@@ -113,6 +115,11 @@ public class Main_UI : MainBase
     public void AddPlaceData()
     {
         SetInputData(addPlaceInputField.textComponent.text);
+        Enter();
+    }
+    public void ChangeResetMode()
+    {
+        SetInputData("reset");
         Enter();
     }
     /// <summary>
