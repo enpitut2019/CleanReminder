@@ -8,22 +8,59 @@ using UnityEngine.UI;
 /// </summary>
 public class InitDropDown : MonoBehaviour
 {
-    [SerializeField] Dropdown drop;//対象のDropDown
+    [SerializeField] Dropdown numberDrop;//対象のDropDown
+    [SerializeField] Dropdown dayDrop;//対象のDropDown
     [SerializeField] Vector2Int setNum;//InitDropで設定する範囲
+
+    public void SetDropDownRangeDay()
+    {
+        string text = dayDrop.captionText.text;
+        if (text == "Year")
+        {
+            SetDropDownRange(10);
+        }
+        else if (text == "Month")
+        {
+            SetDropDownRange(12);
+        }
+        else if (text == "Day")
+        {
+            SetDropDownRange(30);
+        }
+        else
+        {
+            SetDropDownRange(0);
+        }
+    }
+
+    /// <summary>
+    /// ドロップダウンの数を指定した数にする
+    /// </summary>
+    /// <param name="range"></param>
+    public void SetDropDownRange(int range)
+    {
+        //numberDrop.options = new List<Dropdown.OptionData>();
+        numberDrop.options.Clear();
+        for (int i = 0; i <= range; i++)
+        {
+            numberDrop.options.Add(new Dropdown.OptionData(i.ToString()));
+        }
+        numberDrop.value = 0;
+    }
 
     [ContextMenu("setIntRange")]
     public void SetIntRange()
     {
-        drop.options = new List<Dropdown.OptionData>();
+        numberDrop.options = new List<Dropdown.OptionData>();
         for(int i = setNum.x; i <= setNum.y; i++)
         {
-            drop.options.Add(new Dropdown.OptionData(i.ToString()));
+            numberDrop.options.Add(new Dropdown.OptionData(i.ToString()));
         }
     }
 
     [ContextMenu("reset")]
     public void ResetDrop()
     {
-        drop.options = new List<Dropdown.OptionData>();
+        numberDrop.options = new List<Dropdown.OptionData>();
     }
 }
