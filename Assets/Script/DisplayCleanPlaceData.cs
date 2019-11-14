@@ -25,7 +25,7 @@ public class DisplayCleanPlaceData : MonoBehaviour
     {
         if (myData != null)
         {
-            lastUpdateTime.text = myData.DateDataText;
+            lastUpdateTime.text = myData.LastUpdateTimeText;
             intervalTime.text = myData.CleanIntervalText;
         }
     }

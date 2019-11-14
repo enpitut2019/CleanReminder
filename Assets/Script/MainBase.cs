@@ -36,7 +36,19 @@ public class MainBase : MonoBehaviour
     void Start()
     {
         LoadData();
+        foreach(var d in cleanDataList.placeDataList)
+        {
+            d.InitAction();
+        }
+
         ChangeMode(CurrentMode.DISPLAY);
+
+        
+        SEDataTime data = new SEDataTime();
+
+        //data.CalcuToHour();
+        //data.TimeSpanCalculater();
+        //data.REDataTime();
     }
     
     void Update()
@@ -106,6 +118,19 @@ public class MainBase : MonoBehaviour
                         break;
                     }
                 case CurrentMode.PLACEDATAMODE:
+                    if (inputData == "test")
+                    {                
+                        var nowData = cleanDataList.GetCleanPlaceData(nowTargetIndex);
+                        /*Debug.Log("Next limit : "+nowData.NextCleanDate);
+                        Debug.Log("Next span : " + nowData.NextCleanLeftTime.Days);
+                        Debug.Log("Next span : " + nowData.NextCleanLeftTime.Hours);
+                        Debug.Log("Next span : " + nowData.NextCleanLeftTime.Minutes);*/
+                        Debug.Log( nowData.NextCleanLeftTimeText);
+
+
+                        WaitInput();
+                    }
+
                     if (inputData == "display")
                     {
                         ChangeMode(CurrentMode.DISPLAY);
@@ -141,7 +166,7 @@ public class MainBase : MonoBehaviour
                         if (result)//入力が数字だった時
                         {
                             var nowData = cleanDataList.GetCleanPlaceData(nowTargetIndex);
-                            if (nowData.CleanInterval.CheackHaveTarget())
+                            if (nowData.CheckHaveTarget())
                             {
                                 nowData.SetCleanIntervalDate(num);
                                 ChangeMode(CurrentMode.DATAUPDATE);
@@ -158,7 +183,7 @@ public class MainBase : MonoBehaviour
                         else//入力が数字以外だった場合
                         {
                             var nowData = cleanDataList.GetCleanPlaceData(nowTargetIndex);
-                            if (!nowData.CleanInterval.ChangeTarget(inputData))
+                            if (!nowData.SetTarget(inputData))
                             {
                                 Debug.Log("error Input : "+inputData);
                             }
@@ -324,5 +349,13 @@ public class MainBase : MonoBehaviour
     /// </summary>
     void LoadData(){
         cleanDataList=dataSave.LoadData<CleanDataList>(cleanDataListPath);
+    }
+
+    [ContextMenu("testTimeLimit")]
+    public void Debug_testLimit()
+    {
+        var nowData = cleanDataList.GetCleanPlaceData(nowTargetIndex);
+        //var data= nowData.CleanInterval.DayDataUntilNextClean(nowData.CleanInterval,nowData.LastUpdateTime);
+        //Debug.Log(data);
     }
 }

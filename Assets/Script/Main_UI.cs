@@ -166,7 +166,8 @@ public class Main_UI : MainBase
         layoutTextList.ResetText();
         for (int i = 0; i < cleanDataList.placeDataList.Count; i++)
         {
-            layoutTextList.AddText(cleanDataList.GetPlaceData(i));
+            layoutTextList.AddText(cleanDataList.GetPlaceData(i)+
+                " あと"+cleanDataList.GetCleanPlaceData(i).NextCleanLeftTimeText);
         }
     }
 

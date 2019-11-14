@@ -12,35 +12,127 @@ public class CleanPlaceData
     [SerializeField] string place;
     public string Place { get { return place; }private set { place = value; } }
     
-    [SerializeField] SEDataTime lastUpdateTime;
-    [SerializeField] SEDataTime cleanInterval;
-    public SEDataTime CleanInterval { get { return cleanInterval; } }
-    [SerializeField] string dateData;
-    public string DateDataText { get { return dateData; } }
-    [SerializeField] string cleanIntervalText;
-    public string CleanIntervalText { get { return cleanIntervalText; } }
+    [SerializeField] SEDataTime lastUpdateTime_forSave;//セーブ用の「最終更新時刻」
+    [SerializeField] SEDataTime cleanInterval_forSave;//セーブ用の「掃除間隔データ」
+
+    //時間などの文字列データ=============================================
+    public string LastUpdateTimeText { get {return TimeCovertToString.GetDateTime(LastUpdateTime); } }
+    public string CleanIntervalText { get { return TimeCovertToString.GetTimeSpan(CleanInterval); } }
+    public string NextCleanLeftTimeText { get { return TimeCovertToString.GetTimeSpan(NextCleanLeftTime); } }
+    //==============================================
+
+    //追加============================
+    public DateTime LastUpdateTime { get; private set; }//最終更新時刻
+    public TimeSpan CleanInterval { get; protected set; }//掃除間隔
+    public DateTime NextCleanDate { get { return LastUpdateTime + CleanInterval; } }//次に掃除する日時
+    public TimeSpan LastCleanPassTime { get { return DateTime.Now - LastUpdateTime; } }//最後に掃除してからの経過時間
+    public TimeSpan NextCleanLeftTime { get { return NextCleanDate - DateTime.Now; } }//次に掃除するまでの時間
+    //=============================
     
     public CleanPlaceData(string place)
     {
         this.place = place;
-        lastUpdateTime = new SEDataTime(DateTime.Now);
-        dateData = lastUpdateTime.EntryDate();
-        cleanInterval = new SEDataTime();
-        cleanIntervalText = cleanInterval.DayInterval();
+        LastUpdateTime = DateTime.Now;
+        CleanInterval = new TimeSpan();
+        SetSETime();
+    }
+    #region SEDataTimeへの操作
+    public bool CheckHaveTarget()
+    {
+        return cleanInterval_forSave.CheackHaveTarget();
+    }
+
+    public bool SetTarget(string key)
+    {
+        return cleanInterval_forSave.ChangeTarget(key);
     }
 
     public void SetCleanIntervalDate(int i)
     {
-        cleanInterval.ChangeDate(i);
-        cleanIntervalText = cleanInterval.DayInterval();
+        cleanInterval_forSave.ChangeDate(i);//SEのほうを変更
+        SetDateTime();//TimeSpanをSEに同期
+        
     }
+    #endregion
 
     public void ResetLastUpdateTime()//lastUpdateTimeを現在の時間にする.
     {
-        lastUpdateTime = new SEDataTime(DateTime.Now);
-        dateData = lastUpdateTime.EntryDate();
+        LastUpdateTime = DateTime.Now;
+        SetSETime();
+    }
+    /// <summary>
+    /// DateTime->SEへの変換
+    /// </summary>
+    void SetSETime()
+    {
+        lastUpdateTime_forSave =new SEDataTime(LastUpdateTime);
+        cleanInterval_forSave = new SEDataTime(CleanInterval);
+    }
+
+    /// <summary>
+    /// SE->DateTImeへの変換
+    /// </summary>
+    void SetDateTime()
+    {
+        LastUpdateTime = TimeCalucurator.REDataTime(lastUpdateTime_forSave);
+        CleanInterval = TimeCalucurator.ReTimeSpan(cleanInterval_forSave);
+    }
+
+    
+    public void ChangeCleanTimeSpan(int num)
+    {
+        cleanInterval_forSave.ChangeDate(num);
+        SetDateTime();
+    }
+
+    public void InitAction()
+    {
+        SetDateTime();
     }
 }
+
+/// <summary>
+/// 時間データをstringで返す関数群
+/// </summary>
+public class TimeCovertToString
+{
+    public static string GetTimeSpan( TimeSpan time)
+    {
+        string result = "";
+        result += time.Days+"日";
+        return result;
+    }
+
+    public static string GetDateTime(DateTime time)
+    {
+        return time.Year +"年"+time.Month + "月" + time.Day + "日" + time.Hour + "時" + time.Minute + "分" + time.Second + "秒";
+    }
+}
+
+/// <summary>
+/// 時間の計算をする関数群
+/// </summary>
+public class TimeCalucurator
+{
+    public static TimeSpan GetTimeSpan(DateTime frontTime,DateTime backTime)
+    {
+        return frontTime - backTime;
+    }
+    public static DateTime REDataTime(SEDataTime time)
+    {
+        var datas = time.OutDayDatas();
+        DateTime reDataTime = new DateTime(datas[0],datas[1],datas[2],datas[3],datas[4],datas[5]);
+        return reDataTime;
+    }
+
+    public static TimeSpan ReTimeSpan(SEDataTime time)
+    {
+        var datas = time.OutDayDatas();
+        TimeSpan reDataTime = new TimeSpan(datas[0]*365+datas[1]*30+ datas[2], datas[3], datas[4], datas[5]);
+        return reDataTime;
+    }
+}
+
 [System.Serializable]
 public class SEDataTime{
     [SerializeField] int year;
@@ -53,6 +145,7 @@ public class SEDataTime{
     Dictionary<string,int> dataTimeDictionary;
     
 
+
     public SEDataTime(DateTime time)
     {
         this.year = time.Year;
@@ -63,6 +156,29 @@ public class SEDataTime{
         this.second = time.Second;
     }
 
+    public SEDataTime(TimeSpan time)
+    {
+        //var day_temp = time.Days;
+        this.year = 0;
+        this.month = 0;
+        /*while (day_temp > 365)
+        {
+            day_temp -= 365;
+            this.year += 1;
+        }
+
+        while (day_temp > 30)
+        {
+            day_temp -= 30;
+            this.month += 1;
+        }*/
+
+        this.day = time.Days;
+        this.hour = time.Hours;
+        this.minute = time.Minutes;
+        this.second = time.Seconds;
+    }
+
     public SEDataTime()
     {
         this.year = 0;
@@ -71,49 +187,6 @@ public class SEDataTime{
         this.hour = 0;
         this.minute = 0;
         this.second = 0;
-    }
-
-    public string EntryDate()
-    {
-        return  this.month + "月" + this.day + "日" + this.hour + "時" + this.minute + "分" + this.second + "秒"; 
-    }
-    public string DayInterval()
-    {
-        string Result="";
-        if(this.year != 0)
-        {
-            Result += year + "年";
-        }
-        if (this.month != 0)
-        {
-            Result += month + "ヶ月";
-        }
-        if (this.day != 0)
-        {
-            Result += day + "日";
-        }
-        if (this.hour != 0)
-        {
-            Result += hour + "時";
-        }
-        if (this.minute != 0)
-        {
-            Result += minute + "分";
-        }
-        if (this.second != 0)
-        {
-            Result += second + "秒";
-        }
-        if(Result == "")
-        {
-            return "0秒";
-        }
-        return Result;
-    }
-
-    public void ChengeData_day(int i)
-    {
-        day = i;
     }
 
     public bool ChangeTarget(string key)
@@ -144,6 +217,13 @@ public class SEDataTime{
         }
         if (dataTimeDictionary.ContainsKey(targetkey))
         {
+            year = 0;
+            month = 0;
+            day = 0;
+            hour = 0;
+            minute = 0;
+            second = 0;
+
             //dataTimeDictionary[targetkey] = value;
             switch (targetkey)
             {
@@ -200,7 +280,31 @@ public class SEDataTime{
         dataTimeDictionary.Add("Second", second);
     }
 
-    
+    //時間に換算する関数
+    public void CalcuToHour()
+    {
+        DateTime date1 = new DateTime(2010, 1, 1, 8, 0, 15);
+        DateTime date2 = new DateTime(2010, 6, 1, 11, 2, 16);
+        TimeSpan interval = date2 - date1;
+        Debug.Log(interval);
+        DateTime date3 = new DateTime(1,1,1,0,0,0);
+        date3 += interval;
+        //Debug.Log(date3);
+        interval = new TimeSpan(1, 2, 3);
+        date2 += interval;
+        //Debug.Log(date2);
+    }
+    public List<int> OutDayDatas()
+    {
+        var result = new List<int>();
+        result.Add(year);
+        result.Add(month);
+        result.Add(day);
+        result.Add(hour);
+        result.Add(minute);
+        result.Add(second);
+        return result;
+    }
 }
 
 /// <summary>
@@ -244,7 +348,7 @@ public class CleanDataList
 
     public string GetDateData(int index)
     {
-        return placeDataList[index].DateDataText;
+        return placeDataList[index].LastUpdateTimeText;
     }
 
     /// <summary>
