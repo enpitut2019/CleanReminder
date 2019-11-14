@@ -22,11 +22,11 @@ public class CleanPlaceData
     public string CleanIntervalText { get { return cleanIntervalText; } }
 
     //追加============================
-    DateTime lastUpdateDateTime;
-    TimeSpan cleanTimeSpan;
-    DateTime nextLimitDateTime { get { return lastUpdateDateTime + cleanTimeSpan; } }
-    TimeSpan ElapasedTime { get { return DateTime.Now - lastUpdateDateTime; } }
-    TimeSpan LimitTimeSpan { get { return nextLimitDateTime - DateTime.Now; } }
+    public DateTime lastUpdateDateTime;
+    public TimeSpan cleanTimeSpan;
+    public DateTime nextLimitDateTime { get { return lastUpdateDateTime + cleanTimeSpan; } }
+    public TimeSpan ElapasedTime { get { return DateTime.Now - lastUpdateDateTime; } }//最後に掃除してからの経過時間
+    public TimeSpan LimitTimeSpan { get { return nextLimitDateTime - DateTime.Now; } }
     //=============================
     
     public CleanPlaceData(string place)
@@ -39,6 +39,7 @@ public class CleanPlaceData
         lastUpdateDateTime = DateTime.Now;
         cleanTimeSpan = new TimeSpan();
         SetSETime();
+        cleanIntervalText = cleanInterval.DayInterval();
     }
 
     public void SetCleanIntervalDate(int i)
@@ -93,7 +94,6 @@ public class TimeCalucurator
 
     public static TimeSpan ReTimeSpan(SEDataTime time)
     {
-
         var datas = time.OutDayDatas();
         TimeSpan reDataTime = new TimeSpan( datas[2], datas[3], datas[4], datas[5]);
         return reDataTime;

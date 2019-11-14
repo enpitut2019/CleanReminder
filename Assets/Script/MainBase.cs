@@ -35,6 +35,11 @@ public class MainBase : MonoBehaviour
     void Start()
     {
         LoadData();
+        foreach(var d in cleanDataList.placeDataList)
+        {
+            d.InitAction();
+        }
+
         ChangeMode(CurrentMode.DISPLAY);
 
         
@@ -112,6 +117,14 @@ public class MainBase : MonoBehaviour
                         break;
                     }
                 case CurrentMode.PLACEDATAMODE:
+                    if (inputData == "test")
+                    {                
+                        var nowData = cleanDataList.GetCleanPlaceData(nowTargetIndex);
+                        Debug.Log(nowData.LimitTimeSpan);
+                        ResetInputData();
+                        WaitInput();
+                    }
+
                     if (inputData == "display")
                     {
                         ChangeMode(CurrentMode.DISPLAY);
