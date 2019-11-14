@@ -36,7 +36,19 @@ public class MainBase : MonoBehaviour
     void Start()
     {
         LoadData();
+        foreach(var d in cleanDataList.placeDataList)
+        {
+            d.InitAction();
+        }
+
         ChangeMode(CurrentMode.DISPLAY);
+
+        
+        SEDataTime data = new SEDataTime();
+
+        //data.CalcuToHour();
+        //data.TimeSpanCalculater();
+        //data.REDataTime();
     }
     
     void Update()
@@ -106,6 +118,14 @@ public class MainBase : MonoBehaviour
                         break;
                     }
                 case CurrentMode.PLACEDATAMODE:
+                    if (inputData == "test")
+                    {                
+                        var nowData = cleanDataList.GetCleanPlaceData(nowTargetIndex);
+                        Debug.Log(nowData.LimitTimeSpan);
+                        ResetInputData();
+                        WaitInput();
+                    }
+
                     if (inputData == "display")
                     {
                         ChangeMode(CurrentMode.DISPLAY);
@@ -324,5 +344,13 @@ public class MainBase : MonoBehaviour
     /// </summary>
     void LoadData(){
         cleanDataList=dataSave.LoadData<CleanDataList>(cleanDataListPath);
+    }
+
+    [ContextMenu("testTimeLimit")]
+    public void Debug_testLimit()
+    {
+        var nowData = cleanDataList.GetCleanPlaceData(nowTargetIndex);
+        var data= nowData.CleanInterval.DayDataUntilNextClean(nowData.CleanInterval,nowData.LastUpdateTime);
+        Debug.Log(data);
     }
 }
