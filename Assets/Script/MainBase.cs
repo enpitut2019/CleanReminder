@@ -19,7 +19,8 @@ public class MainBase : MonoBehaviour
         DATAUPDATE,//データを更新する状態
         REMOVE,//データを削除する状態
         PLACEDATAMODE,//場所のデータの詳細を表示している状態
-        SETINTERVALMODE//掃除する間隔の登録をする状態
+        SETINTERVALMODE,//掃除する間隔の登録をする状態
+        RESET//最終掃除時間のリセットができる状態
     }
     [SerializeField]CurrentMode currentMode = CurrentMode.DISPLAY;
     [SerializeField]protected CleanDataList cleanDataList = new CleanDataList();//掃除場所のデータリストを扱うクラス
@@ -106,7 +107,7 @@ public class MainBase : MonoBehaviour
                         {
                             cleanDataList.RemoveData(num);
                             ChangeMode(CurrentMode.DATAUPDATE);
-                            ResetInputData();
+                            //ResetInputData();
                         }
                         else//入力が数字以外だった場合
                         {
@@ -140,19 +141,39 @@ public class MainBase : MonoBehaviour
                         ChangeMode(CurrentMode.SETINTERVALMODE);
                         ResetInputData();
                         WaitInput();
+                    }else if (inputData == "reset")
+                    {
+                        ChangeMode(CurrentMode.RESET);
+                        ResetInputData();
+                        //WaitInput();
                     }
                     break;
                 case CurrentMode.SETINTERVALMODE:
                     {
                         int num = 0;
+                        Debug.Log(inputData);
                         bool result = int.TryParse(inputData, out num);
+                        if (inputData == "display")
+                        {
+                            ChangeMode(CurrentMode.DISPLAY);
+                            ResetInputData();
+                        }
                         if (result)//入力が数字だった時
                         {
                             var nowData = cleanDataList.GetCleanPlaceData(nowTargetIndex);
-                            //nowData.CleanInterval.ChangeDate(num);
-                            nowData.SetCleanIntervalDate(num);
-                            ChangeMode(CurrentMode.DATAUPDATE);
-                            ResetInputData();
+                            if (nowData.CleanInterval.CheackHaveTarget())
+                            {
+                                nowData.SetCleanIntervalDate(num);
+                                ChangeMode(CurrentMode.DATAUPDATE);
+                                ResetInputData();
+                            }
+                            else
+                            {
+                                WaitInput();
+                                ResetInputData();
+                            }
+
+
                         }
                         else//入力が数字以外だった場合
                         {
@@ -164,6 +185,13 @@ public class MainBase : MonoBehaviour
                             ResetInputData();
                             WaitInput();
                         }
+                        break;
+                    }
+                case CurrentMode.RESET://RESET モードの時の処理
+                    {
+                        var nowData = cleanDataList.GetCleanPlaceData(nowTargetIndex);
+                        nowData.ResetLastUpdateTime();
+                        ChangeMode(CurrentMode.DATAUPDATE);
                         break;
                     }
             }
@@ -201,6 +229,10 @@ public class MainBase : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.N))
         {
             SetInputData("interval");
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            SetInputData("reset");
         }
     }
 

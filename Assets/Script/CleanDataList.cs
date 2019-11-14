@@ -48,6 +48,11 @@ public class CleanPlaceData
         cleanIntervalText = cleanInterval.DayInterval();
     }
 
+    public void ResetLastUpdateTime()//lastUpdateTimeを現在の時間にする.
+    {
+        lastUpdateTime = new SEDataTime(DateTime.Now);
+        dateData = lastUpdateTime.EntryDate();
+  }
     /// <summary>
     /// DateTime->SEへの変換
     /// </summary>
@@ -156,7 +161,7 @@ public class SEDataTime{
         }
         if (this.month != 0)
         {
-            Result += month + "月";
+            Result += month + "ヶ月";
         }
         if (this.day != 0)
         {
@@ -197,7 +202,13 @@ public class SEDataTime{
             targetkey = key;
             return true;
         }
+        targetkey = "";
         return false;
+    }
+
+    public bool CheackHaveTarget()
+    {
+        return !(targetkey=="");
     }
 
     public void ChangeDate(int value)
@@ -383,6 +394,8 @@ public class CleanDataList
             placeDataList.RemoveAt(index);
         }
     }
+
+
 
 
 }

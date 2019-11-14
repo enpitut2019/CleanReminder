@@ -17,7 +17,8 @@ public class Main_UI : MainBase
 
     [SerializeField] GameObject setIntervalPanel;//インターバルの入力をする時のパネル
     [SerializeField] InputField setIntervalDataInputField;//インターバルの入力をするためのinputField
-
+    [SerializeField] Dropdown setIntervalDataDropdownDay;
+    [SerializeField] Dropdown setIntervalDataDropdownNumber;
 
     //[SerializeField]int nowTargetIndex=-1;//MainBaseに実装を映したい
 
@@ -66,6 +67,10 @@ public class Main_UI : MainBase
                 break;
             case CurrentMode.SETINTERVALMODE:
                 setIntervalPanel.SetActive(false);
+                setIntervalDataDropdownDay.value = 0;
+                setIntervalDataDropdownNumber.value = 0;
+                break;
+            case CurrentMode.RESET://RESETMODEの時
                 break;
         }
     }
@@ -110,6 +115,11 @@ public class Main_UI : MainBase
     public void AddPlaceData()
     {
         SetInputData(addPlaceInputField.textComponent.text);
+        Enter();
+    }
+    public void ChangeResetMode()
+    {
+        SetInputData("reset");
         Enter();
     }
     /// <summary>
@@ -174,4 +184,19 @@ public class Main_UI : MainBase
         }
         ua.Invoke();
     }
+
+    public void SetIntervalDataDropdownDay()
+    {
+        SetInputData(setIntervalDataDropdownDay.captionText.text);
+        Enter();
+    }
+
+    public void SetIntervalDataDropdownNumber()
+    {
+        SetInputData(setIntervalDataDropdownNumber.captionText.text);
+        Enter();
+    }
+
 }
+
+
