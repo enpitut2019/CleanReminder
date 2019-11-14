@@ -121,8 +121,13 @@ public class MainBase : MonoBehaviour
                     if (inputData == "test")
                     {                
                         var nowData = cleanDataList.GetCleanPlaceData(nowTargetIndex);
-                        Debug.Log(nowData.LimitTimeSpan);
-                        ResetInputData();
+                        /*Debug.Log("Next limit : "+nowData.NextCleanDate);
+                        Debug.Log("Next span : " + nowData.NextCleanLeftTime.Days);
+                        Debug.Log("Next span : " + nowData.NextCleanLeftTime.Hours);
+                        Debug.Log("Next span : " + nowData.NextCleanLeftTime.Minutes);*/
+                        Debug.Log( nowData.NextCleanLeftTimeText);
+
+
                         WaitInput();
                     }
 
@@ -161,7 +166,7 @@ public class MainBase : MonoBehaviour
                         if (result)//入力が数字だった時
                         {
                             var nowData = cleanDataList.GetCleanPlaceData(nowTargetIndex);
-                            if (nowData.CleanInterval.CheackHaveTarget())
+                            if (nowData.CheckHaveTarget())
                             {
                                 nowData.SetCleanIntervalDate(num);
                                 ChangeMode(CurrentMode.DATAUPDATE);
@@ -178,7 +183,7 @@ public class MainBase : MonoBehaviour
                         else//入力が数字以外だった場合
                         {
                             var nowData = cleanDataList.GetCleanPlaceData(nowTargetIndex);
-                            if (!nowData.CleanInterval.ChangeTarget(inputData))
+                            if (!nowData.SetTarget(inputData))
                             {
                                 Debug.Log("error Input : "+inputData);
                             }
@@ -350,7 +355,7 @@ public class MainBase : MonoBehaviour
     public void Debug_testLimit()
     {
         var nowData = cleanDataList.GetCleanPlaceData(nowTargetIndex);
-        var data= nowData.CleanInterval.DayDataUntilNextClean(nowData.CleanInterval,nowData.LastUpdateTime);
-        Debug.Log(data);
+        //var data= nowData.CleanInterval.DayDataUntilNextClean(nowData.CleanInterval,nowData.LastUpdateTime);
+        //Debug.Log(data);
     }
 }
