@@ -19,9 +19,10 @@ public class LayOutTextList : MonoBehaviour
     /// <summary>
     /// textをLayOutに追加する
     /// </summary>
-    /// <param name="st"></param>
-    public void AddText(string st)
+    /// <param name="data"></param>
+    public void AddText(CleanPlaceData data)
     {
+        //ボタンの生成
         var obj = Instantiate(textPrefab, rtr.position, Quaternion.identity);
         textButtonList.Add(obj);
 
@@ -31,8 +32,10 @@ public class LayOutTextList : MonoBehaviour
         objRtr.localScale = new Vector3(1, 1, 1);
 
         //テキストの書き換え
-        var t= obj.GetComponentInChildren<Text>();
-        t.text = st;
+        //var t= obj.GetComponentInChildren<Text>();
+        //t.text = data;
+        var test = obj.GetComponent<PlaceButtonLayout>();
+        test.SetCleanPlaceData(data);
 
         //ボタンに関数を追加
         var button = obj.GetComponent<Button>();
@@ -61,11 +64,11 @@ public class LayOutTextList : MonoBehaviour
     }
 
 
-    [ContextMenu("addText")]
+    /*[ContextMenu("addText")]
     public void Test_AddText()
     {
         AddText("unko"+textButtonList.Count);
-    }
+    }*/
 
 
     [ContextMenu("removeText")]
