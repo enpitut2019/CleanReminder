@@ -19,6 +19,8 @@ public class Main_UI : MainBase
     [SerializeField] InputField setIntervalDataInputField;//インターバルの入力をするためのinputField
     [SerializeField] Dropdown setIntervalDataDropdownDay;
     [SerializeField] Dropdown setIntervalDataDropdownNumber;
+    [SerializeField] GameObject changePanel;//何の変更をするか選択する時のパネル
+
 
     //[SerializeField]int nowTargetIndex=-1;//MainBaseに実装を映したい
 
@@ -44,6 +46,9 @@ public class Main_UI : MainBase
                 break;
             case CurrentMode.SETINTERVALMODE:
                 setIntervalPanel.SetActive(true);
+                break;
+            case CurrentMode.CHANGE:
+                changePanel.SetActive(true);
                 break;
         }
     }
@@ -71,6 +76,9 @@ public class Main_UI : MainBase
                 setIntervalDataDropdownNumber.value = 0;
                 break;
             case CurrentMode.RESET://RESETMODEの時
+                break;
+            case CurrentMode.CHANGE:
+                changePanel.SetActive(false);
                 break;
         }
     }
@@ -199,6 +207,14 @@ public class Main_UI : MainBase
         Enter();
     }
 
+    /// <summary>
+    /// changePanelを出す
+    /// </summary>
+    public void ChangeChangeMode()
+    {
+        SetInputData("change");
+        Enter();
+    }
 }
 
 

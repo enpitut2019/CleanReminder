@@ -6,8 +6,10 @@ using UnityEngine.UI;
 public class DisplayCleanPlaceData : MonoBehaviour
 {
     CleanPlaceData myData;
-    [SerializeField] Text lastUpdateTime;
+    [SerializeField] Text nextCleanLeftTime;
     [SerializeField] Text intervalTime;
+    [SerializeField] Text placeName;
+
 
     /// <summary>
     /// 表示するデータの登録
@@ -25,8 +27,9 @@ public class DisplayCleanPlaceData : MonoBehaviour
     {
         if (myData != null)
         {
-            lastUpdateTime.text = myData.LastUpdateTimeText;
+            nextCleanLeftTime.text = myData.NextCleanLeftTimeText;
             intervalTime.text = myData.CleanIntervalText;
+            placeName.text = myData.Place;
         }
     }
 }

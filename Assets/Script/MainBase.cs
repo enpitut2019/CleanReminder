@@ -20,7 +20,8 @@ public class MainBase : MonoBehaviour
         REMOVE,//データを削除する状態
         PLACEDATAMODE,//場所のデータの詳細を表示している状態
         SETINTERVALMODE,//掃除する間隔の登録をする状態
-        RESET//最終掃除時間のリセットができる状態
+        RESET,//最終掃除時間のリセットができる状態
+        CHANGE//変更ボタンを押して何を変更するか選択する状態
     }
     [SerializeField]CurrentMode currentMode = CurrentMode.DISPLAY;
     [SerializeField]protected CleanDataList cleanDataList = new CleanDataList();//掃除場所のデータリストを扱うクラス
@@ -150,7 +151,12 @@ public class MainBase : MonoBehaviour
                     {
                         ChangeMode(CurrentMode.RESET);
                         ResetInputData();
-                        //WaitInput();
+                    }
+                    else if (inputData == "change")
+                    {
+                        ChangeMode(CurrentMode.CHANGE);
+                        ResetInputData();
+                        WaitInput();
                     }
                     break;
                 case CurrentMode.SETINTERVALMODE:
@@ -199,6 +205,20 @@ public class MainBase : MonoBehaviour
                         ChangeMode(CurrentMode.DATAUPDATE);
                         break;
                     }
+                case CurrentMode.CHANGE:
+                    {
+                        if (inputData == "display")
+                        {
+                            ChangeMode(CurrentMode.DISPLAY);
+                            ResetInputData();
+                        }else if (inputData == "interval")
+                        {
+                            ChangeMode(CurrentMode.SETINTERVALMODE);
+                            ResetInputData();
+                            WaitInput();
+                        }
+                        break;
+                    }
             }
         }
         
@@ -238,6 +258,10 @@ public class MainBase : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             SetInputData("reset");
+        }
+        if(Input.GetKeyDown(KeyCode.C))
+        {
+            SetInputData("change");
         }
     }
 
