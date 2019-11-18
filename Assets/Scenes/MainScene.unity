@@ -5243,7 +5243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3cce1183fc3224459320fa72f79de0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textPrefab: {fileID: 5571647834793167347, guid: b4f3cb7a69bd21c4eb9acaee925bc519,
+  textPrefab: {fileID: 6353647976271927709, guid: 582cce5389ab50c4fac632a5de4ae99e,
     type: 3}
   main_ui: {fileID: 648793232}
 --- !u!114 &1606562829
