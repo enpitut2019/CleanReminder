@@ -351,6 +351,14 @@ public class MainBase : MonoBehaviour
         cleanDataList=dataSave.LoadData<CleanDataList>(cleanDataListPath);
     }
 
+    /// <summary>
+    /// データの初期化（デバッグボタンで呼ぶ）
+    /// </summary>
+    public void InitData()
+    {
+        dataSave.InitData<CleanDataList>(cleanDataListPath);
+    }
+
     [ContextMenu("testTimeLimit")]
     public void Debug_testLimit()
     {

@@ -66,4 +66,11 @@ public class DataSaveClass
         return Application.persistentDataPath + "/" + path + ".json";
 #endif
     }
+
+    public void InitData<T>(string path)
+        where T : new()
+    {
+        File.Delete(CreateDataPath(path));
+        LoadData<T>(path);
+    }
 }
