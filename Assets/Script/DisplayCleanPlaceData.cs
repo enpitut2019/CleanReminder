@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class DisplayCleanPlaceData : MonoBehaviour
 {
     CleanPlaceData myData;
-    [SerializeField] Text nextCleanLeftTime;
+    [SerializeField] Text nextCleanTime;
     [SerializeField] Text intervalTime;
     [SerializeField] Text placeName;
 
@@ -27,7 +27,7 @@ public class DisplayCleanPlaceData : MonoBehaviour
     {
         if (myData != null)
         {
-            nextCleanLeftTime.text = myData.NextCleanLeftTimeText;
+            nextCleanTime.text = myData.NextCleanLeftTimeText;
             intervalTime.text = myData.CleanIntervalText;
             placeName.text = myData.Place;
         }
