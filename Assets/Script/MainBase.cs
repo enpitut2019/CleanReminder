@@ -18,6 +18,7 @@ public class MainBase : MonoBehaviour
         ADDPLACEMODE,//場所のデータを追加する状態
         DATAUPDATETODISPLAY,//データを更新してDISPLAYに戻る状態
         DATAUPDATETOPLACEDATA,//データを更新してPLACEDATAに戻る状態
+        REMOVECHECK,//削除するか確認する状態
         REMOVE,//データを削除する状態
         PLACEDATAMODE,//場所のデータの詳細を表示している状態
         SETINTERVALMODE,//掃除する間隔の登録をする状態
@@ -106,6 +107,23 @@ public class MainBase : MonoBehaviour
                         ChangeMode(CurrentMode.PLACEDATAMODE);
                         SaveData();
                     break;
+                case CurrentMode.REMOVECHECK:
+                    {
+                        if (inputData == "remove")
+                        {
+                            ChangeMode(CurrentMode.REMOVE);
+                            ResetInputData();
+                        }else if (inputData == "placeData")
+                        {
+                            ChangeMode(CurrentMode.PLACEDATAMODE);
+                            ResetInputData();
+                        }else if (inputData == "dataUpdateToPlaceData")
+                        {
+                            ChangeMode(CurrentMode.PLACEDATAMODE);
+                            ResetInputData();
+                        }
+                        break;
+                    }
                 case CurrentMode.REMOVE:
                     {
                         int num = 0;
@@ -142,12 +160,6 @@ public class MainBase : MonoBehaviour
                     {
                         ChangeMode(CurrentMode.DISPLAY);
                         ResetInputData();
-                    }
-                    else if(inputData == "remove")
-                    {
-                        ChangeMode(CurrentMode.REMOVE);
-                        ResetInputData();
-                        WaitInput();
                     }else if (inputData == "interval")
                     {
                         ChangeMode(CurrentMode.SETINTERVALMODE);
@@ -222,6 +234,11 @@ public class MainBase : MonoBehaviour
                             ChangeMode(CurrentMode.SETINTERVALMODE);
                             ResetInputData();
                             WaitInput();
+                        }else if (inputData == "removecheck")
+                        {
+                            ChangeMode(CurrentMode.REMOVECHECK);
+                            ResetInputData();
+                            WaitInput();
                         }
                         break;
                     }
@@ -268,6 +285,14 @@ public class MainBase : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.C))
         {
             SetInputData("change");
+        }
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            SetInputData("removecheck");
+        }
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            SetInputData("dataUpdateToPlaceData");
         }
     }
 

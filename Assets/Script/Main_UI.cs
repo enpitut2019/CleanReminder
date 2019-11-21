@@ -20,6 +20,7 @@ public class Main_UI : MainBase
     [SerializeField] Dropdown setIntervalDataDropdownDay;
     [SerializeField] Dropdown setIntervalDataDropdownNumber;
     [SerializeField] GameObject changePanel;//何の変更をするか選択する時のパネル
+    [SerializeField] GameObject removePanel;//削除の確認するパネル
 
 
     //[SerializeField]int nowTargetIndex=-1;//MainBaseに実装を映したい
@@ -38,6 +39,9 @@ public class Main_UI : MainBase
                 ActiveInputPanel();
                 break;
             case CurrentMode.DATAUPDATETODISPLAY:
+                break;
+            case CurrentMode.REMOVECHECK:
+                removePanel.SetActive(true);
                 break;
             case CurrentMode.PLACEDATAMODE:
                 PlaceDataPanel.gameObject.SetActive(true);
@@ -64,6 +68,9 @@ public class Main_UI : MainBase
                 InitInputFieldText();
                 break;
             case CurrentMode.DATAUPDATETODISPLAY:
+                break;
+            case CurrentMode.REMOVECHECK:
+                removePanel.SetActive(false);
                 break;
             case CurrentMode.REMOVE:
                 break;
@@ -154,8 +161,29 @@ public class Main_UI : MainBase
         SetInputData(setIntervalDataInputField.textComponent.text);
         Enter();
     }
+    /// <summary>
+    /// changePanelを出す
+    /// </summary>
+    public void ChangeChangeMode()
+    {
+        SetInputData("change");
+        Enter();
+    }
+    /// <summary>
+    /// removePanelを出す
+    /// </summary>
+    public void ChangeRemoveCheckMode()
+    {
+        SetInputData("removecheck");
+        Enter();
+    }
+    public void ChangePlaceDataMode()
+    {
+        SetInputData("dataUpdateToPlaceData");
+        Enter();
+    }
     #region InputDataを扱わないボタン
-    
+
     #endregion
     #endregion
     /// <summary>
@@ -207,14 +235,6 @@ public class Main_UI : MainBase
         Enter();
     }
 
-    /// <summary>
-    /// changePanelを出す
-    /// </summary>
-    public void ChangeChangeMode()
-    {
-        SetInputData("change");
-        Enter();
-    }
 }
 
 
