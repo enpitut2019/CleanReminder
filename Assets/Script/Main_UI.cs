@@ -37,7 +37,7 @@ public class Main_UI : MainBase
             case CurrentMode.ADDPLACEMODE:
                 ActiveInputPanel();
                 break;
-            case CurrentMode.DATAUPDATE:
+            case CurrentMode.DATAUPDATETODISPLAY:
                 break;
             case CurrentMode.PLACEDATAMODE:
                 PlaceDataPanel.gameObject.SetActive(true);
@@ -63,7 +63,7 @@ public class Main_UI : MainBase
             case CurrentMode.ADDPLACEMODE:
                 InitInputFieldText();
                 break;
-            case CurrentMode.DATAUPDATE:
+            case CurrentMode.DATAUPDATETODISPLAY:
                 break;
             case CurrentMode.REMOVE:
                 break;

@@ -16,7 +16,8 @@ public class MainBase : MonoBehaviour
         START,//最初に選択されている状態
         DISPLAY,//掃除場所の一覧を表示している状態
         ADDPLACEMODE,//場所のデータを追加する状態
-        DATAUPDATE,//データを更新する状態
+        DATAUPDATETODISPLAY,//データを更新してDISPLAYに戻る状態
+        DATAUPDATETOPLACEDATA,//データを更新してPLACEDATAに戻る状態
         REMOVE,//データを削除する状態
         PLACEDATAMODE,//場所のデータの詳細を表示している状態
         SETINTERVALMODE,//掃除する間隔の登録をする状態
@@ -87,7 +88,7 @@ public class MainBase : MonoBehaviour
                     }
                     else if (inputData != "")
                     {
-                        ChangeMode(CurrentMode.DATAUPDATE);
+                        ChangeMode(CurrentMode.DATAUPDATETODISPLAY);
                         cleanDataList.AddPlaceList(inputData);
                     }
                     else
@@ -95,9 +96,14 @@ public class MainBase : MonoBehaviour
                         WaitInput();
                     }
                     break;
-                case CurrentMode.DATAUPDATE:
+                case CurrentMode.DATAUPDATETODISPLAY:
                         ResetInputData();
                         ChangeMode(CurrentMode.DISPLAY);
+                        SaveData();
+                    break;
+                case CurrentMode.DATAUPDATETOPLACEDATA:
+                        ResetInputData();
+                        ChangeMode(CurrentMode.PLACEDATAMODE);
                         SaveData();
                     break;
                 case CurrentMode.REMOVE:
@@ -107,7 +113,7 @@ public class MainBase : MonoBehaviour
                         if (result)//入力が数字だった時
                         {
                             cleanDataList.RemoveData(num);
-                            ChangeMode(CurrentMode.DATAUPDATE);
+                            ChangeMode(CurrentMode.DATAUPDATETODISPLAY);
                             //ResetInputData();
                         }
                         else//入力が数字以外だった場合
@@ -175,7 +181,7 @@ public class MainBase : MonoBehaviour
                             if (nowData.CheckHaveTarget())
                             {
                                 nowData.SetCleanIntervalDate(num);
-                                ChangeMode(CurrentMode.DATAUPDATE);
+                                ChangeMode(CurrentMode.DATAUPDATETOPLACEDATA);
                                 ResetInputData();
                             }
                             else
@@ -202,7 +208,7 @@ public class MainBase : MonoBehaviour
                     {
                         var nowData = cleanDataList.GetCleanPlaceData(nowTargetIndex);
                         nowData.ResetLastUpdateTime();
-                        ChangeMode(CurrentMode.DATAUPDATE);
+                        ChangeMode(CurrentMode.DATAUPDATETOPLACEDATA);
                         break;
                     }
                 case CurrentMode.CHANGE:
