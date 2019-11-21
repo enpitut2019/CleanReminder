@@ -78,13 +78,15 @@ public class PushObject : MonoBehaviour
         push.Dialog = true;
         push.PushToAndroid = true;
         push.SendPush();
+
+        Scedule();
     }
     
     public void Scedule()
     {
         NCMBPush push = new NCMBPush();
         push.Message = "testSendPushScheduling";
-        push.DeliveryTime = System.DateTime.Now.AddMinutes(3.0);
+        push.DeliveryTime = System.DateTime.Now.AddSeconds(5.0f);
         push.SendPush();
     }
 }
