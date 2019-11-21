@@ -90,7 +90,7 @@ public class PushObject : MonoBehaviour
         push.Message = "testSendPushScheduling";
         push.DeliveryTime = System.DateTime.Now.AddSeconds(5.0f);
         push.SendPush();
-        Debug.Log("push");
+        Debug.Log("psh");
         
     }
 }
