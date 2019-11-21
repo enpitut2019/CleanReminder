@@ -21,6 +21,8 @@ public class Main_UI : MainBase
     [SerializeField] Dropdown setIntervalDataDropdownNumber;
     [SerializeField] GameObject changePanel;//何の変更をするか選択する時のパネル
     [SerializeField] GameObject removePanel;//削除の確認するパネル
+    [SerializeField] InputField renamePlaceInputField;//名前変更するinputField
+
 
 
     //[SerializeField]int nowTargetIndex=-1;//MainBaseに実装を映したい
@@ -122,6 +124,10 @@ public class Main_UI : MainBase
     }
     public void OpenPlaceDataMode(int n)
     {
+        if (n < 0) //引数が指定されていない場合（デフォルト値はー1）
+        {
+            n = nowTargetIndex; //今の開いているplacedataの場所を代入
+        }
         SetTargetIndex(n);
         SetInputData("placeData");
         Enter();

@@ -23,7 +23,8 @@ public class MainBase : MonoBehaviour
         PLACEDATAMODE,//場所のデータの詳細を表示している状態
         SETINTERVALMODE,//掃除する間隔の登録をする状態
         RESET,//最終掃除時間のリセットができる状態
-        CHANGE//変更ボタンを押して何を変更するか選択する状態
+        CHANGE,//変更ボタンを押して何を変更するか選択する状態
+        RENAME//名前を変更する状態
     }
     [SerializeField]CurrentMode currentMode = CurrentMode.DISPLAY;
     [SerializeField]protected CleanDataList cleanDataList = new CleanDataList();//掃除場所のデータリストを扱うクラス
@@ -36,6 +37,8 @@ public class MainBase : MonoBehaviour
     #region データをセーブするpath群
     string cleanDataListPath = "cleanPlaceData";
     #endregion
+
+    CurrentMode nextMode;
     void Start()
     {
         LoadData();
@@ -114,10 +117,6 @@ public class MainBase : MonoBehaviour
                             ChangeMode(CurrentMode.REMOVE);
                             ResetInputData();
                         }else if (inputData == "placeData")
-                        {
-                            ChangeMode(CurrentMode.PLACEDATAMODE);
-                            ResetInputData();
-                        }else if (inputData == "dataUpdateToPlaceData")
                         {
                             ChangeMode(CurrentMode.PLACEDATAMODE);
                             ResetInputData();
@@ -229,16 +228,33 @@ public class MainBase : MonoBehaviour
                         {
                             ChangeMode(CurrentMode.DISPLAY);
                             ResetInputData();
-                        }else if (inputData == "interval")
+                        }
+                        else if (inputData == "interval")
                         {
                             ChangeMode(CurrentMode.SETINTERVALMODE);
                             ResetInputData();
                             WaitInput();
-                        }else if (inputData == "removecheck")
+                        }
+                        else if (inputData == "removecheck")
                         {
                             ChangeMode(CurrentMode.REMOVECHECK);
                             ResetInputData();
                             WaitInput();
+                        }
+                        break;
+                    }
+                case CurrentMode.RENAME:
+                    {
+                        if (inputData == "dataUpdataToPlaceData")
+                        {
+                            ChangeMode(CurrentMode.DATAUPDATETOPLACEDATA);
+
+                            ResetInputData();
+                        }
+                        else if (inputData == "placeData")
+                        {
+                            ChangeMode(CurrentMode.PLACEDATAMODE);
+                            ResetInputData();
                         }
                         break;
                     }
@@ -312,6 +328,7 @@ public class MainBase : MonoBehaviour
         currentMode = targetMode;
 
     }
+
     /// <summary>
     /// モードが終了したときの処理
     /// </summary>
