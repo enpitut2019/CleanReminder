@@ -67,26 +67,30 @@ public class PushObject : MonoBehaviour
 
 
     /////////////////////////ここまで追加コード////////////////////////
-    
+
+    NCMBPush push = null;
     // Use this for initialization
     void Start()
     {
-        NCMBPush push = new NCMBPush();
+        /*NCMBPush push = new NCMBPush();
         push.Title = "Notification";
-        push.Message = "testSendPush";
+        push.Message = "aoji";
         push.ImmediateDeliveryFlag = true;
         push.Dialog = true;
         push.PushToAndroid = true;
-        push.SendPush();
+        push.SendPush();*/
 
-        Scedule();
+        //Scedule();
+        //Scedule();
     }
     
     public void Scedule()
     {
-        NCMBPush push = new NCMBPush();
+        push = new NCMBPush();
         push.Message = "testSendPushScheduling";
         push.DeliveryTime = System.DateTime.Now.AddSeconds(5.0f);
         push.SendPush();
+        Debug.Log("psh");
+        
     }
 }

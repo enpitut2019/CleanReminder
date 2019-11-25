@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "1009764122612",
-    "firebase_url": "https://cleanreminder-2cd94.firebaseio.com",
-    "project_id": "cleanreminder-2cd94",
-    "storage_bucket": "cleanreminder-2cd94.appspot.com"
+    "project_number": "848047862050",
+    "firebase_url": "https://test-9b0c8.firebaseio.com",
+    "project_id": "test-9b0c8",
+    "storage_bucket": "test-9b0c8.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1009764122612:android:6fc6f24d49d74afa1ac3a1",
+        "mobilesdk_app_id": "1:848047862050:android:e60827e20e60532e21757b",
         "android_client_info": {
           "package_name": "com.DefaultCompany.cleanRemainder"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1009764122612-3u0puqi46a0f0825an6s913jsh1siea8.apps.googleusercontent.com",
+          "client_id": "848047862050-pe945unld8mouiqe80t764vqadqh0s18.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCPRHVaghVG5FJPBXlAg_aHSc33xdYxrPk"
+          "current_key": "AIzaSyDS-GRFq5OeYVWga9MvByo3JY4zi5nMXXk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1009764122612-3u0puqi46a0f0825an6s913jsh1siea8.apps.googleusercontent.com",
+              "client_id": "848047862050-pe945unld8mouiqe80t764vqadqh0s18.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
