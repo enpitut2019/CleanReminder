@@ -118,6 +118,12 @@ public class TimeCalucurator
     {
         return frontTime - backTime;
     }
+
+    public static DateTime AddTimeAndSpan(DateTime time,TimeSpan span)
+    {
+        return time + span;
+    }
+
     public static DateTime REDataTime(SEDataTime time)
     {
         var datas = time.OutDayDatas();
@@ -143,9 +149,9 @@ public class SEDataTime{
     [SerializeField] int second;
     string targetkey="";
     Dictionary<string,int> dataTimeDictionary;
-    
 
 
+    #region コンストラクタ
     public SEDataTime(DateTime time)
     {
         this.year = time.Year;
@@ -179,6 +185,17 @@ public class SEDataTime{
         this.second = time.Seconds;
     }
 
+    /// <summary>
+    /// dayの情報と数値からコンストラクタ
+    /// </summary>
+    /// <param name="key"></param>
+    /// <param name="num"></param>
+    public SEDataTime (string key,int num)
+    {
+        ChangeTarget(key);
+        ChangeDate(num);
+    }
+
     public SEDataTime()
     {
         this.year = 0;
@@ -188,6 +205,9 @@ public class SEDataTime{
         this.minute = 0;
         this.second = 0;
     }
+
+
+    #endregion
 
     public bool ChangeTarget(string key)
     {

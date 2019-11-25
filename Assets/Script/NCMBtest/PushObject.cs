@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using NCMB;
+using System;
 
-public class PushObject : MonoBehaviour
+public class PushObject : MonoBehaviour,RecieveDayAndNumber
 {
     private static bool _isInitialized = false;
 
@@ -68,29 +69,43 @@ public class PushObject : MonoBehaviour
 
     /////////////////////////ここまで追加コード////////////////////////
 
-    NCMBPush push = null;
+    [SerializeField] float sendPushWaitTime;
+    [SerializeField] string sendPushMessage;
+
     // Use this for initialization
     void Start()
     {
         /*NCMBPush push = new NCMBPush();
         push.Title = "Notification";
-        push.Message = "aoji";
+        push.Message = "testSendPush";
         push.ImmediateDeliveryFlag = true;
         push.Dialog = true;
         push.PushToAndroid = true;
         push.SendPush();*/
 
-        //Scedule();
-        //Scedule();
+        //Scedule(sendPushWaitTime);
     }
-    
-    public void Scedule()
+
+    public void Scedule(float offset)
     {
-        push = new NCMBPush();
-        push.Message = "testSendPushScheduling";
-        push.DeliveryTime = System.DateTime.Now.AddSeconds(5.0f);
-        push.SendPush();
-        Debug.Log("psh");
-        
+        Scedule(System.DateTime.Now, offset);
     }
+    public void Scedule(System.DateTime fromTime, float offset)
+    {
+        NCMBPush push = new NCMBPush();
+        push.Title = "Test";
+        push.Message = sendPushMessage;
+        push.DeliveryTime =fromTime.AddSeconds(offset);
+        //push.Dialog = true;
+        push.PushToAndroid = true;
+        push.SendPush();
+    }
+
+    public void RecieveDayAndNumberAction(string Day, int number)
+    {
+        var time = new SEDataTime(Day, number);
+        DateTime targetDay = TimeCalucurator.AddTimeAndSpan(DateTime.Now, TimeCalucurator.ReTimeSpan(time));
+        Scedule(targetDay,0);
+    }
+
 }
