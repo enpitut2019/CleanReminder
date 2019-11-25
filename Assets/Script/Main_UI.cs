@@ -21,6 +21,7 @@ public class Main_UI : MainBase
     [SerializeField] Dropdown setIntervalDataDropdownNumber;
     [SerializeField] GameObject changePanel;//何の変更をするか選択する時のパネル
     [SerializeField] GameObject removePanel;//削除の確認するパネル
+    [SerializeField] GameObject renamePanel;//名前を変更するパネル
     [SerializeField] InputField renamePlaceInputField;//名前変更するinputField
 
 
@@ -44,6 +45,7 @@ public class Main_UI : MainBase
                 break;
             case CurrentMode.REMOVECHECK:
                 removePanel.SetActive(true);
+
                 break;
             case CurrentMode.PLACEDATAMODE:
                 PlaceDataPanel.gameObject.SetActive(true);
@@ -55,6 +57,9 @@ public class Main_UI : MainBase
                 break;
             case CurrentMode.CHANGE:
                 changePanel.SetActive(true);
+                break;
+            case CurrentMode.RENAME:
+                renamePanel.SetActive(true);
                 break;
         }
     }
@@ -88,6 +93,9 @@ public class Main_UI : MainBase
                 break;
             case CurrentMode.CHANGE:
                 changePanel.SetActive(false);
+                break;
+            case CurrentMode.RENAME:
+                renamePanel.SetActive(false);
                 break;
         }
     }
@@ -188,6 +196,12 @@ public class Main_UI : MainBase
         SetInputData("dataUpdateToPlaceData");
         Enter();
     }
+    public void ChangeRenameMode()
+    {
+        SetInputData("rename");
+        Enter();
+    }
+
     #region InputDataを扱わないボタン
 
     #endregion

@@ -89,6 +89,11 @@ public class CleanPlaceData
     {
         SetDateTime();
     }
+
+    public void RenamePlace(String name)
+    {
+        CleanPlaceData.place = name;
+    }
 }
 
 /// <summary>
@@ -331,10 +336,12 @@ public class CleanDataList
         placeDataList.Add(new CleanPlaceData(placename));
     }
 
-    /*public void AddPlaceList(CleanPlaceData data)
+    public void RenamePlaceList(string placename,int index)
     {
-        
-    }*/
+        //現在編集中
+        //placeDataList[index]
+        //RenamePlace(placename);
+    }
 
     /// <summary>
     /// 場所のデータの取得

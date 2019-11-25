@@ -241,6 +241,12 @@ public class MainBase : MonoBehaviour
                             ResetInputData();
                             WaitInput();
                         }
+                        else if (inputData == "rename")
+                        {
+                            ChangeMode(CurrentMode.RENAME);
+                            ResetInputData();
+                            WaitInput();
+                        }
                         break;
                     }
                 case CurrentMode.RENAME:
@@ -255,6 +261,15 @@ public class MainBase : MonoBehaviour
                         {
                             ChangeMode(CurrentMode.PLACEDATAMODE);
                             ResetInputData();
+                        }
+                        else if (inputData != "")
+                        {
+                            ChangeMode(CurrentMode.DATAUPDATETODISPLAY);
+                            cleanDataList.RenamePlaceList(inputData,nowTargetIndex);
+                        }
+                        else
+                        {
+                            WaitInput();
                         }
                         break;
                     }
@@ -309,6 +324,10 @@ public class MainBase : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.U))
         {
             SetInputData("dataUpdateToPlaceData");
+        }
+        if(Input.GetKeyDown(KeyCode.A))
+        {
+            SetInputData("rename");
         }
     }
 
