@@ -7,7 +7,7 @@ using UnityEngine.UI;
 /// <summary>
 /// GameObjectなどを操作し、データを画面に表示するクラス
 /// </summary>
-public class Main_UI : MainBase
+public class Main_UI : MainBase,RecieveDayAndNumber
 {
     [SerializeField] GameObject addPlacePanel;//データを追加するときに出てくるパネル
     [SerializeField] InputField addPlaceInputField;//データを追加するときに使うinputField
@@ -197,6 +197,15 @@ public class Main_UI : MainBase
     {
         SetInputData(setIntervalDataDropdownNumber.captionText.text);
         Enter();
+    }
+
+    public void RecieveDayAndNumberAction(string Day, int number)
+    {
+        SetInputData(Day);
+        Enter();
+
+        StartCoroutine(WaitFrame(1,()=> SetInputData(number.ToString())));
+        StartCoroutine(WaitFrame(1, () => Enter()));
     }
 
 }
