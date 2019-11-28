@@ -7,7 +7,7 @@ using UnityEngine.UI;
 /// <summary>
 /// GameObjectなどを操作し、データを画面に表示するクラス
 /// </summary>
-public class Main_UI : MainBase,RecieveDayAndNumber
+public class Main_UI : MainBase
 {
     [SerializeField] GameObject addPlacePanel;//データを追加するときに出てくるパネル
     [SerializeField] InputField addPlaceInputField;//データを追加するときに使うinputField
@@ -96,6 +96,7 @@ public class Main_UI : MainBase,RecieveDayAndNumber
                 break;
             case CurrentMode.RENAME:
                 renamePanel.SetActive(false);
+                InitInputFieldTextRename();
                 break;
         }
     }
@@ -114,7 +115,7 @@ public class Main_UI : MainBase,RecieveDayAndNumber
     {
         addPlacePanel.SetActive(false);
     }
-    #region ボタンで呼ぶ関数 
+    #region ボタンで呼ぶ関数
     // 入力と入力の確定だけを呼ぶ
 
 
@@ -164,7 +165,7 @@ public class Main_UI : MainBase,RecieveDayAndNumber
         SetInputData("remove");
         Enter();
 
-        StartCoroutine(WaitFrame(1,()=> SetInputData(nowTargetIndex.ToString())));
+        StartCoroutine(WaitFrame(1, () => SetInputData(nowTargetIndex.ToString())));
         StartCoroutine(WaitFrame(1, () => Enter()));
     }
 
@@ -219,6 +220,11 @@ public class Main_UI : MainBase,RecieveDayAndNumber
         addPlaceInputField.text = "";
     }
 
+    void InitInputFieldTextRename()
+    {
+        renamePlaceInputField.text = "";
+    }
+
     /// <summary>
     /// placeListのデータをtextに表示する
     /// </summary>
@@ -239,7 +245,7 @@ public class Main_UI : MainBase,RecieveDayAndNumber
     /// <param name="n"></param>
     /// <param name="ua"></param>
     /// <returns></returns>
-    IEnumerator WaitFrame(int n,UnityAction ua)
+    IEnumerator WaitFrame(int n, UnityAction ua)
     {
         for (int i = 0; i < n; i++)
         {
@@ -260,15 +266,4 @@ public class Main_UI : MainBase,RecieveDayAndNumber
         Enter();
     }
 
-    public void RecieveDayAndNumberAction(string Day, int number)
-    {
-        SetInputData(Day);
-        Enter();
-
-        StartCoroutine(WaitFrame(1,()=> SetInputData(number.ToString())));
-        StartCoroutine(WaitFrame(1, () => Enter()));
-    }
-
 }
-
-

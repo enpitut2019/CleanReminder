@@ -16,8 +16,8 @@ public class MainBase : MonoBehaviour
         START,//最初に選択されている状態
         DISPLAY,//掃除場所の一覧を表示している状態
         ADDPLACEMODE,//場所のデータを追加する状態
-        DATAUPDATETODISPLAY,//データを更新してDISPLAYに戻る状態
-        DATAUPDATETOPLACEDATA,//データを更新してPLACEDATAに戻る状態
+        DATAUPDATETODISPLAY,//データを更新してDISPLAYに戻る状態状態
+        DATAUPDATETOPLACEDATA,//データを更新してPLACEDATAに戻る状態状態
         REMOVECHECK,//削除するか確認する状態
         REMOVE,//データを削除する状態
         PLACEDATAMODE,//場所のデータの詳細を表示している状態
@@ -49,14 +49,14 @@ public class MainBase : MonoBehaviour
 
         ChangeMode(CurrentMode.DISPLAY);
 
-        
+
         SEDataTime data = new SEDataTime();
 
         //data.CalcuToHour();
         //data.TimeSpanCalculater();
         //data.REDataTime();
     }
-    
+
     void Update()
     {
         if (canInput)
@@ -73,7 +73,8 @@ public class MainBase : MonoBehaviour
                         ChangeMode(CurrentMode.ADDPLACEMODE);
                         ResetInputData();
                         WaitInput();
-                    }else if (inputData =="placeData")
+                    }
+                    else if (inputData == "placeData")
                     {
                         ChangeMode(CurrentMode.PLACEDATAMODE);
                         ResetInputData();
@@ -101,22 +102,23 @@ public class MainBase : MonoBehaviour
                     }
                     break;
                 case CurrentMode.DATAUPDATETODISPLAY:
-                        ResetInputData();
-                        ChangeMode(CurrentMode.DISPLAY);
-                        SaveData();
+                    ResetInputData();
+                    ChangeMode(CurrentMode.DISPLAY);
+                    SaveData();
                     break;
                 case CurrentMode.DATAUPDATETOPLACEDATA:
-                        ResetInputData();
-                        ChangeMode(CurrentMode.PLACEDATAMODE);
-                        SaveData();
+                    ResetInputData();
+                    ChangeMode(CurrentMode.PLACEDATAMODE);
+                    SaveData();
                     break;
                 case CurrentMode.REMOVECHECK:
                     {
-                        if (inputData == "remove")
+                        if (inputData == "remove")//削除ボタンを押した時
                         {
                             ChangeMode(CurrentMode.REMOVE);
                             ResetInputData();
-                        }else if (inputData == "placeData")
+                        }
+                        else if (inputData == "placeData")//キャンセルボタンを押した時
                         {
                             ChangeMode(CurrentMode.PLACEDATAMODE);
                             ResetInputData();
@@ -143,13 +145,13 @@ public class MainBase : MonoBehaviour
                     }
                 case CurrentMode.PLACEDATAMODE:
                     if (inputData == "test")
-                    {                
+                    {
                         var nowData = cleanDataList.GetCleanPlaceData(nowTargetIndex);
                         /*Debug.Log("Next limit : "+nowData.NextCleanDate);
                         Debug.Log("Next span : " + nowData.NextCleanLeftTime.Days);
                         Debug.Log("Next span : " + nowData.NextCleanLeftTime.Hours);
                         Debug.Log("Next span : " + nowData.NextCleanLeftTime.Minutes);*/
-                        Debug.Log( nowData.NextCleanLeftTimeText);
+                        Debug.Log(nowData.NextCleanLeftTimeText);
 
 
                         WaitInput();
@@ -159,12 +161,14 @@ public class MainBase : MonoBehaviour
                     {
                         ChangeMode(CurrentMode.DISPLAY);
                         ResetInputData();
-                    }else if (inputData == "interval")
+                    }
+                    else if (inputData == "interval")
                     {
                         ChangeMode(CurrentMode.SETINTERVALMODE);
                         ResetInputData();
                         WaitInput();
-                    }else if (inputData == "reset")
+                    }
+                    else if (inputData == "reset")
                     {
                         ChangeMode(CurrentMode.RESET);
                         ResetInputData();
@@ -208,40 +212,40 @@ public class MainBase : MonoBehaviour
                             var nowData = cleanDataList.GetCleanPlaceData(nowTargetIndex);
                             if (!nowData.SetTarget(inputData))
                             {
-                                Debug.Log("error Input : "+inputData);
+                                Debug.Log("error Input : " + inputData);
                             }
                             ResetInputData();
                             WaitInput();
                         }
                         break;
                     }
-                case CurrentMode.RESET://RESET モードの時の処理
+                case CurrentMode.RESET://掃除完了ボタンを押した時
                     {
                         var nowData = cleanDataList.GetCleanPlaceData(nowTargetIndex);
                         nowData.ResetLastUpdateTime();
                         ChangeMode(CurrentMode.DATAUPDATETOPLACEDATA);
                         break;
                     }
-                case CurrentMode.CHANGE:
+                case CurrentMode.CHANGE://変更ボタンを押した時
                     {
-                        if (inputData == "display")
+                        if (inputData == "placeData")//バツボタンでもどる
                         {
-                            ChangeMode(CurrentMode.DISPLAY);
+                            ChangeMode(CurrentMode.PLACEDATAMODE);
                             ResetInputData();
                         }
-                        else if (inputData == "interval")
+                        else if (inputData == "interval")//時間間隔の変更へ
                         {
                             ChangeMode(CurrentMode.SETINTERVALMODE);
                             ResetInputData();
                             WaitInput();
                         }
-                        else if (inputData == "removecheck")
+                        else if (inputData == "removecheck")//削除の確認へ
                         {
                             ChangeMode(CurrentMode.REMOVECHECK);
                             ResetInputData();
                             WaitInput();
                         }
-                        else if (inputData == "rename")
+                        else if (inputData == "rename")//名前の変更へ
                         {
                             ChangeMode(CurrentMode.RENAME);
                             ResetInputData();
@@ -251,7 +255,7 @@ public class MainBase : MonoBehaviour
                     }
                 case CurrentMode.RENAME:
                     {
-                        
+
                         if (inputData == "placeData")
                         {
                             ChangeMode(CurrentMode.PLACEDATAMODE);
@@ -260,7 +264,7 @@ public class MainBase : MonoBehaviour
                         else if (inputData != "")
                         {
                             ChangeMode(CurrentMode.DATAUPDATETOPLACEDATA);
-                            cleanDataList.RenamePlaceList(inputData,nowTargetIndex);
+                            cleanDataList.RenamePlaceList(inputData, nowTargetIndex);
                         }
                         else
                         {
@@ -270,7 +274,7 @@ public class MainBase : MonoBehaviour
                     }
             }
         }
-        
+
     }
 
     /// <summary>
@@ -308,7 +312,7 @@ public class MainBase : MonoBehaviour
         {
             SetInputData("reset");
         }
-        if(Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C))
         {
             SetInputData("change");
         }
@@ -320,11 +324,12 @@ public class MainBase : MonoBehaviour
         {
             SetInputData("dataUpdateToPlaceData");
         }
-        if(Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A))
         {
             SetInputData("rename");
         }
     }
+
 
     /// <summary>
     /// currentModeの変更
@@ -376,7 +381,7 @@ public class MainBase : MonoBehaviour
                 break;
         }
     }
-    
+
     /// <summary>
     /// 入力の確定
     /// </summary>
