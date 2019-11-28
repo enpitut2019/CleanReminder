@@ -146,6 +146,11 @@ public class Main_UI : MainBase
         SetInputData(addPlaceInputField.textComponent.text);
         Enter();
     }
+    public void RenamePlaceData()
+    {
+        SetInputData(renamePlaceInputField.textComponent.text);
+        Enter();
+    }
     public void ChangeResetMode()
     {
         SetInputData("reset");

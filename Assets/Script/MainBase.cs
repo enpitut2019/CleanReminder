@@ -251,20 +251,15 @@ public class MainBase : MonoBehaviour
                     }
                 case CurrentMode.RENAME:
                     {
-                        if (inputData == "dataUpdataToPlaceData")
-                        {
-                            ChangeMode(CurrentMode.DATAUPDATETOPLACEDATA);
-
-                            ResetInputData();
-                        }
-                        else if (inputData == "placeData")
+                        
+                        if (inputData == "placeData")
                         {
                             ChangeMode(CurrentMode.PLACEDATAMODE);
                             ResetInputData();
                         }
                         else if (inputData != "")
                         {
-                            ChangeMode(CurrentMode.DATAUPDATETODISPLAY);
+                            ChangeMode(CurrentMode.DATAUPDATETOPLACEDATA);
                             cleanDataList.RenamePlaceList(inputData,nowTargetIndex);
                         }
                         else
