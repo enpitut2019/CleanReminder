@@ -7,7 +7,7 @@ using UnityEngine.UI;
 /// <summary>
 /// GameObjectなどを操作し、データを画面に表示するクラス
 /// </summary>
-public class Main_UI : MainBase,RecieveDayAndNumber
+public class Main_UI : MainBase
 {
     [SerializeField] GameObject addPlacePanel;//データを追加するときに出てくるパネル
     [SerializeField] InputField addPlaceInputField;//データを追加するときに使うinputField
@@ -19,6 +19,12 @@ public class Main_UI : MainBase,RecieveDayAndNumber
     [SerializeField] InputField setIntervalDataInputField;//インターバルの入力をするためのinputField
     [SerializeField] Dropdown setIntervalDataDropdownDay;
     [SerializeField] Dropdown setIntervalDataDropdownNumber;
+    [SerializeField] GameObject changePanel;//何の変更をするか選択する時のパネル
+    [SerializeField] GameObject removePanel;//削除の確認するパネル
+    [SerializeField] GameObject renamePanel;//名前を変更するパネル
+    [SerializeField] InputField renamePlaceInputField;//名前変更するinputField
+
+
 
     //[SerializeField]int nowTargetIndex=-1;//MainBaseに実装を映したい
 
@@ -35,7 +41,11 @@ public class Main_UI : MainBase,RecieveDayAndNumber
             case CurrentMode.ADDPLACEMODE:
                 ActiveInputPanel();
                 break;
-            case CurrentMode.DATAUPDATE:
+            case CurrentMode.DATAUPDATETODISPLAY:
+                break;
+            case CurrentMode.REMOVECHECK:
+                removePanel.SetActive(true);
+
                 break;
             case CurrentMode.PLACEDATAMODE:
                 PlaceDataPanel.gameObject.SetActive(true);
@@ -44,6 +54,12 @@ public class Main_UI : MainBase,RecieveDayAndNumber
                 break;
             case CurrentMode.SETINTERVALMODE:
                 setIntervalPanel.SetActive(true);
+                break;
+            case CurrentMode.CHANGE:
+                changePanel.SetActive(true);
+                break;
+            case CurrentMode.RENAME:
+                renamePanel.SetActive(true);
                 break;
         }
     }
@@ -58,7 +74,10 @@ public class Main_UI : MainBase,RecieveDayAndNumber
             case CurrentMode.ADDPLACEMODE:
                 InitInputFieldText();
                 break;
-            case CurrentMode.DATAUPDATE:
+            case CurrentMode.DATAUPDATETODISPLAY:
+                break;
+            case CurrentMode.REMOVECHECK:
+                removePanel.SetActive(false);
                 break;
             case CurrentMode.REMOVE:
                 break;
@@ -71,6 +90,13 @@ public class Main_UI : MainBase,RecieveDayAndNumber
                 setIntervalDataDropdownNumber.value = 0;
                 break;
             case CurrentMode.RESET://RESETMODEの時
+                break;
+            case CurrentMode.CHANGE:
+                changePanel.SetActive(false);
+                break;
+            case CurrentMode.RENAME:
+                renamePanel.SetActive(false);
+                InitInputFieldTextRename();
                 break;
         }
     }
@@ -107,6 +133,10 @@ public class Main_UI : MainBase,RecieveDayAndNumber
     }
     public void OpenPlaceDataMode(int n)
     {
+        if (n < 0) //引数が指定されていない場合（デフォルト値はー1）
+        {
+            n = nowTargetIndex; //今の開いているplacedataの場所を代入
+        }
         SetTargetIndex(n);
         SetInputData("placeData");
         Enter();
@@ -115,6 +145,11 @@ public class Main_UI : MainBase,RecieveDayAndNumber
     public void AddPlaceData()
     {
         SetInputData(addPlaceInputField.textComponent.text);
+        Enter();
+    }
+    public void RenamePlaceData()
+    {
+        SetInputData(renamePlaceInputField.textComponent.text);
         Enter();
     }
     public void ChangeResetMode()
@@ -130,7 +165,7 @@ public class Main_UI : MainBase,RecieveDayAndNumber
         SetInputData("remove");
         Enter();
 
-        StartCoroutine(WaitFrame(1,()=> SetInputData(nowTargetIndex.ToString())));
+        StartCoroutine(WaitFrame(1, () => SetInputData(nowTargetIndex.ToString())));
         StartCoroutine(WaitFrame(1, () => Enter()));
     }
 
@@ -146,8 +181,35 @@ public class Main_UI : MainBase,RecieveDayAndNumber
         SetInputData(setIntervalDataInputField.textComponent.text);
         Enter();
     }
+    /// <summary>
+    /// changePanelを出す
+    /// </summary>
+    public void ChangeChangeMode()
+    {
+        SetInputData("change");
+        Enter();
+    }
+    /// <summary>
+    /// removePanelを出す
+    /// </summary>
+    public void ChangeRemoveCheckMode()
+    {
+        SetInputData("removecheck");
+        Enter();
+    }
+    public void ChangePlaceDataMode()
+    {
+        SetInputData("dataUpdateToPlaceData");
+        Enter();
+    }
+    public void ChangeRenameMode()
+    {
+        SetInputData("rename");
+        Enter();
+    }
+
     #region InputDataを扱わないボタン
-    
+
     #endregion
     #endregion
     /// <summary>
@@ -156,6 +218,11 @@ public class Main_UI : MainBase,RecieveDayAndNumber
     void InitInputFieldText()
     {
         addPlaceInputField.text = "";
+    }
+
+    void InitInputFieldTextRename()
+    {
+        renamePlaceInputField.text = "";
     }
 
     /// <summary>
@@ -178,7 +245,7 @@ public class Main_UI : MainBase,RecieveDayAndNumber
     /// <param name="n"></param>
     /// <param name="ua"></param>
     /// <returns></returns>
-    IEnumerator WaitFrame(int n,UnityAction ua)
+    IEnumerator WaitFrame(int n, UnityAction ua)
     {
         for (int i = 0; i < n; i++)
         {
@@ -197,15 +264,6 @@ public class Main_UI : MainBase,RecieveDayAndNumber
     {
         SetInputData(setIntervalDataDropdownNumber.captionText.text);
         Enter();
-    }
-
-    public void RecieveDayAndNumberAction(string Day, int number)
-    {
-        SetInputData(Day);
-        Enter();
-
-        StartCoroutine(WaitFrame(1,()=> SetInputData(number.ToString())));
-        StartCoroutine(WaitFrame(1, () => Enter()));
     }
 
 }
