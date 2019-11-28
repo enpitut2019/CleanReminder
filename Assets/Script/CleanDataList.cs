@@ -10,7 +10,7 @@ using System;
 public class CleanPlaceData
 {
     [SerializeField] string place;
-    public string Place { get { return place; }private set { place = value; } }
+    public string Place { get { return place; } private set { place = value; } }
     
     [SerializeField] SEDataTime lastUpdateTime_forSave;//セーブ用の「最終更新時刻」
     [SerializeField] SEDataTime cleanInterval_forSave;//セーブ用の「掃除間隔データ」
@@ -88,6 +88,11 @@ public class CleanPlaceData
     public void InitAction()
     {
         SetDateTime();
+    }
+
+    public void SetPlaceName(String name)
+    {
+        Place = name;
     }
 }
 
@@ -351,10 +356,14 @@ public class CleanDataList
         placeDataList.Add(new CleanPlaceData(placename));
     }
 
-    /*public void AddPlaceList(CleanPlaceData data)
+    public void RenamePlaceList(string placename,int index)
     {
-        
-    }*/
+        //placeDataList[index].Place = placename;                   aaaaaaa
+        CleanPlaceData data = placeDataList[index];
+        data.SetPlaceName(placename);
+        //placeDataList[index].SetPlaceName(placename);
+
+    }
 
     /// <summary>
     /// 場所のデータの取得
