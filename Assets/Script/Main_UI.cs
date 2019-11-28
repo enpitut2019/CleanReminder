@@ -164,6 +164,7 @@ public class Main_UI : MainBase,RecieveDayAndNumber
     void DisplayData()
     {
         layoutTextList.ResetText();
+        cleanDataList.DeadLineSort();
         for (int i = 0; i < cleanDataList.placeDataList.Count; i++)
         {
             layoutTextList.AddText(cleanDataList.placeDataList[i]);
