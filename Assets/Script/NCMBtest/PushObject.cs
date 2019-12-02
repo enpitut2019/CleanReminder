@@ -75,6 +75,8 @@ public class PushObject : MonoBehaviour,IRecieveDayAndNumber
 
     [SerializeField] Text objectIdDebug;//画面でオブジェクトIDを表示するためのText
 
+    string lastSetDate;
+
     // Use this for initialization
     void Start()
     {
@@ -89,22 +91,25 @@ public class PushObject : MonoBehaviour,IRecieveDayAndNumber
         //Scedule(sendPushWaitTime);
     }
 
-    public void Scedule(float offset)
+    public void Push_Scedule(float offset)
     {
-        Scedule(System.DateTime.Now, offset);
+        Push_Scedule(System.DateTime.Now, offset);
     }
-    public void Scedule(System.DateTime fromTime, float offset)
+    public void Push_Scedule(System.DateTime fromTime, float offset)
     {
         NCMBPush push = new NCMBPush();
-        push.Title = "Test";
+        push.Title = "掃除の日です！！";
         push.Message = sendPushMessage;
         push.DeliveryTime =fromTime.AddSeconds(offset);
+
+        Debug.Log("push Sceduled Time is "+push.DeliveryTime);
         //絞り込み処理=============================
         var key = GetObjectId();
         DisplayObjectId(key);
         push.SearchCondition = new Dictionary<string, string>()
         {
-            {"objectId",key }
+            {"objectId",key },
+            {"lastSetDate",lastSetDate}
         };
         //=============================
         //push.Dialog = true;
@@ -116,9 +121,27 @@ public class PushObject : MonoBehaviour,IRecieveDayAndNumber
     {
         var time = new SEDataTime(Day, number);
         DateTime targetDay = TimeCalucurator.AddTimeAndSpan(DateTime.Now, TimeCalucurator.ReTimeSpan(time));
-        Scedule(targetDay,0);
+        Push_Scedule(targetDay,0);
     }
 
+    public void SetLastSetDate()
+    {
+        lastSetDate = DateTime.Now.ToString();
+
+        NCMBInstallation inst = NCMBInstallation.getCurrentInstallation();
+        inst.Remove("lastSetDate");
+        inst.Add("lastSetDate",lastSetDate);
+        inst.SaveAsync((NCMBException e) => {
+            if (e != null)
+            {
+                //成功時の処理
+            }
+            else
+            {
+                //エラー時の処理
+            }
+        });
+    }
 
 
     //ObjectIdを画面に表示する関数

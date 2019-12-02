@@ -142,6 +142,27 @@ public class TimeCalucurator
         return time + span;
     }
 
+
+    /// <summary>
+    /// 受け取ったDateTimeのhour以下のデータを１２、０、０にする関数
+    /// </summary>
+    /// <param name="time"></param>
+    /// <returns></returns>
+    public static DateTime SetDateTimeToNoon(DateTime time)
+    {
+        return new DateTime(time.Year, time.Month, time.Day, 12, 0, 0);
+    }
+
+    /// <summary>
+    /// 受け取ったDateTimeが今日なのかを返す
+    /// </summary>
+    /// <param name="time"></param>
+    /// <returns></returns>
+    public static bool CheckDate_Today(DateTime time)
+    {
+        return time.Day == DateTime.Now.Day;
+    }
+    
 }
 
 [System.Serializable]
@@ -393,5 +414,5 @@ public class CleanDataList
             placeDataList.RemoveAt(index);
         }
     }
-
+    
 }
