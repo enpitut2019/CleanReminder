@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources tools:keep="@string/firebase_database_url,@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id,@string/default_web_client_id" xmlns:tools="http://schemas.android.com/tools">
-  <string name="firebase_database_url" translatable="false">https://cleanreminder-2cd94.firebaseio.com</string>
-  <string name="gcm_defaultSenderId" translatable="false">1009764122612</string>
-  <string name="google_storage_bucket" translatable="false">cleanreminder-2cd94.appspot.com</string>
-  <string name="project_id" translatable="false">cleanreminder-2cd94</string>
-  <string name="google_api_key" translatable="false">AIzaSyCPRHVaghVG5FJPBXlAg_aHSc33xdYxrPk</string>
-  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyCPRHVaghVG5FJPBXlAg_aHSc33xdYxrPk</string>
-  <string name="google_app_id" translatable="false">1:1009764122612:android:6fc6f24d49d74afa1ac3a1</string>
-  <string name="default_web_client_id" translatable="false">1009764122612-3u0puqi46a0f0825an6s913jsh1siea8.apps.googleusercontent.com</string>
+  <string name="firebase_database_url" translatable="false">https://cleanreminder-42997.firebaseio.com</string>
+  <string name="gcm_defaultSenderId" translatable="false">1066331351695</string>
+  <string name="google_storage_bucket" translatable="false">cleanreminder-42997.appspot.com</string>
+  <string name="project_id" translatable="false">cleanreminder-42997</string>
+  <string name="google_api_key" translatable="false">AIzaSyAcXE7-JyPG8J2RQ6-1JORO3EYO4ZndTtY</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyAcXE7-JyPG8J2RQ6-1JORO3EYO4ZndTtY</string>
+  <string name="google_app_id" translatable="false">1:1066331351695:android:81547e80c353f15cee1efa</string>
+  <string name="default_web_client_id" translatable="false">1066331351695-885jfivlied0jfckhkr2khdh8kgtiksj.apps.googleusercontent.com</string>
 </resources>

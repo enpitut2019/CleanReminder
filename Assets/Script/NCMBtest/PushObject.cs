@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 using NCMB;
 using System;
@@ -72,6 +73,8 @@ public class PushObject : MonoBehaviour,IRecieveDayAndNumber
     [SerializeField] float sendPushWaitTime;
     [SerializeField] string sendPushMessage;
 
+    [SerializeField] Text objectIdDebug;//画面でオブジェクトIDを表示するためのText
+
     // Use this for initialization
     void Start()
     {
@@ -96,6 +99,14 @@ public class PushObject : MonoBehaviour,IRecieveDayAndNumber
         push.Title = "Test";
         push.Message = sendPushMessage;
         push.DeliveryTime =fromTime.AddSeconds(offset);
+        //絞り込み処理=============================
+        var key = GetObjectId();
+        DisplayObjectId(key);
+        push.SearchCondition = new Dictionary<string, string>()
+        {
+            {"objectId",key }
+        };
+        //=============================
         //push.Dialog = true;
         push.PushToAndroid = true;
         push.SendPush();
@@ -108,4 +119,18 @@ public class PushObject : MonoBehaviour,IRecieveDayAndNumber
         Scedule(targetDay,0);
     }
 
+
+
+    //ObjectIdを画面に表示する関数
+    void DisplayObjectId(string key)
+    {
+        objectIdDebug.text = key;
+        Debug.Log(key);
+    }
+
+    string GetObjectId()
+    {
+        NCMBInstallation inst = NCMBInstallation.getCurrentInstallation();
+        return inst.ObjectId;
+    }
 }
