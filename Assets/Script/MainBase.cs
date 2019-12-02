@@ -44,15 +44,10 @@ public class MainBase : MonoBehaviour
         {
             d.InitAction();
         }
-
+        cleanDataList.DeadLineSort();
         ChangeMode(CurrentMode.DISPLAY);
-
-        
         SEDataTime data = new SEDataTime();
 
-        //data.CalcuToHour();
-        //data.TimeSpanCalculater();
-        //data.REDataTime();
     }
 
     void Update()
