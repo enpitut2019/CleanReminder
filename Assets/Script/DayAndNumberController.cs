@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public interface RecieveDayAndNumber {
+public interface IRecieveDayAndNumber {
     /// <summary>
     /// initDropDown のDayとnumerを受け取る関数
     /// </summary>
@@ -25,13 +25,13 @@ public class DayAndNumberController : MonoBehaviour
     public string NumberDropText { get { return numberDrop.captionText.text; } }//numberdropの現在取得中のtext
 
     [SerializeField] GameObject actionTarget;//buttonを押したときに呼び出される変数を実装している奴
-    RecieveDayAndNumber actionInterface;
+    IRecieveDayAndNumber actionInterface;
 
     [SerializeField] bool isDebug=false;
 
     private void Start()
     {
-        actionInterface = actionTarget.GetComponent<RecieveDayAndNumber>();
+        actionInterface = actionTarget.GetComponent<IRecieveDayAndNumber>();
         if (actionInterface == null)
         {
             Debug.Log("Error InitDropDown : gameObject not have RecieveDayAndNumber interface");

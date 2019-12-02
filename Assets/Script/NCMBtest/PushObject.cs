@@ -5,7 +5,7 @@ using UnityEngine;
 using NCMB;
 using System;
 
-public class PushObject : MonoBehaviour,RecieveDayAndNumber
+public class PushObject : MonoBehaviour,IRecieveDayAndNumber
 {
     private static bool _isInitialized = false;
 
