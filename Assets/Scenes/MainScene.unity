@@ -1562,7 +1562,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &308143871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1639,7 +1639,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e67f4c421bf8450e85bb12867cbc97b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lastUpdateTime: {fileID: 1192084492}
+  nextCleanTime: {fileID: 235818007}
   intervalTime: {fileID: 186505610}
   placeName: {fileID: 1192084492}
 --- !u!1 &338512865
@@ -2871,7 +2871,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2060602795}
   m_Direction: 0
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.57281554
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5957,7 +5957,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 905406068}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99896914
+  m_Size: 0.49948466
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
