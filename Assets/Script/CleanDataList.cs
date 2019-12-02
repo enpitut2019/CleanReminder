@@ -21,14 +21,23 @@ public class CleanPlaceData
     public string NextCleanLeftTimeText { get { return TimeCovertToString.GetTimeSpan(NextCleanLeftTime); } }
     //==============================================
 
-    //追加============================
+    //日時計算用のデータ============================
     public DateTime LastUpdateTime { get; private set; }//最終更新時刻
     public TimeSpan CleanInterval { get; protected set; }//掃除間隔
     public DateTime NextCleanDate { get { return LastUpdateTime + CleanInterval; } }//次に掃除する日時
     public TimeSpan LastCleanPassTime { get { return DateTime.Now - LastUpdateTime; } }//最後に掃除してからの経過時間
     public TimeSpan NextCleanLeftTime { get { return NextCleanDate - DateTime.Now; } }//次に掃除するまでの時間
-                                                                                      //=============================
+    //=============================
 
+    //ソート用のデータ=====================================
+    public int leftDate;
+    //=====================================
+
+    public int GetLeftDay()
+    {
+        return leftDate = NextCleanLeftTime.Days;
+    }
+    
     public CleanPlaceData(string place)
     {
         this.place = place;
@@ -337,7 +346,6 @@ public class CleanDataList
     /// </summary>
     public List<CleanPlaceData> placeDataList = new List<CleanPlaceData>();
 
-
     /// <summary>
     /// 場所のデータの追加
     /// </summary>
@@ -394,4 +402,9 @@ public class CleanDataList
         }
     }
 
+    public List<CleanPlaceData> DeadLineSort()
+    {
+        placeDataList.Sort((a,b) => a.GetLeftDay() - b.GetLeftDay());
+        return placeDataList;
+    }
 }
