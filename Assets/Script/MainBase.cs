@@ -37,6 +37,8 @@ public class MainBase : MonoBehaviour
     #region データをセーブするpath群
     string cleanDataListPath = "cleanPlaceData";
     #endregion
+
+    CurrentMode nextMode;
     void Start()
     {
         LoadData();
@@ -339,6 +341,7 @@ public class MainBase : MonoBehaviour
         currentMode = targetMode;
 
     }
+
     /// <summary>
     /// モードが終了したときの処理
     /// </summary>
@@ -372,7 +375,7 @@ public class MainBase : MonoBehaviour
                 break;
         }
     }
-    
+
     /// <summary>
     /// 入力の確定
     /// </summary>
