@@ -153,13 +153,13 @@ public class TimeCalucurator
 
 
     /// <summary>
-    /// 受け取ったDateTimeのhour以下のデータを１２、０、０にする関数
+    /// 受け取ったDateTimeのhour以下のデータをhour、０、０にする関数
     /// </summary>
     /// <param name="time"></param>
     /// <returns></returns>
-    public static DateTime SetDateTimeToNoon(DateTime time)
+    public static DateTime SetDateTimeHour(DateTime time,int hour)
     {
-        return new DateTime(time.Year, time.Month, time.Day, 12, 0, 0);
+        return new DateTime(time.Year, time.Month, time.Day, hour, 0, 0);
     }
 
     /// <summary>
@@ -171,7 +171,16 @@ public class TimeCalucurator
     {
         return time.Day == DateTime.Now.Day;
     }
-    
+    /// <summary>
+    /// 受け取ったDateTimeが未来なのかを返す
+    /// </summary>
+    /// <param name="time"></param>
+    /// <returns></returns>
+    public static bool CheckDate_Over(DateTime time)
+    {
+        return DateTime.Now < time;
+    }
+
 }
 
 [System.Serializable]
@@ -366,6 +375,8 @@ public class CleanDataList
     /// 場所のデータ
     /// </summary>
     public List<CleanPlaceData> placeDataList = new List<CleanPlaceData>();
+    [SerializeField] int pushTiming=18;//push通知を送るタイミングのセーブデータ
+    public int PushTiming { get { return pushTiming; } }
 
     /// <summary>
     /// 場所のデータの追加
@@ -427,5 +438,14 @@ public class CleanDataList
     {
         placeDataList.Sort((a,b) => a.GetLeftDay() - b.GetLeftDay());
         return placeDataList;
+    }
+
+    /// <summary>
+    /// プッシュタイミングの変更
+    /// </summary>
+    /// <param name="time"></param>
+    public void SetPushTIiming(int time)
+    {
+        pushTiming = time;
     }
 }

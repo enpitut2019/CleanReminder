@@ -25,7 +25,6 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
     [SerializeField] GameObject renamePanel;//名前を変更するパネル
     [SerializeField] InputField renamePlaceInputField;//名前変更するinputField
 
-    [SerializeField] PushObject pushObject;
 
 
 
@@ -39,7 +38,6 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
         {
             case CurrentMode.DISPLAY:
 
-                SetPush_FromCleanPlaceList();
                 NonActiveInputPanel();
                 DisplayData();
                 break;
@@ -47,6 +45,10 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
                 ActiveInputPanel();
                 break;
             case CurrentMode.DATAUPDATETODISPLAY:
+                pushCtrl.SetPush_FromCleanPlaceList(cleanDataList.placeDataList);
+                break;
+            case CurrentMode.DATAUPDATETOPLACEDATA:
+                pushCtrl.SetPush_FromCleanPlaceList(cleanDataList.placeDataList);
                 break;
             case CurrentMode.REMOVECHECK:
                 removePanel.SetActive(true);
@@ -213,6 +215,16 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
         Enter();
     }
 
+    /// <summary>
+    /// push通知を送るタイミングを変更する関数
+    /// </summary>
+    /// <param name="hour"></param>
+    public void ChangePushTiming(int hour)
+    {
+        pushCtrl.SetPushTiming(hour);
+        cleanDataList.SetPushTIiming(hour);
+    }
+
     #region InputDataを扱わないボタン
 
     #endregion
@@ -273,49 +285,6 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
     }
 
     #region 通知関連の関数
-    /// <summary>
-    /// cleanPlaceDataの情報をもとに通知を作成する関数
-    /// </summary>
-    void SetPush_FromCleanPlaceData(CleanPlaceData data)
-    {
-        DateTime d = TimeCalucurator.SetDateTimeToNoon(data.NextCleanDate);
-        if (TimeCalucurator.CheckDate_Today(d)) return;
-
-        pushObject.Push_Scedule(d, 0);
-    }
-    /// <summary>
-    /// cleanPlaceListのデータをもとに通知を作成する関数
-    /// これを呼ぶと現在登録されているすべてのデータについて通知が作成される
-    /// </summary>
-    void SetPush_FromCleanPlaceList()
-    {
-        var tempList = new List<CleanPlaceData>();//送信する日にちをかぶりなく追加するためのリスト
-        foreach(var data in cleanDataList.placeDataList)
-        {
-            bool addFlag = true;
-            foreach(var tdata in tempList)//すでに追加されている日にちかどうかを確認
-            {
-                if (tdata.NextCleanDate.Day == data.NextCleanDate.Day)//かぶりありならbreak
-                {
-                    addFlag = false;
-                    break;
-                }
-
-            }
-
-            if (addFlag)//かぶりなしなら追加
-            {
-                tempList.Add(data);
-            }
-        }
-        if (tempList == null) return;
-        pushObject.SetLastSetDate();
-        foreach(var data in tempList)
-        {
-            SetPush_FromCleanPlaceData(data);
-            Debug.Log(data);
-        }
-    }
     #endregion
 
     #region Interfaceの関数
@@ -337,7 +306,7 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
     public void Debug_timeToNoon()
     {
         //SetPush_FromCleanPlaceData(cleanDataList.GetCleanPlaceData(0));
-        SetPush_FromCleanPlaceList();
+        pushCtrl.SetPush_FromCleanPlaceList(cleanDataList.placeDataList);
     }
     #endregion
 }

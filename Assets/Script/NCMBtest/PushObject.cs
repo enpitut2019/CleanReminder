@@ -91,15 +91,15 @@ public class PushObject : MonoBehaviour,IRecieveDayAndNumber
         //Scedule(sendPushWaitTime);
     }
 
-    public void Push_Scedule(float offset)
+    public void Push_Scedule(float offset, string _title = null, string _message = null)
     {
-        Push_Scedule(System.DateTime.Now, offset);
+        Push_Scedule(System.DateTime.Now, offset,_title,_message);
     }
-    public void Push_Scedule(System.DateTime fromTime, float offset)
+    public void Push_Scedule(DateTime fromTime, float offset,string _title=null,string _message=null)
     {
         NCMBPush push = new NCMBPush();
-        push.Title = "掃除の日です！！";
-        push.Message = sendPushMessage;
+        push.Title = (_title==null)? "掃除の日です！！":_title;
+        push.Message = (_message==null)?sendPushMessage:_message;
         push.DeliveryTime =fromTime.AddSeconds(offset);
 
         Debug.Log("push Sceduled Time is "+push.DeliveryTime);
@@ -124,6 +124,9 @@ public class PushObject : MonoBehaviour,IRecieveDayAndNumber
         Push_Scedule(targetDay,0);
     }
 
+    /// <summary>
+    /// 最終更新時刻の更新（pushを受け取るキー）
+    /// </summary>
     public void SetLastSetDate()
     {
         lastSetDate = DateTime.Now.ToString();
