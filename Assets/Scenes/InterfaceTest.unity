@@ -1536,6 +1536,7 @@ RectTransform:
   - {fileID: 664332632}
   - {fileID: 863276165}
   - {fileID: 832447631}
+  - {fileID: 1425570751}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1835,6 +1836,7 @@ MonoBehaviour:
   removePanel: {fileID: 1241234523}
   renamePanel: {fileID: 1934868674}
   renamePlaceInputField: {fileID: 963826887}
+  pushObject: {fileID: 726441680}
 --- !u!1 &664332631
 GameObject:
   m_ObjectHideFlags: 0
@@ -2171,7 +2173,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sendPushWaitTime: 30
-  sendPushMessage: "\u30E1\u30C3\u30BB\u30FC\u30B8\u306E\u30C6\u30B9\u30C8\u3067\u3059"
+  sendPushMessage: "\u6383\u9664\u3092\u3059\u308B\u65E5\u3067\u3059\uFF01\u6383\u9664\u3057\u3066\u304F\u3060\u3055\u3044\uFF01"
+  objectIdDebug: {fileID: 1425570752}
 --- !u!4 &726441681
 Transform:
   m_ObjectHideFlags: 0
@@ -2870,7 +2873,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2060602796}
   m_HandleRect: {fileID: 2060602795}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -4548,6 +4551,83 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1420531075}
   m_CullTransparentMesh: 0
+--- !u!1 &1425570750
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1425570751}
+  - component: {fileID: 1425570753}
+  - component: {fileID: 1425570752}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1425570751
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1425570750}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 302599291}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -73, y: 86}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1425570752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1425570750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 29
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: New Text
+--- !u!222 &1425570753
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1425570750}
+  m_CullTransparentMesh: 0
 --- !u!1 &1456972685
 GameObject:
   m_ObjectHideFlags: 0
@@ -5077,7 +5157,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000061035156, y: 0.3000183}
+  m_AnchoredPosition: {x: -0.000015258789, y: 0.2999878}
   m_SizeDelta: {x: 308, y: 582}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1606562828
@@ -5957,7 +6037,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 905406068}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.998969
+  m_Size: 0.99896914
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7337,11 +7417,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 648793232}
+      objectReference: {fileID: 882263403}
     - target: {fileID: 2315032486478830183, guid: b581f28a8ec06fa4e83e04fd0cd1ac15,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetIntervalDataDropdownNumber
+      value: SendDayAndNumber_button
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b581f28a8ec06fa4e83e04fd0cd1ac15, type: 3}
