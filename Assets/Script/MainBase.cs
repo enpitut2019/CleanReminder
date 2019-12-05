@@ -34,6 +34,8 @@ public class MainBase : MonoBehaviour
     [SerializeField] protected int nowTargetIndex = -1;//MainBaseに実装を映したい
 
     DataSaveClass dataSave = new DataSaveClass();//セーブとロードを行うクラス
+
+    [SerializeField] protected PushController pushCtrl;//push通知を送ったりするクラス
     #region データをセーブするpath群
     string cleanDataListPath = "cleanPlaceData";
     #endregion
@@ -44,6 +46,7 @@ public class MainBase : MonoBehaviour
         {
             d.InitAction();
         }
+        pushCtrl.SetPushTiming(cleanDataList.PushTiming);
         cleanDataList.DeadLineSort();
         ChangeMode(CurrentMode.DISPLAY);
         SEDataTime data = new SEDataTime();
@@ -432,6 +435,8 @@ public class MainBase : MonoBehaviour
     void LoadData(){
         cleanDataList=dataSave.LoadData<CleanDataList>(cleanDataListPath);
     }
+    
+
 
     /// <summary>
     /// データの初期化（デバッグボタンで呼ぶ）
