@@ -1140,7 +1140,7 @@ RectTransform:
   m_Children:
   - {fileID: 1547974100}
   m_Father: {fileID: 1130152798}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4016,8 +4016,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 30215982}
   - {fileID: 257242828}
+  - {fileID: 30215982}
   m_Father: {fileID: 1404803283}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5768,8 +5768,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 20, y: 50}
-  m_SizeDelta: {x: -820, y: -400}
+  m_AnchoredPosition: {x: 10, y: 0}
+  m_SizeDelta: {x: -520, y: -400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1576633364
 MonoBehaviour:
@@ -5844,7 +5844,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000045776367, y: 0.29995728}
+  m_AnchoredPosition: {x: 0.000015258789, y: 0.3000183}
   m_SizeDelta: {x: 308, y: 582}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1606562828
@@ -6723,7 +6723,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 905406069}
   m_HandleRect: {fileID: 905406068}
   m_Direction: 2
-  m_Value: 0
+  m_Value: -0.00010173975
   m_Size: 0.9989692
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -7712,6 +7712,28 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 778316859}
+        m_MethodName: SendDayAndNumber_button
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2035042342}
+        m_MethodName: SendDayAndNumber_button
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2064386648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8056,6 +8078,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: DayAndNumberDropDown
       objectReference: {fileID: 0}
+    - target: {fileID: 2315032485462376698, guid: b581f28a8ec06fa4e83e04fd0cd1ac15,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2315032485462376697, guid: b581f28a8ec06fa4e83e04fd0cd1ac15,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8074,17 +8101,17 @@ PrefabInstance:
     - target: {fileID: 2315032485462376697, guid: b581f28a8ec06fa4e83e04fd0cd1ac15,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2315032485462376697, guid: b581f28a8ec06fa4e83e04fd0cd1ac15,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2315032485462376697, guid: b581f28a8ec06fa4e83e04fd0cd1ac15,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2315032485462376697, guid: b581f28a8ec06fa4e83e04fd0cd1ac15,
         type: 3}
@@ -8094,7 +8121,7 @@ PrefabInstance:
     - target: {fileID: 2315032485462376697, guid: b581f28a8ec06fa4e83e04fd0cd1ac15,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2315032485462376697, guid: b581f28a8ec06fa4e83e04fd0cd1ac15,
         type: 3}

@@ -26,6 +26,7 @@ public class MainBase : MonoBehaviour
         CHANGE,//変更ボタンを押して何を変更するか選択する状態
         RENAME//名前を変更する状態
     }
+
     [SerializeField]CurrentMode currentMode = CurrentMode.DISPLAY;
     [SerializeField]protected CleanDataList cleanDataList = new CleanDataList();//掃除場所のデータリストを扱うクラス
     [SerializeField] string inputData;//受け取った入力を入れる変数
