@@ -1836,6 +1836,7 @@ MonoBehaviour:
   removePanel: {fileID: 1241234523}
   renamePanel: {fileID: 1934868674}
   renamePlaceInputField: {fileID: 963826887}
+  pushObject: {fileID: 726441680}
 --- !u!1 &664332631
 GameObject:
   m_ObjectHideFlags: 0
@@ -2172,7 +2173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sendPushWaitTime: 30
-  sendPushMessage: "\u30E1\u30C3\u30BB\u30FC\u30B8\u306E\u30C6\u30B9\u30C8\u3067\u3059"
+  sendPushMessage: "\u6383\u9664\u3092\u3059\u308B\u65E5\u3067\u3059\uFF01\u6383\u9664\u3057\u3066\u304F\u3060\u3055\u3044\uFF01"
   objectIdDebug: {fileID: 1425570752}
 --- !u!4 &726441681
 Transform:
@@ -7416,11 +7417,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 648793232}
+      objectReference: {fileID: 882263403}
     - target: {fileID: 2315032486478830183, guid: b581f28a8ec06fa4e83e04fd0cd1ac15,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetIntervalDataDropdownNumber
+      value: SendDayAndNumber_button
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b581f28a8ec06fa4e83e04fd0cd1ac15, type: 3}
