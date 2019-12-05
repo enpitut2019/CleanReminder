@@ -44,15 +44,10 @@ public class MainBase : MonoBehaviour
         {
             d.InitAction();
         }
-
+        cleanDataList.DeadLineSort();
         ChangeMode(CurrentMode.DISPLAY);
-
-        
         SEDataTime data = new SEDataTime();
 
-        //data.CalcuToHour();
-        //data.TimeSpanCalculater();
-        //data.REDataTime();
     }
 
     void Update()
@@ -181,7 +176,6 @@ public class MainBase : MonoBehaviour
                 case CurrentMode.SETINTERVALMODE:
                     {
                         int num = 0;
-                        Debug.Log(inputData);
                         bool result = int.TryParse(inputData, out num);
                         if (inputData == "display")
                         {
