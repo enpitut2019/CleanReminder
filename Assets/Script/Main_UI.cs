@@ -22,9 +22,9 @@ public class Main_UI : MainBase,
     [SerializeField] Dropdown setIntervalDataDropdownDay;
     [SerializeField] Dropdown setIntervalDataDropdownNumber;
     [SerializeField] GameObject changePanel;//何の変更をするか選択する時のパネル
-    [SerializeField] GameObject removePanel;//削除の確認するパネル
-    [SerializeField] GameObject renamePanel;//名前を変更するパネル
     [SerializeField] GameObject optinPanel;//通地時間を設定するパネル
+    [SerializeField] RenameData RenamePanel;//名前を変更するパネル
+    [SerializeField] RemovePanel RemovePanel;//現在選択しているplaceDataの情報を表示するパネル
     [SerializeField] InputField renamePlaceInputField;//名前変更するinputField
 
 
@@ -53,8 +53,9 @@ public class Main_UI : MainBase,
                 pushCtrl.SetPush_FromCleanPlaceList(cleanDataList.placeDataList);
                 break;
             case CurrentMode.REMOVECHECK:
-                removePanel.SetActive(true);
-
+                RemovePanel.gameObject.SetActive(true);
+                RemovePanel.SetRemoveData(cleanDataList.GetCleanPlaceData(nowTargetIndex));
+                RemovePanel.RemoveName();
                 break;
             case CurrentMode.PLACEDATAMODE:
                 PlaceDataPanel.gameObject.SetActive(true);
@@ -68,7 +69,9 @@ public class Main_UI : MainBase,
                 changePanel.SetActive(true);
                 break;
             case CurrentMode.RENAME:
-                renamePanel.SetActive(true);
+                RenamePanel.gameObject.SetActive(true);
+                RenamePanel.SetRenameData(cleanDataList.GetCleanPlaceData(nowTargetIndex));
+                RenamePanel.RenameName();
                 break;
             case CurrentMode.OPTION:
                 optinPanel.SetActive(true);
@@ -89,7 +92,7 @@ public class Main_UI : MainBase,
             case CurrentMode.DATAUPDATETODISPLAY:
                 break;
             case CurrentMode.REMOVECHECK:
-                removePanel.SetActive(false);
+                RemovePanel.gameObject.SetActive(false);
                 break;
             case CurrentMode.REMOVE:
                 break;
@@ -107,7 +110,7 @@ public class Main_UI : MainBase,
                 changePanel.SetActive(false);
                 break;
             case CurrentMode.RENAME:
-                renamePanel.SetActive(false);
+                RenamePanel.gameObject.SetActive(false);
                 InitInputFieldTextRename();
                 break;
             case CurrentMode.OPTION:
