@@ -107,7 +107,7 @@ public class DayAndNumberController : MonoBehaviour
     /// </summary>
     public void SendDayAndNumber_button()
     {
-        actionInterface.RecieveDayAndNumberAction(DayDropText,int.Parse( NumberDropText));
+        actionInterface.RecieveDayAndNumberAction(DayDropText,int.Parse(NumberDropText));
     }
 
     [ContextMenu("setIntRange")]
