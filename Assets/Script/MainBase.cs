@@ -24,7 +24,8 @@ public class MainBase : MonoBehaviour
         SETINTERVALMODE,//掃除する間隔の登録をする状態
         RESET,//最終掃除時間のリセットができる状態
         CHANGE,//変更ボタンを押して何を変更するか選択する状態
-        RENAME//名前を変更する状態
+        RENAME,//名前を変更する状態
+        OPTION//オプション設定画面 現在は通知時刻設定のみ
     }
     [SerializeField]CurrentMode currentMode = CurrentMode.DISPLAY;
     [SerializeField]protected CleanDataList cleanDataList = new CleanDataList();//掃除場所のデータリストを扱うクラス
@@ -73,6 +74,12 @@ public class MainBase : MonoBehaviour
                     else if (inputData == "placeData")
                     {
                         ChangeMode(CurrentMode.PLACEDATAMODE);
+                        ResetInputData();
+                        WaitInput();
+                    }
+                    else if(inputData=="option")
+                    {
+                        ChangeMode(CurrentMode.OPTION);
                         ResetInputData();
                         WaitInput();
                     }
@@ -267,6 +274,29 @@ public class MainBase : MonoBehaviour
                         }
                         break;
                     }
+                case CurrentMode.OPTION:
+                    {
+                        int num = 0;
+                        bool result = int.TryParse(inputData, out num);
+                        if (inputData == "display")
+                        {
+                            ChangeMode(CurrentMode.DATAUPDATETODISPLAY);
+                            ResetInputData();
+                        }
+                        else if (result)//入力が数字だった時
+                        {
+                            pushCtrl.SetPushTiming(num);
+                            cleanDataList.SetPushTIiming(num);
+                            WaitInput();
+                            ResetInputData();
+                        }
+                        else//入力が数字以外だった場合
+                        {
+                            ResetInputData();
+                            WaitInput();
+                        }
+                    }
+                    break;
             }
         }
 

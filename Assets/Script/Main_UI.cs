@@ -8,7 +8,8 @@ using System;
 /// <summary>
 /// GameObjectなどを操作し、データを画面に表示するクラス
 /// </summary>
-public class Main_UI : MainBase,IRecieveDayAndNumber
+public class Main_UI : MainBase,
+    IRecieveDayAndNumber,IRecivePushTimeNumber
 {
     [SerializeField] GameObject addPlacePanel;//データを追加するときに出てくるパネル
     [SerializeField] InputField addPlaceInputField;//データを追加するときに使うinputField
@@ -21,7 +22,7 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
     [SerializeField] Dropdown setIntervalDataDropdownDay;
     [SerializeField] Dropdown setIntervalDataDropdownNumber;
     [SerializeField] GameObject changePanel;//何の変更をするか選択する時のパネル
-    //[SerializeField] GameObject removePanel;//削除の確認するパネル
+    [SerializeField] GameObject optinPanel;//通地時間を設定するパネル
     [SerializeField] RenameData RenamePanel;//名前を変更するパネル
     [SerializeField] RemovePanel RemovePanel;//現在選択しているplaceDataの情報を表示するパネル
     [SerializeField] InputField renamePlaceInputField;//名前変更するinputField
@@ -72,6 +73,9 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
                 RenamePanel.SetRenameData(cleanDataList.GetCleanPlaceData(nowTargetIndex));
                 RenamePanel.RenameName();
                 break;
+            case CurrentMode.OPTION:
+                optinPanel.SetActive(true);
+                break;
         }
     }
     //モード終了時の処理
@@ -108,6 +112,9 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
             case CurrentMode.RENAME:
                 RenamePanel.gameObject.SetActive(false);
                 InitInputFieldTextRename();
+                break;
+            case CurrentMode.OPTION:
+                optinPanel.SetActive(false);
                 break;
         }
     }
@@ -219,6 +226,12 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
         Enter();
     }
 
+    public void OpenOption()
+    {
+        SetInputData("option");
+        Enter();
+    }
+
     /// <summary>
     /// push通知を送るタイミングを変更する関数
     /// </summary>
@@ -302,6 +315,12 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
         StartCoroutine(WaitFrame(1, () => SetInputData(number.ToString())));
         StartCoroutine(WaitFrame(1, () => Enter())); 
         
+    }
+
+    public void RecivePushTimeNumber(string num)
+    {
+        SetInputData(num);
+        Enter();
     }
     #endregion
 
