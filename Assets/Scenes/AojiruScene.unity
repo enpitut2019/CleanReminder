@@ -493,7 +493,7 @@ RectTransform:
   m_Children:
   - {fileID: 1606562827}
   m_Father: {fileID: 1565351064}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2079,9 +2079,9 @@ MonoBehaviour:
   setIntervalDataDropdownDay: {fileID: 1259284502}
   setIntervalDataDropdownNumber: {fileID: 737716390}
   changePanel: {fileID: 1456972685}
-  removePanel: {fileID: 1241234523}
-  renamePanel: {fileID: 1934868674}
   optinPanel: {fileID: 5205218445272943701}
+  RenamePanel: {fileID: 0}
+  RemovePanel: {fileID: 0}
   renamePlaceInputField: {fileID: 963826887}
 --- !u!1 &664332631
 GameObject:
@@ -3085,7 +3085,7 @@ RectTransform:
   m_Children:
   - {fileID: 637169290}
   m_Father: {fileID: 1565351064}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3135,7 +3135,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2060602795}
   m_Direction: 0
   m_Value: 1
-  m_Size: 1
+  m_Size: 0.5728156
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5228,10 +5228,10 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 392799806}
   - {fileID: 142933189}
   - {fileID: 912875800}
   - {fileID: 1740950866}
-  - {fileID: 392799806}
   m_Father: {fileID: 1404803283}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5343,7 +5343,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000061035156, y: 0.3000183}
+  m_AnchoredPosition: {x: -0.000015258789, y: 0.2999878}
   m_SizeDelta: {x: 308, y: 582}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1606562828
@@ -6173,7 +6173,7 @@ RectTransform:
   m_Children:
   - {fileID: 829915100}
   m_Father: {fileID: 1565351064}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -6222,8 +6222,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 905406069}
   m_HandleRect: {fileID: 905406068}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 0.998969
+  m_Value: -0.00010173975
+  m_Size: 0.49948472
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7977,7 +7977,7 @@ PrefabInstance:
     - target: {fileID: 8520606994907339501, guid: 6e52b3c7cf51e334092b3dedcdaa123a,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8520606994907339501, guid: 6e52b3c7cf51e334092b3dedcdaa123a,
         type: 3}
