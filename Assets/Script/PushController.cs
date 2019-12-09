@@ -45,7 +45,7 @@ public class PushController : MonoBehaviour
     void SetPush_FromPushData(PushData data)
     {
         if (!TimeCalucurator.CheckDate_Over(data.pushTime)) return;
-        pushObject.Push_Scedule(data.pushTime, 0,Create_pushMessage(data),Create_pushMessage(data));
+        pushObject.Push_Scedule(data.pushTime, 0,Create_pushTitle(data),Create_pushMessage(data));
     }
 
     /// <summary>
