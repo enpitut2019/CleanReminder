@@ -103,6 +103,15 @@ public class CleanPlaceData
     {
         Place = name;
     }
+    #region bool関数
+    /// <summary>
+    /// 掃除期間がオーバーしているかどうかを取得
+    /// </summary>
+    public bool CheckTimeOver()
+    {
+        return NextCleanLeftTime.Days < 0;
+    }
+    #endregion
 }
 
 /// <summary>
@@ -176,7 +185,7 @@ public class TimeCalucurator
     /// </summary>
     /// <param name="time"></param>
     /// <returns></returns>
-    public static bool CheckDate_Over(DateTime time)
+    public static bool CheckDate_NotOver(DateTime time)
     {
         return DateTime.Now < time;
     }

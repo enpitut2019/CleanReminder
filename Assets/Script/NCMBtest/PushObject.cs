@@ -103,6 +103,8 @@ public class PushObject : MonoBehaviour,IRecieveDayAndNumber
         push.DeliveryTime =fromTime.AddSeconds(offset);
 
         Debug.Log("push Sceduled Time is "+push.DeliveryTime);
+        Debug.Log(_title);
+        Debug.Log(_message);
         //絞り込み処理=============================
         var key = GetObjectId();
         DisplayObjectId(key);
