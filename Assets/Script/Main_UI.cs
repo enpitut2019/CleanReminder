@@ -127,13 +127,13 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
     //+ボタンから追加ウィンドウを表示
     public void ChangeAddPlaceMode()
     {
-        SetInputData("i");
+        AddInputData("i");
         Enter();
     }
     //キャンセル押したときに追加ウィンドウを閉じる
     public void ChangeDisplayMode()
     {
-        SetInputData("display");
+        AddInputData("display");
         Enter();
     }
     public void OpenPlaceDataMode(int n)
@@ -143,23 +143,23 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
             n = nowTargetIndex; //今の開いているplacedataの場所を代入
         }
         SetTargetIndex(n);
-        SetInputData("placeData");
+        AddInputData("placeData");
         Enter();
     }
     //データの追加と表示
     public void AddPlaceData()
     {
-        SetInputData(addPlaceInputField.textComponent.text);
+        AddInputData(addPlaceInputField.textComponent.text);
         Enter();
     }
     public void RenamePlaceData()
     {
-        SetInputData(renamePlaceInputField.textComponent.text);
+        AddInputData(renamePlaceInputField.textComponent.text);
         Enter();
     }
     public void ChangeResetMode()
     {
-        SetInputData("reset");
+        AddInputData("reset");
         Enter();
     }
     /// <summary>
@@ -167,23 +167,23 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
     /// </summary>
     public void RemovePlaceData()
     {
-        SetInputData("remove");
+        AddInputData("remove");
         Enter();
 
-        StartCoroutine(WaitFrame(1, () => SetInputData(nowTargetIndex.ToString())));
+        StartCoroutine(WaitFrame(1, () => AddInputData(nowTargetIndex.ToString())));
         StartCoroutine(WaitFrame(1, () => Enter()));
     }
 
 
     public void ChengeSetIntervalMode()
     {
-        SetInputData("interval");
+        AddInputData("interval");
         Enter();
     }
 
     public void SetIntervalData()
     {
-        SetInputData(setIntervalDataInputField.textComponent.text);
+        AddInputData(setIntervalDataInputField.textComponent.text);
         Enter();
     }
     /// <summary>
@@ -191,7 +191,7 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
     /// </summary>
     public void ChangeChangeMode()
     {
-        SetInputData("change");
+        AddInputData("change");
         Enter();
     }
     /// <summary>
@@ -199,19 +199,20 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
     /// </summary>
     public void ChangeRemoveCheckMode()
     {
-        SetInputData("removecheck");
+        AddInputData("removecheck");
         Enter();
     }
     public void ChangePlaceDataMode()
     {
-        SetInputData("dataUpdateToPlaceData");
+        AddInputData("dataUpdateToPlaceData");
         Enter();
     }
     public void ChangeRenameMode()
     {
-        SetInputData("rename");
+        AddInputData("rename");
         Enter();
     }
+
 
     #region InputDataを扱わないボタン
 
@@ -245,30 +246,30 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
         }
     }
 
-    /// <summary>
-    /// nフレーム後にuaを実行
-    /// </summary>
-    /// <param name="n"></param>
-    /// <param name="ua"></param>
-    /// <returns></returns>
-    IEnumerator WaitFrame(int n, UnityAction ua)
-    {
-        for (int i = 0; i < n; i++)
-        {
-            yield return null;
-        }
-        ua.Invoke();
-    }
+    ///// <summary>
+    ///// nフレーム後にuaを実行
+    ///// </summary>
+    ///// <param name="n"></param>
+    ///// <param name="ua"></param>
+    ///// <returns></returns>
+    //IEnumerator WaitFrame(int n, UnityAction ua)
+    //{
+    //    for (int i = 0; i < n; i++)
+    //    {
+    //        yield return null;
+    //    }
+    //    ua.Invoke();
+    //}
 
     public void SetIntervalDataDropdownDay()
     {
-        SetInputData(setIntervalDataDropdownDay.captionText.text);
+        AddInputData(setIntervalDataDropdownDay.captionText.text);
         Enter();
     }
 
     public void SetIntervalDataDropdownNumber()
     {
-        SetInputData(setIntervalDataDropdownNumber.captionText.text);
+        AddInputData(setIntervalDataDropdownNumber.captionText.text);
         Enter();
     }
 
@@ -323,11 +324,20 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
     public void RecieveDayAndNumberAction(string Day, int number)
     {
 
-        SetInputData(Day);
-        Enter();
 
-        StartCoroutine(WaitFrame(1, () => SetInputData(number.ToString())));
-        StartCoroutine(WaitFrame(1, () => Enter())); 
+        if (currentMode == CurrentMode.SETINTERVALMODE)
+        {
+            AddInputData(Day);
+            Enter();
+            StartCoroutine(WaitFrame(1, () => AddInputData(number.ToString())));
+            StartCoroutine(WaitFrame(1, () => Enter()));
+        }
+        else if(currentMode==CurrentMode.ADDPLACEMODE)
+        {
+            AddInputData(Day);
+            AddInputData(number.ToString());
+        }
+
         
     }
     #endregion

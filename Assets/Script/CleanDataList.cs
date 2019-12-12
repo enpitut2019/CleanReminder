@@ -69,6 +69,12 @@ public class CleanPlaceData
         LastUpdateTime = DateTime.Now;
         SetSETime();
     }
+
+    public void SetLastUpdateTime(DateTime time)
+    {
+        LastUpdateTime = time;
+    }
+
     /// <summary>
     /// DateTime->SEへの変換
     /// </summary>
@@ -376,6 +382,11 @@ public class CleanDataList
         //var data = new CleanPlaceData();
         //placeDataList.Add(placename);
         placeDataList.Add(new CleanPlaceData(placename));
+    }
+
+    public void AddPlaceList(CleanPlaceData data)
+    {
+        placeDataList.Add(data);
     }
 
     public void RenamePlaceList(string placename, int index)
