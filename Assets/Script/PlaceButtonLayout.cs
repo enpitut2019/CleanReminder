@@ -8,8 +8,12 @@ using UnityEngine.UI;
 /// </summary>
 public class PlaceButtonLayout : MonoBehaviour
 {
+
     [SerializeField] Text placeText;
     [SerializeField] Text limitText;
+    [SerializeField]Colorbar colorbar;
+
+
 
     /// <summary>
     /// データの登録
@@ -19,5 +23,8 @@ public class PlaceButtonLayout : MonoBehaviour
     {
         placeText.text = data.Place;
         limitText.text = "あと"+data.NextCleanLeftTimeText;
+
+        colorbar.ChangeColor(data);
+
     }
 }
