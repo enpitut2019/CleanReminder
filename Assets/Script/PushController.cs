@@ -11,13 +11,26 @@ public class PushData
 {
     public List<string> placeNameList { get; private set; }//通知の場所の名前
     public DateTime pushTime { get; private set; }//通知をかける時間
+    public bool IsTimeOver { get; private set; }//期日を超えているかどうか
 
 
-    public PushData(DateTime _pushTime,string _placeName)
+    public PushData(DateTime _pushTime, string _placeName)
     {
         pushTime = _pushTime;
         placeNameList = new List<string>();
         placeNameList.Add(_placeName);
+        IsTimeOver = false;
+    }
+    public PushData(DateTime _pushTime, List<string> _placeName)
+    {
+        pushTime = _pushTime;
+        placeNameList = new List<string>();
+        foreach(var data in _placeName)
+        {
+            placeNameList.Add(data);
+
+        }
+        IsTimeOver = false;
     }
 
     //場所の追加
@@ -27,6 +40,11 @@ public class PushData
         {
             placeNameList.Add(_placeName);
         }
+    }
+
+    public void SetTimeOver()
+    {
+        IsTimeOver = true;
     }
 }
 
@@ -38,14 +56,28 @@ public class PushController : MonoBehaviour
     [SerializeField] PushObject pushObject;
     [SerializeField] int pushTimingHour;//push通知を送信する時刻
     public int PushTimingHour { get { return pushTimingHour; } }
+    [SerializeField] bool isRecievePush = true;//push通知を受け取るかどうか
+    public bool IsRecivePush { get { return isRecievePush; } }
+
     #region 通知
     /// <summary>
     /// PushDataの情報をもとに通知を作成する関数
     /// </summary>
     void SetPush_FromPushData(PushData data)
     {
-        if (!TimeCalucurator.CheckDate_Over(data.pushTime)) return;
-        pushObject.Push_Scedule(data.pushTime, 0,Create_pushTitle(data),Create_pushMessage(data));
+        if (!TimeCalucurator.CheckDate_NotOver(data.pushTime)) return;
+#if UNITY_ANDROID
+        if (!data.IsTimeOver)//期限を超えていない場合
+        {
+            pushObject.Push_Scedule(data.pushTime, 0, Create_pushTitle(data), Create_pushMessage(data));
+        }
+        else
+        {
+            pushObject.Push_Scedule(data.pushTime, 0,
+                Create_pushTimeOver()+"。"+Create_pushTitle(data),
+                Create_pushTimeOver()+"。"+ Create_pushMessage(data));
+        }
+#endif
     }
 
     /// <summary>
@@ -54,8 +86,40 @@ public class PushController : MonoBehaviour
     /// </summary>
     public void SetPush_FromCleanPlaceList(List<CleanPlaceData> dataList)
     {
+        pushObject.SetLastSetDate();
+        if (!isRecievePush) return;
+
         var tempList = new List<PushData>();//送信する日にちをかぶりなく追加するためのリスト
-        foreach(var data in dataList)
+
+        #region 掃除期間がオーバーしているものの作成処理
+        PushData timeOverPushData = null;//掃除期間がオーバーしているもののデータを作成したかどうか
+        foreach (var data in dataList)
+        {
+            if (data.CheckTimeOver())
+            {
+                if (timeOverPushData == null)
+                {
+                    timeOverPushData = new PushData(GetTimeOverTime(), data.Place);
+                    timeOverPushData.SetTimeOver();
+                }
+                else
+                {
+                    timeOverPushData.AddPlace(data.Place);
+                }
+            }
+        }
+        if (timeOverPushData != null)
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                tempList.Add(new PushData(timeOverPushData.pushTime.AddDays(i), timeOverPushData.placeNameList));
+                tempList[i].SetTimeOver();
+            }
+        }
+        #endregion
+
+        //その他の作成
+        foreach (var data in dataList)//送信する日にちごとにPushDataを作成
         {
             DateTime d = TimeCalucurator.SetDateTimeHour(data.NextCleanDate,pushTimingHour);
             bool addFlag = true;
@@ -63,24 +127,29 @@ public class PushController : MonoBehaviour
             {
                 if (temp.pushTime.Equals(d))//既に登録している日にちかどうかのチェック
                 {
+                    //if (!temp.IsTimeOver) 
                     temp.AddPlace(data.Place);//すでに追加していたら名前のみ追加
                     addFlag = false;
                     break;
                 }
             }
 
-            if (addFlag)//かぶりなしなら追加
+            if (addFlag)//かぶりなしなら新規データを作成
             {
                 tempList.Add(new PushData(d, data.Place));
             }
         }
 
+
         if (tempList == null) return;
-        pushObject.SetLastSetDate();
+
         foreach (var data in tempList)
         {
             SetPush_FromPushData(data);
+            /*Debug.Log("=================");
             Debug.Log(data.pushTime);
+            Debug.Log(data.IsTimeOver);
+            Debug.Log("=================");*/
         }
     }
     #endregion
@@ -133,5 +202,28 @@ public class PushController : MonoBehaviour
 
         return title;
     }
+
+    /// <summary>
+    /// 掃除期間がオーバーしているときのメッセージを作成
+    /// </summary>
+    /// <returns></returns>
+    string Create_pushTimeOver()
+    {
+        return "掃除期間をこえているものがあります";
+    }
     #endregion
+    /// <summary>
+    /// 掃除期日を超えているデータの通知時刻を作成
+    /// </summary>
+    /// <returns></returns>
+    DateTime GetTimeOverTime()
+    {
+        DateTime result = TimeCalucurator.SetDateTimeHour(DateTime.Now, pushTimingHour);
+        if (!TimeCalucurator.CheckDate_NotOver(result))
+        {
+            result = TimeCalucurator.SetDateTimeHour(DateTime.Now.AddDays(1.0), pushTimingHour);
+            Debug.Log(result);
+        }
+        return result;
+    }
 }
