@@ -29,9 +29,25 @@ public class CleanPlaceData
     public TimeSpan NextCleanLeftTime { get { return NextCleanDate - DateTime.Now; } }//次に掃除するまでの時間
     //=============================
 
+    //カラーバーに使うやつ=====================================
+    //public float floatLastCleanPassTime;
+    //public float floatCleanInterval;
+    //=====================================
+
     //ソート用のデータ=====================================
     public int leftDate;
     //=====================================
+
+    public float FloatLastCleanPassTime()
+    {
+        return LastCleanPassTime.Days;
+    }
+
+    public float FloatCleanInterval()
+    {
+        return CleanInterval.Days;
+    }
+
 
     public int GetLeftDay()
     {

@@ -1680,7 +1680,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.024963379, y: 119.100006}
+  m_AnchoredPosition: {x: 0.025390625, y: 119.100006}
   m_SizeDelta: {x: -0.050049, y: -528.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &338512867
@@ -1910,7 +1910,7 @@ MonoBehaviour:
   setIntervalDataDropdownDay: {fileID: 1259284502}
   setIntervalDataDropdownNumber: {fileID: 737716390}
   changePanel: {fileID: 1456972685}
-  renamePanel: {fileID: 1934868674}
+  RenamePanel: {fileID: 1934868678}
   RemovePanel: {fileID: 1241234527}
   renamePlaceInputField: {fileID: 963826887}
   pushObject: {fileID: 726441680}
@@ -3105,7 +3105,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2060602795}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.57281554
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4836,7 +4836,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.025024414, y: 93.100006}
+  m_AnchoredPosition: {x: 0.025390625, y: 93.100006}
   m_SizeDelta: {x: -0.049988, y: -398.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1456972687
@@ -6207,7 +6207,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 905406068}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.49948466
+  m_Size: 0.99896914
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -6608,6 +6608,7 @@ GameObject:
   - component: {fileID: 1934868675}
   - component: {fileID: 1934868677}
   - component: {fileID: 1934868676}
+  - component: {fileID: 1934868678}
   m_Layer: 5
   m_Name: RenamePanel
   m_TagString: Untagged
@@ -6674,6 +6675,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1934868674}
   m_CullTransparentMesh: 0
+--- !u!114 &1934868678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934868674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7dfab7b3a6fe4b65a0d438bf7324246, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  placeName: {fileID: 963826887}
 --- !u!1 &1936993630
 GameObject:
   m_ObjectHideFlags: 0
