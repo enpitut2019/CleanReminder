@@ -83,7 +83,7 @@ public class MainBase : MonoBehaviour
                         ResetInputData();
                         WaitInput();
                     }
-                    else if(inputData=="option")
+                    else if(inputDataTop=="option")
                     {
                         ChangeMode(CurrentMode.OPTION);
                         ResetInputData();
@@ -106,7 +106,6 @@ public class MainBase : MonoBehaviour
                             Debug.Log(inputDataList[0]);
                             if (inputDataList[0] == "")
                             {
-                                
                                 ResetInputData();
                                 WaitInput();
                                 break;
@@ -153,11 +152,12 @@ public class MainBase : MonoBehaviour
                             }
                             
                             time = time.AddDays(- intervalRate * int.Parse(inputDataList[2]) + intervalRate_next * int.Parse(inputDataList[4]));
-                            Debug.Log("-------------------------------------" + time);
+                            //Debug.Log("-------------------------------------" + time);
 
                             localData.SetLastUpdateTime(time);
                             
                             cleanDataList.AddPlaceList(localData);
+                            Debug.Log("======================================="+localData.LastUpdateTime);
                             ChangeMode(CurrentMode.DATAUPDATETODISPLAY);
                             ResetInputData();
                         }
@@ -168,6 +168,9 @@ public class MainBase : MonoBehaviour
                     ResetInputData();
                     ChangeMode(CurrentMode.DISPLAY);
                     SaveData();
+                    if (cleanDataList.placeDataList.Count > 0) Debug.Log("==================================savedData" + cleanDataList.placeDataList[0].LastUpdateTime);
+                    if (cleanDataList.placeDataList.Count > 0) Debug.Log("==================================savedData" + cleanDataList.placeDataList[0].lastUpdateTime_forSave.GetDate("Day"));
+                    if (cleanDataList.placeDataList.Count > 0) Debug.Log("==================================savedData" + cleanDataList.placeDataList[0].lastUpdateTime_forSave.GetDate("Month"));
                     WaitInput();
                     break;
                 case CurrentMode.DATAUPDATETOPLACEDATA:
@@ -345,8 +348,8 @@ public class MainBase : MonoBehaviour
                 case CurrentMode.OPTION:
                     {
                         int num = 0;
-                        bool result = int.TryParse(inputData, out num);
-                        if (inputData == "display")
+                        bool result = int.TryParse(inputDataTop, out num);
+                        if (inputDataTop == "display")
                         {
                             ChangeMode(CurrentMode.DATAUPDATETODISPLAY);
                             ResetInputData();
@@ -525,6 +528,7 @@ public class MainBase : MonoBehaviour
     /// </summary>
     void SaveData(){
         dataSave.SaveData<CleanDataList>(cleanDataList, cleanDataListPath);
+        Debug.Log("save");
     }
 
     /// <summary>

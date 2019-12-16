@@ -12,7 +12,7 @@ public class CleanPlaceData
     [SerializeField] string place;
     public string Place { get { return place; } private set { place = value; } }
 
-    [SerializeField] SEDataTime lastUpdateTime_forSave;//セーブ用の「最終更新時刻」
+    [SerializeField] public SEDataTime lastUpdateTime_forSave;//セーブ用の「最終更新時刻」
     [SerializeField] SEDataTime cleanInterval_forSave;//セーブ用の「掃除間隔データ」
 
     //時間などの文字列データ=============================================
@@ -89,6 +89,7 @@ public class CleanPlaceData
     public void SetLastUpdateTime(DateTime time)
     {
         LastUpdateTime = time;
+        SetSETime();
     }
 
     /// <summary>
@@ -107,8 +108,6 @@ public class CleanPlaceData
     {
         LastUpdateTime = TimeCalucurator.REDataTime(lastUpdateTime_forSave);
         CleanInterval = TimeCalucurator.ReTimeSpan(cleanInterval_forSave);
-        Debug.Log("===========================cleanInterval_forSave Month" + cleanInterval_forSave.GetDate("Month"));
-        Debug.Log("===========================cleanInterval_forSave Day" + cleanInterval_forSave.GetDate("Day"));
     }
 
 
@@ -156,246 +155,6 @@ public class TimeCovertToString
     }
 }
 
-/// <summary>
-/// 時間の計算をする関数群
-/// </summary>
-public class TimeCalucurator
-{
-    public static TimeSpan GetTimeSpan(DateTime frontTime, DateTime backTime)
-    {
-        return frontTime - backTime;
-    }
-    public static DateTime REDataTime(SEDataTime time)
-    {
-        var datas = time.OutDayDatas();
-        DateTime reDataTime = new DateTime(datas[0], datas[1], datas[2], datas[3], datas[4], datas[5]);
-        return reDataTime;
-    }
-
-    public static TimeSpan ReTimeSpan(SEDataTime time)
-    {
-        var datas = time.OutDayDatas();
-        TimeSpan reDataTime = new TimeSpan(datas[0] * 365 + datas[1] * 30 + datas[2], datas[3], datas[4], datas[5]);
-        return reDataTime;
-    }
-
-    public static DateTime AddTimeAndSpan(DateTime time,TimeSpan span)
-    {
-        return time + span;
-    }
-
-
-    /// <summary>
-    /// 受け取ったDateTimeのhour以下のデータをhour、０、０にする関数
-    /// </summary>
-    /// <param name="time"></param>
-    /// <returns></returns>
-    public static DateTime SetDateTimeHour(DateTime time,int hour)
-    {
-        return new DateTime(time.Year, time.Month, time.Day, hour, 0, 0);
-    }
-
-    /// <summary>
-    /// 受け取ったDateTimeが今日なのかを返す
-    /// </summary>
-    /// <param name="time"></param>
-    /// <returns></returns>
-    public static bool CheckDate_Today(DateTime time)
-    {
-        return time.Day == DateTime.Now.Day;
-    }
-    /// <summary>
-    /// 受け取ったDateTimeが未来なのかを返す
-    /// </summary>
-    /// <param name="time"></param>
-    /// <returns></returns>
-    public static bool CheckDate_NotOver(DateTime time)
-    {
-        return DateTime.Now < time;
-    }
-
-}
-
-[System.Serializable]
-public class SEDataTime
-{
-    [SerializeField] int year;
-    [SerializeField] int month;
-    [SerializeField] int day;
-    [SerializeField] int hour;
-    [SerializeField] int minute;
-    [SerializeField] int second;
-    string targetkey = "";
-    Dictionary<string, int> dataTimeDictionary;
-
-
-
-    public SEDataTime(DateTime time)
-    {
-        this.year = time.Year;
-        this.month = time.Month;
-        this.day = time.Day;
-        this.hour = time.Hour;
-        this.minute = time.Minute;
-        this.second = time.Second;
-    }
-
-    public SEDataTime(TimeSpan time)
-    {
-        //var day_temp = time.Days;
-        this.year = 0;
-        this.month = 0;
-        /*while (day_temp > 365)
-        {
-            day_temp -= 365;
-            this.year += 1;
-        }
-
-        while (day_temp > 30)
-        {
-            day_temp -= 30;
-            this.month += 1;
-        }*/
-
-        this.day = time.Days;
-        this.hour = time.Hours;
-        this.minute = time.Minutes;
-        this.second = time.Seconds;
-    }
-
-    public  SEDataTime(string Day, int number)
-    {
-        ChangeTarget(Day);
-        ChangeDate(number);
-    }
-
-    public SEDataTime()
-    {
-        this.year = 0;
-        this.month = 0;
-        this.day = 0;
-        this.hour = 0;
-        this.minute = 0;
-        this.second = 0;
-    }
-
-    public bool ChangeTarget(string key)
-    {
-        if (dataTimeDictionary == null)
-        {
-            InitDictionary();
-        }
-        if (dataTimeDictionary.ContainsKey(key))
-        {
-            targetkey = key;
-            return true;
-        }
-        targetkey = "";
-        return false;
-    }
-
-    public bool CheackHaveTarget()
-    {
-        return !(targetkey == "");
-    }
-
-    public void ChangeDate(int value)
-    {
-        if (dataTimeDictionary == null)
-        {
-            InitDictionary();
-        }
-        if (dataTimeDictionary.ContainsKey(targetkey))
-        {
-            year = 0;
-            month = 0;
-            day = 0;
-            hour = 0;
-            minute = 0;
-            second = 0;
-
-            //dataTimeDictionary[targetkey] = value;
-            switch (targetkey)
-            {
-                case "Year":
-                    year = value;
-                    break;
-                case "Month":
-                    month = value;
-                    break;
-                case "Day":
-                    day = value;
-                    break;
-                case "Hour":
-                    hour = value;
-                    break;
-                case "Minute":
-                    minute = value;
-                    break;
-                case "Second":
-                    second = value;
-                    break;
-            }
-        }
-    }
-
-    public void ChangeDate(string key, int value)
-    {
-        ChangeTarget(key);
-        ChangeDate(value);
-    }
-
-    public int GetDate(string key)
-    {
-        if (dataTimeDictionary == null)
-        {
-            InitDictionary();
-        }
-        int result = -1;
-        if (dataTimeDictionary.ContainsKey(key))
-        {
-            result = dataTimeDictionary[key];
-        }
-        return result;
-    }
-
-    void InitDictionary()
-    {
-        dataTimeDictionary = new Dictionary<string, int>();
-        dataTimeDictionary.Add("Year", year);
-        dataTimeDictionary.Add("Month", month);
-        dataTimeDictionary.Add("Day", day);
-        dataTimeDictionary.Add("Hour", hour);
-        dataTimeDictionary.Add("Minute", minute);
-        dataTimeDictionary.Add("Second", second);
-    }
-
-    //時間に換算する関数
-    public void CalcuToHour()
-    {
-        DateTime date1 = new DateTime(2010, 1, 1, 8, 0, 15);
-        DateTime date2 = new DateTime(2010, 6, 1, 11, 2, 16);
-        TimeSpan interval = date2 - date1;
-        Debug.Log(interval);
-        DateTime date3 = new DateTime(1, 1, 1, 0, 0, 0);
-        date3 += interval;
-        //Debug.Log(date3);
-        interval = new TimeSpan(1, 2, 3);
-        date2 += interval;
-        //Debug.Log(date2);
-    }
-    public List<int> OutDayDatas()
-    {
-        var result = new List<int>();
-        result.Add(year);
-        result.Add(month);
-        result.Add(day);
-        result.Add(hour);
-        result.Add(minute);
-        result.Add(second);
-        return result;
-    }
-}
 
 /// <summary>
 /// 掃除場所のデータを保持するクラス
@@ -425,6 +184,7 @@ public class CleanDataList
     public void AddPlaceList(CleanPlaceData data)
     {
         placeDataList.Add(data);
+        //Debug.Log("=========================data : "+data.LastUpdateTime);
     }
 
     public void RenamePlaceList(string placename, int index)
