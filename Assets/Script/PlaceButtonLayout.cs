@@ -19,5 +19,10 @@ public class PlaceButtonLayout : MonoBehaviour
     {
         placeText.text = data.Place;
         limitText.text = "あと"+data.NextCleanLeftTimeText;
+        Debug.Log("*******************************NextCleanLeftTime" + data.NextCleanLeftTime);
+        Debug.Log("***************************LastUpdateTime" + data.LastUpdateTime);
+        Debug.Log("***********************CleanInterval" + data.CleanInterval);
+        Debug.Log("********************NextCleanDate" + data.NextCleanDate);
+        Debug.Log("******************LastCleanPassTime" + data.LastCleanPassTime);
     }
 }

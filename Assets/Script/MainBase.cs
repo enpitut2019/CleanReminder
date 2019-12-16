@@ -110,8 +110,6 @@ public class MainBase : MonoBehaviour
                                 WaitInput();
                                 break;
                             }
-                            var num = int.Parse(inputDataList[2]);
-                            localData.SetCleanIntervalDate(num);
                             int intervalRate = 0;
                             if(inputDataList[1] == "Day")
                             {
@@ -125,7 +123,9 @@ public class MainBase : MonoBehaviour
                             {
                                 intervalRate = 365;
                             }
-                          
+                            var num = int.Parse(inputDataList[2]);
+                            localData.SetCleanIntervalDate(num*intervalRate);
+
 
                             int intervalRate_next = 0;
                             System.DateTime time = System.DateTime.Now;
@@ -142,9 +142,9 @@ public class MainBase : MonoBehaviour
                                 intervalRate_next = 365;
                             }
                             
-                            time = time.AddDays(-intervalRate * int.Parse(inputDataList[2]) + intervalRate_next * int.Parse(inputDataList[4]));
+                            time = time.AddDays(- intervalRate * int.Parse(inputDataList[2]) + intervalRate_next * int.Parse(inputDataList[4]));
+                            Debug.Log("-------------------------------------" + time);
 
-                            
                             localData.SetLastUpdateTime(time);
                             
                             cleanDataList.AddPlaceList(localData);
@@ -172,11 +172,13 @@ public class MainBase : MonoBehaviour
                         {
                             ChangeMode(CurrentMode.REMOVE);
                             ResetInputData();
+                            WaitInput();
                         }
                         else if (inputDataTop == "placeData")//キャンセルボタンを押した時
                         {
                             ChangeMode(CurrentMode.PLACEDATAMODE);
                             ResetInputData();
+                            WaitInput();
                         }
                         break;
                     }
@@ -216,6 +218,7 @@ public class MainBase : MonoBehaviour
                     {
                         ChangeMode(CurrentMode.DISPLAY);
                         ResetInputData();
+                        WaitInput();
                     }
                     else if (inputDataTop == "interval")
                     {
@@ -243,8 +246,9 @@ public class MainBase : MonoBehaviour
                         {
                             ChangeMode(CurrentMode.DISPLAY);
                             ResetInputData();
+                            WaitInput();
                         }
-                        if (result)//入力が数字だった時
+                        else if (result)//入力が数字だった時
                         {
                             var nowData = cleanDataList.GetCleanPlaceData(nowTargetIndex);
                             if (nowData.CheckHaveTarget())
@@ -286,6 +290,7 @@ public class MainBase : MonoBehaviour
                         {
                             ChangeMode(CurrentMode.PLACEDATAMODE);
                             ResetInputData();
+                            WaitInput();
                         }
                         else if (inputDataTop == "interval")//時間間隔の変更へ
                         {
@@ -314,6 +319,7 @@ public class MainBase : MonoBehaviour
                         {
                             ChangeMode(CurrentMode.PLACEDATAMODE);
                             ResetInputData();
+                            WaitInput();
                         }
                         else if (inputDataTop != "")
                         {

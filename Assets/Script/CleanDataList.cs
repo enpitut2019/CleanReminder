@@ -91,6 +91,8 @@ public class CleanPlaceData
     {
         LastUpdateTime = TimeCalucurator.REDataTime(lastUpdateTime_forSave);
         CleanInterval = TimeCalucurator.ReTimeSpan(cleanInterval_forSave);
+        Debug.Log("===========================cleanInterval_forSave Month" + cleanInterval_forSave.GetDate("Month"));
+        Debug.Log("===========================cleanInterval_forSave Day" + cleanInterval_forSave.GetDate("Day"));
     }
 
 
