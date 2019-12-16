@@ -36,7 +36,7 @@ public class DayAndNumberController : MonoBehaviour
         {
             Debug.Log("Error InitDropDown : gameObject not have RecieveDayAndNumber interface");
         }
-        InitDayDropDown();
+        //InitDayDropDown();
     }
 
     public void SetDropDownRangeDay()
@@ -84,6 +84,7 @@ public class DayAndNumberController : MonoBehaviour
     /// <summary>
     /// daydropdownの初期化+isDebug==tureならばsecond,minuteも表示s
     /// </summary>
+    [ContextMenu ("initDropDOwn")]
     void InitDayDropDown()
     {
         dayDrop.options.Clear();
@@ -107,7 +108,7 @@ public class DayAndNumberController : MonoBehaviour
     /// </summary>
     public void SendDayAndNumber_button()
     {
-        actionInterface.RecieveDayAndNumberAction(DayDropText,int.Parse( NumberDropText));
+        actionInterface.RecieveDayAndNumberAction(DayDropText,int.Parse(NumberDropText));
     }
 
     [ContextMenu("setIntRange")]

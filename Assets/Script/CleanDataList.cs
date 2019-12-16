@@ -85,6 +85,12 @@ public class CleanPlaceData
         LastUpdateTime = DateTime.Now;
         SetSETime();
     }
+
+    public void SetLastUpdateTime(DateTime time)
+    {
+        LastUpdateTime = time;
+    }
+
     /// <summary>
     /// DateTime->SEへの変換
     /// </summary>
@@ -101,6 +107,8 @@ public class CleanPlaceData
     {
         LastUpdateTime = TimeCalucurator.REDataTime(lastUpdateTime_forSave);
         CleanInterval = TimeCalucurator.ReTimeSpan(cleanInterval_forSave);
+        Debug.Log("===========================cleanInterval_forSave Month" + cleanInterval_forSave.GetDate("Month"));
+        Debug.Log("===========================cleanInterval_forSave Day" + cleanInterval_forSave.GetDate("Day"));
     }
 
 
@@ -412,6 +420,11 @@ public class CleanDataList
         //var data = new CleanPlaceData();
         //placeDataList.Add(placename);
         placeDataList.Add(new CleanPlaceData(placename));
+    }
+
+    public void AddPlaceList(CleanPlaceData data)
+    {
+        placeDataList.Add(data);
     }
 
     public void RenamePlaceList(string placename, int index)

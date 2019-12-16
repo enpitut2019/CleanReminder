@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// 機能のみを記述する
@@ -27,12 +28,16 @@ public class MainBase : MonoBehaviour
         RENAME,//名前を変更する状態
         OPTION//オプション設定画面 現在は通知時刻設定のみ
     }
-    [SerializeField]CurrentMode currentMode = CurrentMode.DISPLAY;
-    [SerializeField]protected CleanDataList cleanDataList = new CleanDataList();//掃除場所のデータリストを扱うクラス
-    [SerializeField] string inputData;//受け取った入力を入れる変数
+
+    [SerializeField] protected CurrentMode currentMode = CurrentMode.DISPLAY;
+    [SerializeField] protected CleanDataList cleanDataList = new CleanDataList();//掃除場所のデータリストを扱うクラス
+    [SerializeField] List<string> inputDataList = new List<string>();//受け取った入力を入れるリスト
+    [SerializeField] string inputDataTop { get { return inputDataList[0]; } }//受け取った入力を受け取るリストの先頭
     [SerializeField] bool canInput;//入力受け取り状態を表す変数
 
     [SerializeField] protected int nowTargetIndex = -1;//MainBaseに実装を映したい
+    CleanPlaceData makingNowData;//作成中のデータin ADDPLACEMODE 終了後空っぽになる
+
 
     DataSaveClass dataSave = new DataSaveClass();//セーブとロードを行うクラス
 
@@ -65,14 +70,15 @@ public class MainBase : MonoBehaviour
             switch (currentMode)//currentModeごとにUpdate関数を呼び出す
             {
                 case CurrentMode.DISPLAY:
-                    if (inputData == "i")
+                    if (inputDataTop == "i")
                     {
                         ChangeMode(CurrentMode.ADDPLACEMODE);
                         ResetInputData();
                         WaitInput();
                     }
-                    else if (inputData == "placeData")
+                    else if (inputDataTop == "placeData")
                     {
+                        
                         ChangeMode(CurrentMode.PLACEDATAMODE);
                         ResetInputData();
                         WaitInput();
@@ -89,49 +95,107 @@ public class MainBase : MonoBehaviour
                     }
                     break;
                 case CurrentMode.ADDPLACEMODE:
-                    if (inputData == "display")
                     {
-                        ChangeMode(CurrentMode.DISPLAY);
-                        WaitInput();
+                        if (inputDataTop == "display")
+                        {
+                            ChangeMode(CurrentMode.DISPLAY);
+                            ResetInputData();
+                            WaitInput();
+                        }else if (inputDataList.Count == 5)
+                        {
+                            Debug.Log(inputDataList[0]);
+                            if (inputDataList[0] == "")
+                            {
+                                
+                                ResetInputData();
+                                WaitInput();
+                                break;
+                            }
+                            var localData = new CleanPlaceData(inputDataList[0]);
+                            if(!localData.SetTarget(inputDataList[1]) || !localData.SetTarget(inputDataList[3]) || int.Parse(inputDataList[2]) == 0) //setIntervalのターゲット（day,month,year）
+                            {
+                                Debug.Log("error Input datalist1: " + inputDataList[1]);
+                                Debug.Log("error Input datalist1: " + inputDataList[3]);
+                                ResetInputData();
+                                WaitInput();
+                                break;
+                            }
+                            int intervalRate = 0;
+                            if(inputDataList[1] == "Day")
+                            {
+                                intervalRate = 1;
+                            }
+                            else if(inputDataList[1] == "Month")
+                            {
+                                intervalRate = 30;
+                            }
+                            else if(inputDataList[1] == "Year")
+                            {
+                                intervalRate = 365;
+                            }
+                            var num = int.Parse(inputDataList[2]);
+                            localData.SetCleanIntervalDate(num*intervalRate);
+
+
+                            int intervalRate_next = 0;
+                            System.DateTime time = System.DateTime.Now;
+                            if (inputDataList[3] == "Day")
+                            {
+                                intervalRate_next = 1;
+                            }
+                            else if(inputDataList[3] == "Month")
+                            {
+                                intervalRate_next = 30;
+                            }
+                            else if(inputDataList[3] == "Year")
+                            {
+                                intervalRate_next = 365;
+                            }
+                            
+                            time = time.AddDays(- intervalRate * int.Parse(inputDataList[2]) + intervalRate_next * int.Parse(inputDataList[4]));
+                            Debug.Log("-------------------------------------" + time);
+
+                            localData.SetLastUpdateTime(time);
+                            
+                            cleanDataList.AddPlaceList(localData);
+                            ChangeMode(CurrentMode.DATAUPDATETODISPLAY);
+                            ResetInputData();
+                        }
+
+                        break;
                     }
-                    else if (inputData != "")
-                    {
-                        ChangeMode(CurrentMode.DATAUPDATETODISPLAY);
-                        cleanDataList.AddPlaceList(inputData);
-                    }
-                    else
-                    {
-                        WaitInput();
-                    }
-                    break;
                 case CurrentMode.DATAUPDATETODISPLAY:
                     ResetInputData();
                     ChangeMode(CurrentMode.DISPLAY);
                     SaveData();
+                    WaitInput();
                     break;
                 case CurrentMode.DATAUPDATETOPLACEDATA:
                     ResetInputData();
                     ChangeMode(CurrentMode.PLACEDATAMODE);
                     SaveData();
+                    WaitInput();
                     break;
                 case CurrentMode.REMOVECHECK:
                     {
-                        if (inputData == "remove")//削除ボタンを押した時
+                        if (inputDataTop == "remove")//削除ボタンを押した時
                         {
                             ChangeMode(CurrentMode.REMOVE);
                             ResetInputData();
+                            WaitInput();
                         }
-                        else if (inputData == "placeData")//キャンセルボタンを押した時
+                        else if (inputDataTop == "placeData")//キャンセルボタンを押した時
                         {
                             ChangeMode(CurrentMode.PLACEDATAMODE);
                             ResetInputData();
+                            WaitInput();
                         }
                         break;
                     }
                 case CurrentMode.REMOVE:
                     {
                         int num = 0;
-                        bool result = int.TryParse(inputData, out num);
+                        bool result = int.TryParse(inputDataTop, out num);
                         if (result)//入力が数字だった時
                         {
                             cleanDataList.RemoveData(num);
@@ -147,7 +211,7 @@ public class MainBase : MonoBehaviour
                         break;
                     }
                 case CurrentMode.PLACEDATAMODE:
-                    if (inputData == "test")
+                    if (inputDataTop == "test")
                     {
                         var nowData = cleanDataList.GetCleanPlaceData(nowTargetIndex);
                         /*Debug.Log("Next limit : "+nowData.NextCleanDate);
@@ -160,23 +224,24 @@ public class MainBase : MonoBehaviour
                         WaitInput();
                     }
 
-                    if (inputData == "display")
+                    if (inputDataTop == "display")
                     {
                         ChangeMode(CurrentMode.DISPLAY);
                         ResetInputData();
+                        WaitInput();
                     }
-                    else if (inputData == "interval")
+                    else if (inputDataTop == "interval")
                     {
                         ChangeMode(CurrentMode.SETINTERVALMODE);
                         ResetInputData();
                         WaitInput();
                     }
-                    else if (inputData == "reset")
+                    else if (inputDataTop == "reset")
                     {
                         ChangeMode(CurrentMode.RESET);
                         ResetInputData();
                     }
-                    else if (inputData == "change")
+                    else if (inputDataTop == "change")
                     {
                         ChangeMode(CurrentMode.CHANGE);
                         ResetInputData();
@@ -186,13 +251,14 @@ public class MainBase : MonoBehaviour
                 case CurrentMode.SETINTERVALMODE:
                     {
                         int num = 0;
-                        bool result = int.TryParse(inputData, out num);
-                        if (inputData == "display")
+                        bool result = int.TryParse(inputDataTop, out num);
+                        if (inputDataTop == "display")
                         {
                             ChangeMode(CurrentMode.DISPLAY);
                             ResetInputData();
+                            WaitInput();
                         }
-                        if (result)//入力が数字だった時
+                        else if (result)//入力が数字だった時
                         {
                             var nowData = cleanDataList.GetCleanPlaceData(nowTargetIndex);
                             if (nowData.CheckHaveTarget())
@@ -212,9 +278,9 @@ public class MainBase : MonoBehaviour
                         else//入力が数字以外だった場合
                         {
                             var nowData = cleanDataList.GetCleanPlaceData(nowTargetIndex);
-                            if (!nowData.SetTarget(inputData))
+                            if (!nowData.SetTarget(inputDataTop))
                             {
-                                Debug.Log("error Input : " + inputData);
+                                Debug.Log("error Input : " + inputDataTop);
                             }
                             ResetInputData();
                             WaitInput();
@@ -230,24 +296,25 @@ public class MainBase : MonoBehaviour
                     }
                 case CurrentMode.CHANGE://変更ボタンを押した時
                     {
-                        if (inputData == "placeData")//バツボタンでもどる
+                        if (inputDataTop == "placeData")//バツボタンでもどる
                         {
                             ChangeMode(CurrentMode.PLACEDATAMODE);
                             ResetInputData();
+                            WaitInput();
                         }
-                        else if (inputData == "interval")//時間間隔の変更へ
+                        else if (inputDataTop == "interval")//時間間隔の変更へ
                         {
                             ChangeMode(CurrentMode.SETINTERVALMODE);
                             ResetInputData();
                             WaitInput();
                         }
-                        else if (inputData == "removecheck")//削除の確認へ
+                        else if (inputDataTop == "removecheck")//削除の確認へ
                         {
                             ChangeMode(CurrentMode.REMOVECHECK);
                             ResetInputData();
                             WaitInput();
                         }
-                        else if (inputData == "rename")//名前の変更へ
+                        else if (inputDataTop == "rename")//名前の変更へ
                         {
                             ChangeMode(CurrentMode.RENAME);
                             ResetInputData();
@@ -258,15 +325,16 @@ public class MainBase : MonoBehaviour
                 case CurrentMode.RENAME:
                     {
 
-                        if (inputData == "placeData")
+                        if (inputDataTop == "placeData")
                         {
                             ChangeMode(CurrentMode.PLACEDATAMODE);
                             ResetInputData();
+                            WaitInput();
                         }
-                        else if (inputData != "")
+                        else if (inputDataTop != "")
                         {
                             ChangeMode(CurrentMode.DATAUPDATETOPLACEDATA);
-                            cleanDataList.RenamePlaceList(inputData, nowTargetIndex);
+                            cleanDataList.RenamePlaceList(inputDataTop, nowTargetIndex);
                         }
                         else
                         {
@@ -312,47 +380,48 @@ public class MainBase : MonoBehaviour
         {
             Enter();//入力の確定
         }
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            SetInputData("i");//AddPlaceModeに入るための文字列の入力
-        }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            SetInputData("display");//DisPlayModeに入るための文字列の入力
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            SetInputData("remove");
-        }
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            SetInputData("placeData");
-            SetTargetIndex(0);
-        }
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            SetInputData("interval");
-        }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            SetInputData("reset");
-        }
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            SetInputData("change");
-        }
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            SetInputData("removecheck");
-        }
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            SetInputData("dataUpdateToPlaceData");
-        }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            SetInputData("rename");
-        }
+        
+        //if (Input.GetKeyDown(KeyCode.I))
+        //{
+        //    AddInputData("i");//AddPlaceModeに入るための文字列の入力
+        //}
+        //if (Input.GetKeyDown(KeyCode.D))
+        //{
+        //    AddInputData("display");//DisPlayModeに入るための文字列の入力
+        //}
+        //if (Input.GetKeyDown(KeyCode.R))
+        //{
+        //    AddInputData("remove");
+        //}
+        //if (Input.GetKeyDown(KeyCode.P))
+        //{
+        //    AddInputData("placeData");
+        //    SetTargetIndex(0);
+        //}
+        //if (Input.GetKeyDown(KeyCode.N))
+        //{
+        //    AddInputData("interval");
+        //}
+        //if (Input.GetKeyDown(KeyCode.E))
+        //{
+        //    AddInputData("reset");
+        //}
+        //if (Input.GetKeyDown(KeyCode.C))
+        //{
+        //    AddInputData("change");
+        //}
+        //if (Input.GetKeyDown(KeyCode.B))
+        //{
+        //    AddInputData("removecheck");
+        //}
+        //if (Input.GetKeyDown(KeyCode.U))
+        //{
+        //    AddInputData("dataUpdateToPlaceData");
+        //}
+        //if (Input.GetKeyDown(KeyCode.A))
+        //{
+        //    AddInputData("rename");
+        //}
     }
 
 
@@ -413,7 +482,6 @@ public class MainBase : MonoBehaviour
     {
         canInput = false;
     }
-
     /// <summary>
     /// 入力待ちの開始
     /// </summary>
@@ -423,12 +491,12 @@ public class MainBase : MonoBehaviour
     }
 
     /// <summary>
-    /// inputDataの変更
+    /// inputDataの追加
     /// </summary>
     /// <param name="data"></param>
-    protected virtual void SetInputData(string data)
+    protected virtual void AddInputData(string data)
     {
-        inputData = data;
+        inputDataList.Add(data);
     }
 
     /// <summary>
@@ -436,7 +504,7 @@ public class MainBase : MonoBehaviour
     /// </summary>
     protected virtual void ResetInputData()
     {
-        inputData = "";
+        inputDataList = new List<string>();
     }
 
     /// <summary>
@@ -483,4 +551,20 @@ public class MainBase : MonoBehaviour
         //var data= nowData.CleanInterval.DayDataUntilNextClean(nowData.CleanInterval,nowData.LastUpdateTime);
         //Debug.Log(data);
     }
+
+    /// <summary>
+    /// nフレーム後にuaを実行
+    /// </summary>
+    /// <param name="n"></param>
+    /// <param name="ua"></param>
+    /// <returns></returns>
+    public IEnumerator WaitFrame(int n, UnityAction ua)
+    {
+        for (int i = 0; i < n; i++)
+        {
+            yield return null;
+        }
+        ua.Invoke();
+    }
+
 }
