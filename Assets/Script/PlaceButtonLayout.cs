@@ -10,6 +10,7 @@ public class PlaceButtonLayout : MonoBehaviour
 {
     [SerializeField] Text placeText;
     [SerializeField] Text limitText;
+    [SerializeField] Colorbar colorbar;
 
     /// <summary>
     /// データの登録
@@ -19,10 +20,6 @@ public class PlaceButtonLayout : MonoBehaviour
     {
         placeText.text = data.Place;
         limitText.text = "あと"+data.NextCleanLeftTimeText;
-        Debug.Log("*******************************NextCleanLeftTime" + data.NextCleanLeftTime);
-        Debug.Log("***************************LastUpdateTime" + data.LastUpdateTime);
-        Debug.Log("***********************CleanInterval" + data.CleanInterval);
-        Debug.Log("********************NextCleanDate" + data.NextCleanDate);
-        Debug.Log("******************LastCleanPassTime" + data.LastCleanPassTime);
+        colorbar.ChangeColor(data);
     }
 }
