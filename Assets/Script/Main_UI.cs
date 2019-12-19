@@ -17,7 +17,7 @@ public class Main_UI : MainBase,
     [SerializeField] LayOutTextList layoutTextList;//プレイリストのデータ
     [SerializeField] DisplayCleanPlaceData PlaceDataPanel;//現在選択しているplaceDataの情報を表示するパネル
 
-    [SerializeField] GameObject setIntervalPanel;//インターバルの入力をする時のパネル
+    [SerializeField] SetIntervalPanel setIntervalPanel;//インターバルの入力をする時のパネル
     [SerializeField] InputField setIntervalDataInputField;//インターバルの入力をするためのinputField
     [SerializeField] Dropdown setIntervalDataDropdownDay;
     [SerializeField] Dropdown setIntervalDataDropdownNumber;
@@ -63,7 +63,9 @@ public class Main_UI : MainBase,
                 PlaceDataPanel.DisplayData();
                 break;
             case CurrentMode.SETINTERVALMODE:
-                setIntervalPanel.SetActive(true);
+                setIntervalPanel.gameObject.SetActive(true);
+                setIntervalPanel.SetIntervalData(cleanDataList.GetCleanPlaceData(nowTargetIndex));
+                setIntervalPanel.IntervalPlaceName();
                 break;
             case CurrentMode.CHANGE:
                 changePanel.SetActive(true);
@@ -100,7 +102,7 @@ public class Main_UI : MainBase,
                 PlaceDataPanel.gameObject.SetActive(false);
                 break;
             case CurrentMode.SETINTERVALMODE:
-                setIntervalPanel.SetActive(false);
+                setIntervalPanel.gameObject.SetActive(false);
                 setIntervalDataDropdownDay.value = 0;
                 setIntervalDataDropdownNumber.value = 0;
                 break;
