@@ -21,12 +21,12 @@ public class CleanPlaceData
     public string NextCleanLeftTimeText { get { return TimeCovertToString.GetTimeSpan(NextCleanLeftTime); } }
     //==============================================
 
-    //日時計算用のデータ============================
+    //日時計算用のデータ==日付データを０時に統一==========================
     public DateTime LastUpdateTime { get; private set; }//最終更新時刻
     public TimeSpan CleanInterval { get; protected set; }//掃除間隔
     public DateTime NextCleanDate { get { return LastUpdateTime + CleanInterval; } }//次に掃除する日時
-    public TimeSpan LastCleanPassTime { get { return DateTime.Now - LastUpdateTime; } }//最後に掃除してからの経過時間
-    public TimeSpan NextCleanLeftTime { get { return NextCleanDate - DateTime.Now; } }//次に掃除するまでの時間
+    public TimeSpan LastCleanPassTime { get { return TimeCalucurator.SetDateTimeHour(DateTime.Now,0) - LastUpdateTime; } }//最後に掃除してからの経過時間
+    public TimeSpan NextCleanLeftTime { get { return NextCleanDate - TimeCalucurator.SetDateTimeHour(DateTime.Now, 0); } }//次に掃除するまでの時間
     //=============================
 
     //カラーバーに使うやつ=====================================
@@ -57,7 +57,8 @@ public class CleanPlaceData
     public CleanPlaceData(string place)
     {
         this.place = place;
-        LastUpdateTime = DateTime.Now;
+        //LastUpdateTime = DateTime.Now;
+        ResetLastUpdateTime();
         CleanInterval = new TimeSpan();
         SetSETime();
     }
@@ -82,13 +83,16 @@ public class CleanPlaceData
 
     public void ResetLastUpdateTime()//lastUpdateTimeを現在の時間にする.
     {
-        LastUpdateTime = DateTime.Now;
+
+        //LastUpdateTime = DateTime.Now;
+        LastUpdateTime = TimeCalucurator.SetDateTimeHour(DateTime.Now, 0);
         SetSETime();
     }
 
     public void SetLastUpdateTime(DateTime time)
     {
-        LastUpdateTime = time;
+        //LastUpdateTime = time;
+        LastUpdateTime = TimeCalucurator.SetDateTimeHour(time, 0);
         SetSETime();
     }
 
@@ -137,23 +141,7 @@ public class CleanPlaceData
     #endregion
 }
 
-/// <summary>
-/// 時間データをstringで返す関数群
-/// </summary>
-public class TimeCovertToString
-{
-    public static string GetTimeSpan(TimeSpan time)
-    {
-        string result = "";
-        result += time.Days + "日";
-        return result;
-    }
 
-    public static string GetDateTime(DateTime time)
-    {
-        return time.Year + "年" + time.Month + "月" + time.Day + "日" + time.Hour + "時" + time.Minute + "分" + time.Second + "秒";
-    }
-}
 
 
 /// <summary>
