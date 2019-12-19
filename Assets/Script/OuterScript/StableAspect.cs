@@ -11,7 +11,7 @@ public class StableAspect : MonoBehaviour
     // 画像のPixel Per Unit
     private float pixelPerUnit = 100f;
 
-    void Awake()
+    void Update()
     {
         float aspect = (float)Screen.height / (float)Screen.width;
         float bgAcpect = height / width;

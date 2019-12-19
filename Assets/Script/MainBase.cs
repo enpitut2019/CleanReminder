@@ -252,9 +252,9 @@ public class MainBase : MonoBehaviour
                     {
                         int num = 0;
                         bool result = int.TryParse(inputDataTop, out num);
-                        if (inputDataTop == "display")
+                        if (inputDataTop == "placeData")//キャンセルボタンを押した時
                         {
-                            ChangeMode(CurrentMode.DISPLAY);
+                            ChangeMode(CurrentMode.PLACEDATAMODE);
                             ResetInputData();
                             WaitInput();
                         }
