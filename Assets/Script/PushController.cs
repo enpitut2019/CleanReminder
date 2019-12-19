@@ -222,7 +222,7 @@ public class PushController : MonoBehaviour
         if (!TimeCalucurator.CheckDate_NotOver(result))
         {
             result = TimeCalucurator.SetDateTimeHour(DateTime.Now.AddDays(1.0), pushTimingHour);
-            Debug.Log(result);
+            //Debug.Log(result);
         }
         return result;
     }

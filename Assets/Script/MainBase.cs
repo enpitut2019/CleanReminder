@@ -168,9 +168,6 @@ public class MainBase : MonoBehaviour
                     ResetInputData();
                     ChangeMode(CurrentMode.DISPLAY);
                     SaveData();
-                    if (cleanDataList.placeDataList.Count > 0) Debug.Log("==================================savedData" + cleanDataList.placeDataList[0].LastUpdateTime);
-                    if (cleanDataList.placeDataList.Count > 0) Debug.Log("==================================savedData" + cleanDataList.placeDataList[0].lastUpdateTime_forSave.GetDate("Day"));
-                    if (cleanDataList.placeDataList.Count > 0) Debug.Log("==================================savedData" + cleanDataList.placeDataList[0].lastUpdateTime_forSave.GetDate("Month"));
                     WaitInput();
                     break;
                 case CurrentMode.DATAUPDATETOPLACEDATA:

@@ -8,7 +8,10 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: Assets/Scenes/MainScene_1216.unity
+    guid: 7fcfd4cccbce45d429a81f4a6ab42244
   - enabled: 1
-    path: Assets/Scenes/AojiruScene.unity
-    guid: 3ccdc85468343c640af887cf22380ccd
+    path: Assets/Scenes/aojiru_camTest.unity
+    guid: 01aa5c270a90a174d8f7887fb0c1259b
   m_configObjects: {}
