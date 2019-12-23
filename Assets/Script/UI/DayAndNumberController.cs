@@ -39,6 +39,15 @@ public class DayAndNumberController : MonoBehaviour
         //InitDayDropDown();
     }
 
+    /// <summary>
+    /// アクティブになった時の初期化処理
+    /// </summary>
+    private void OnEnable()
+    {
+        numberDrop.value = 0;
+        dayDrop.value = 0;
+    }
+
     public void SetDropDownRangeDay()
     {
         string text = dayDrop.captionText.text;
@@ -49,6 +58,9 @@ public class DayAndNumberController : MonoBehaviour
         else if (text == "Month")
         {
             SetNumberDropDownRange(12);
+        }else if (text == "Week")
+        {
+            SetNumberDropDownRange(4);
         }
         else if (text == "Day")
         {
@@ -108,7 +120,16 @@ public class DayAndNumberController : MonoBehaviour
     /// </summary>
     public void SendDayAndNumber_button()
     {
-        actionInterface.RecieveDayAndNumberAction(DayDropText,int.Parse(NumberDropText));
+        string day = DayDropText;
+        //weekをDayに変換する処理
+        int num = int.Parse(NumberDropText);
+        if (day == "Week")
+        {
+            day = "Day";
+            num *= 7;
+
+        }
+        actionInterface.RecieveDayAndNumberAction(day,num);
     }
 
     [ContextMenu("setIntRange")]
