@@ -73,8 +73,10 @@ public class ButtonAdditional_setDropDownRange : MonoBehaviour
         {
             ChengeNumDropDown.options.Add(new Dropdown.OptionData(i.ToString()));
         }
-        if (ChengeNumDropDown.value > ChengeNumDropDown.options.Count)
+        if (ChengeNumDropDown.value >= ChengeNumDropDown.options.Count)
+        {
             ChengeNumDropDown.value = 0;
+        }
     }
 
 }
