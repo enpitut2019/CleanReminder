@@ -11,7 +11,18 @@ public class StableAspect : MonoBehaviour
     // 画像のPixel Per Unit
     private float pixelPerUnit = 100f;
 
+    private void Start()
+    {
+        FixScreenRotation();
+        FixScreenAspect();
+    }
+
     void Update()
+    {
+        //FixScreenAspect();
+    }
+
+    void FixScreenAspect()
     {
         float aspect = (float)Screen.height / (float)Screen.width;
         float bgAcpect = height / width;
@@ -40,5 +51,10 @@ public class StableAspect : MonoBehaviour
             // viewportRectを設定
             cam.rect = new Rect(0f, (1f - camHeight) / 2f, 1f, camHeight);
         }
+    }
+
+    void FixScreenRotation()
+    {
+        Screen.orientation = ScreenOrientation.Portrait;
     }
 }

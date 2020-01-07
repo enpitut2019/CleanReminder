@@ -10,6 +10,29 @@ public class DisplayCleanPlaceData : MonoBehaviour
     [SerializeField] Text intervalTime;
     [SerializeField] Text placeName;
 
+    Animator animator;
+
+    //一瞬非アクティブになる場合
+    [SerializeField] bool animType_awake;
+    bool awakeTrigger=false;
+
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
+
+    private void OnEnable()
+    {
+        //一瞬非アクティブになる問題への対応
+        //animType_awakeでOnOffができる
+        //無理やり感あるので直したい
+        if (awakeTrigger && animType_awake)
+        {
+            animator.SetTrigger("Finish");
+            awakeTrigger = false;
+        }
+    }
+
     /// <summary>
     /// 表示するデータの登録
     /// </summary>
@@ -31,4 +54,18 @@ public class DisplayCleanPlaceData : MonoBehaviour
             placeName.text = myData.Place;
         }
     }
+
+    
+    public void Animation_CleanFinish()
+    {
+        if (animType_awake)//一瞬非アクティブになる場合
+        {
+            awakeTrigger = true;
+        }
+        else
+        {
+            animator.SetTrigger("Finish");
+        }
+    }
+
 }
