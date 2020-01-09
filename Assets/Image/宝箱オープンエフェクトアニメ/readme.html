@@ -1,0 +1,159 @@
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8" />
+    <title>宝箱オープンエフェクトアニメーション画像</title>
+    <style type="text/css">
+        h1 {
+            font-size: 200%;
+            font-weight: bold;
+            margin: 0;
+            padding: .5em 0em .5em;
+            background-color: #D88CFF;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 150%;
+            font-weight: bold;
+            margin-top: 64px;
+            padding: .5em 0em .5em .5em;
+            background-color: #8CFFC1;
+            border-radius: 6px;
+        }
+
+        h3 {
+            font-size: 120%;
+            font-weight: bold;
+            margin-top: 64px;
+            padding: 1em 0em 1em 0em;
+            background-color: #8C9BFF;
+            border-radius: 0px;
+            text-align: center;
+        }
+
+        h4 {
+            font-size: 110%;
+            font-weight: bold;
+            margin-top: 48px;
+            padding: .3em 0em .3em .5em;
+            background-color: #BBFFDD;
+            border-radius: 3px;
+            text-align: left;
+        }
+
+        h5 {
+            font-size: 100%;
+            font-weight: bold;
+            margin-top: 24px;
+            padding: .3em 0em .3em .5em;
+            background-color: #E0FF8C;
+            border-radius: 3px;
+            text-align: left;
+        }
+
+        .list table {
+            border-collapse: collapse
+        }
+
+        .list td {
+            border: 1px #eee solid;
+            text-align: center;
+            vertical-align: bottom
+        }
+    </style>
+</head>
+
+<body bgcolor="ivory">
+    <div style="width: 80%">
+        <h1>宝箱オープンエフェクトアニメーション画像</h1>
+        <h2>●収録内容</h2>
+        <p> 宝箱などを開けたときのアイテム入手演出での使用を想定したエフェクトアニメです</p>
+        <p> アニメパターンをスプライトシート状に並べたPNG画像となっています</p>
+        <p> アニメーションの表示速度は15fpsで作成されています</p>
+        <p><b>ファイルサイズの最適化はしておりませんので、必要に応じて下記の「注意事項」で紹介しているアプリなどでファイルサイズを小さくすることをお奨めします</b></p>
+        <h4>サンプルアニメ</h4>
+        <div class="list">
+            <p><img src="readmehtml_images\open1.gif"></p>
+            <p><img src="readmehtml_images\pipofm-topen01_sample.gif"> <img src="readmehtml_images\pipofm-topen02_sample.gif"> <img src="readmehtml_images\pipofm-topen03_sample.gif"></p>
+        </div>
+        <h4>「png」フォルダ</h4>
+        <table border="1" cellspacing="0" style="width:100%;">
+            <tbody>
+                <tr>
+                    <th bgcolor="#E0FF8C">ファイル名</th>
+                    <th bgcolor="#E0FF8C">内容</th>
+                    <th bgcolor="#E0FF8C">サイズ展開</th>
+                    <th bgcolor="#E0FF8C">パターン数(並び)</th>
+                    <th bgcolor="#E0FF8C">推奨描画モード</th>
+                    <th bgcolor="#E0FF8C">備考</th>
+                </tr>
+                <tr>
+                    <td>pipofm-topen01_.png</td>
+                    <td>アイテムゲット　小く</td>
+                    <td>480&times;480,192&times;192</td>
+                    <td>10(5&times;2)</td>
+                    <td>通常,加算</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>pipofm-topen02_.png</td>
+                    <td>アイテムゲット　中く</td>
+                    <td>480&times;480,192&times;192</td>
+                    <td>15(5&times;3)</td>
+                    <td>通常,加算</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>pipofm-topen03_.png</td>
+                    <td>アイテムゲット　大く</td>
+                    <td>480&times;480,192&times;192</td>
+                    <td>20(5&times;4)</td>
+                    <td>通常,加算</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <h2>●Unity用データ</h2>
+        <p>実験的にUnity用のアセットデータを収録しています。</p>
+        <p>unity_assetフォルダの中にTreasureChestOpenEffect.unitypackageというパッケージファイルを入れてありますので、プロジェクトにインポートしてご利用ください。</p>
+        <p>なにか不具合などありましたらコメントなどでお知らせいただけると助かります。</p>
+        <h2>●エフェクトアニメ素材の使用方法</h2>
+        <p>３つのゲーム制作ソフト向けにエフェクトアニメ素材を使用する手順を、下記の記事で紹介していますので参考にどうぞ。
+        </p>
+        <p>
+            <a href="https://pipoya.net/sozai/tips/fullscreen-effect-for-rpgmakermv/" target="_blank"><strong>RPGツクールMVでエフェクトアニメ素材を使用する手順</strong></a></p>
+        <p>
+            <a href="https://pipoya.net/sozai/tips/fullscreen-effect-for-srpgstudio/" target="_blank"><strong>SRPGStudioでエフェクトアニメ素材を使用する手順</strong></a></p>
+        <p>
+            <a href="https://pipoya.net/sozai/tips/effect-for-wolfrpgeditor/" target="_blank"><strong>ウディタでエフェクトアニメ素材を使用する手順</strong></a></p>
+        <h2>●注意事項</h2>
+        <p>色違いパターンの作成やファイルサイズを小さくする方法なども、下記の記事で紹介していますので参考にどうぞ。
+        </p>
+        <p>
+            <a href="https://pipoya.net/sozai/tips/split-concatenate-images/" target="_blank"><strong>画像の分割・連結</strong></a></p>
+        <p>
+            <a href="https://pipoya.net/sozai/tips/reduce-image-file-size/" target="_blank"><strong>画像のファイルサイズ削減</strong></a></p>
+        <p>
+            <a href="https://pipoya.net/sozai/tips/different-color-image/" target="_blank"><strong>色違い画像の作成</strong></a></p>
+        <h2>●利用条件</h2>
+        <p>
+            <strong>「営利・非営利問わずの利用OK」</strong></p>
+        <p>
+            <strong>「年齢制限コンテンツ利用OK」</strong></p>
+        <p>
+            <strong>「加工OK」</strong></p>
+        <p>
+            <strong>「二次配布OK」</strong></p>
+        <p>　※ただし素材そのものの販売は禁止</p>
+        <p>
+            <strong>「スタッフロールなどへの名前の記述・使用連絡不要」</strong></p>
+        <p>　※クレジット表記して頂ける場合は「ぴぽや」、URLは「http://pipoya.net/」でお願いします。</p>
+        <p>
+            <strong>「デジタル・アナログいかなる環境でも使用可能」</strong></p>
+        <h3>&copy;2019 <a href="http://pipoya.net/">ぴぽや</a></h3>
+    </div>
+</body>
+
+</html>
