@@ -1,4 +1,4 @@
-# お掃除管理くん
+# おそうじ管理くん
 
 1人暮らし,面倒くさがりの人向けの掃除促進アプリ
 
@@ -16,4 +16,7 @@
 
 ## デプロイ先
 
->ここにURLを入れる（現在GooglePlayに申請中です）
+### GooglePlayStore
+
+https://play.google.com/store/apps/details?id=com.DefaultCompany.cleanRemainder
+
