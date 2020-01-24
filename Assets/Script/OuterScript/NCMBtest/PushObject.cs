@@ -91,21 +91,23 @@ public class PushObject : MonoBehaviour,IRecieveDayAndNumber
         //Scedule(sendPushWaitTime);
     }
 
-    public void Push_Scedule(float offset, string _title = null, string _message = null)
+    public void Push_scedule(float offset, string _title = null, string _message = null)
     {
-        Push_Scedule(System.DateTime.Now, offset,_title,_message);
+        Push_scedule(System.DateTime.Now, offset,_title,_message);
     }
-    public void Push_Scedule(DateTime fromTime, float offset,string _title=null,string _message=null)
+    //Push通知の内容を作成する関数
+    public NCMBPush Push_scedule(DateTime fromTime, float offset,string _title=null,string _message=null)
     {
         NCMBPush push = new NCMBPush();
         push.Title = (_title==null)? "掃除の日です！！":_title;
         push.Message = (_message==null)?sendPushMessage:_message;
         push.DeliveryTime =fromTime.AddSeconds(offset);
 
-        Debug.Log("push Sceduled Time is "+push.DeliveryTime);
-        Debug.Log(_title);
-        Debug.Log(_message);
-        //絞り込み処理=============================
+        //Debug.Log("push Sceduled Time is "+push.DeliveryTime);
+        //Debug.Log(_title);
+        //Debug.Log(_message);
+        //絞り込み処理 ObjectIDの設定=============================
+
         var key = GetObjectId();
         DisplayObjectId(key);
         push.SearchCondition = new Dictionary<string, string>()
@@ -115,15 +117,21 @@ public class PushObject : MonoBehaviour,IRecieveDayAndNumber
         };
         //=============================
         //push.Dialog = true;
+        //配信OSの設定===========================
+#if UNITY_ANDROID
         push.PushToAndroid = true;
-        push.SendPush();
+#elif UNITY_IPHONE
+        push.PushToIOS = true;
+#endif
+        //push.SendPush();
+        return push;
     }
 
     public void RecieveDayAndNumberAction(string Day, int number)
     {
         var time = new SEDataTime(Day, number);
         DateTime targetDay = TimeCalucurator.AddTimeAndSpan(DateTime.Now, TimeCalucurator.ReTimeSpan(time));
-        Push_Scedule(targetDay,0);
+        Push_scedule(targetDay,0);
     }
 
     /// <summary>
