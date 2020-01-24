@@ -61,23 +61,27 @@ public class PushController : MonoBehaviour
 
     #region 通知
     /// <summary>
-    /// PushDataの情報をもとに通知を作成する関数
+    /// PushDataの情報をもとに通知を送る関数
     /// </summary>
     void SetPush_FromPushData(PushData data)
     {
         if (!TimeCalucurator.CheckDate_NotOver(data.pushTime)) return;
-#if UNITY_ANDROID
+//#if UNITY_ANDROID
         if (!data.IsTimeOver)//期限を超えていない場合
         {
-            pushObject.Push_Scedule(data.pushTime, 0, Create_pushTitle(data), Create_pushMessage(data));
+            var push= pushObject.Push_scedule(data.pushTime, 0, Create_pushTitle(data), Create_pushMessage(data));
+            push.SendPush();
         }
         else
         {
-            pushObject.Push_Scedule(data.pushTime, 0,
+            var push= pushObject.Push_scedule(data.pushTime, 0,
                 Create_pushTimeOver()+"。"+Create_pushTitle(data),
                 Create_pushTimeOver()+"。"+ Create_pushMessage(data));
+            push.SendPush();
         }
-#endif
+//#elif UNITY_IPHONE
+
+//#endif
     }
 
     /// <summary>
