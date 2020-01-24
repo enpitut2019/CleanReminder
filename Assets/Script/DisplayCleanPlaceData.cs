@@ -16,6 +16,8 @@ public class DisplayCleanPlaceData : MonoBehaviour
     [SerializeField] bool animType_awake;
     bool awakeTrigger=false;
 
+    [SerializeField] Main_UI main;
+
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -68,4 +70,7 @@ public class DisplayCleanPlaceData : MonoBehaviour
         }
     }
 
+    public void AnimEvent_ChengeDisplayMode(){
+        main.ChangeDisplayMode();
+    }
 }

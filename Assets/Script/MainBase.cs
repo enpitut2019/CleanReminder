@@ -135,7 +135,7 @@ public class MainBase : MonoBehaviour
                                 intervalRate = 365;
                             }
                             var num = int.Parse(inputDataList[2]);
-                            localData.SetCleanIntervalDate(num*intervalRate);
+                            localData.SetCleanIntervalDate(num);
 
 
                             int intervalRate_next = 0;
