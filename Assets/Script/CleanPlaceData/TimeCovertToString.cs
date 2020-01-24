@@ -19,4 +19,10 @@ public class TimeCovertToString
     {
         return time.Year + "年" + time.Month + "月" + time.Day + "日" + time.Hour + "時" + time.Minute + "分" + time.Second + "秒";
     }
+
+    public static string GetLastDateTime(DateTime time)
+    {
+        return time.Year + "年" + time.Month + "月" + time.Day + "日";
+    }
+
 }
