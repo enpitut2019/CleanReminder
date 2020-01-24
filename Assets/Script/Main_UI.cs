@@ -135,7 +135,7 @@ public class Main_UI : MainBase,
     {
         addPlacePanel.SetActive(false);
     }
-    #region ボタンで呼ぶ関数 
+    #region ボタンで呼ぶ関数
     // 入力と入力の確定だけを呼ぶ
 
 
@@ -343,5 +343,3 @@ public class Main_UI : MainBase,
     }
     #endregion
 }
-
-
