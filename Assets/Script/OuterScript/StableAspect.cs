@@ -14,12 +14,12 @@ public class StableAspect : MonoBehaviour
     private void Start()
     {
         FixScreenRotation();
-        //FixScreenAspect();
+        FixScreenAspect();
     }
 
     void Update()
     {
-        FixScreenAspect();
+        //FixScreenAspect();
     }
 
     void FixScreenAspect()

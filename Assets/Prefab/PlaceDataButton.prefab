@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -0.001256, y: 0.00024754}
-  m_SizeDelta: {x: 102.67, y: 277}
+  m_SizeDelta: {x: 118.5, y: 277}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3921054758942047324
 CanvasRenderer:
@@ -86,10 +86,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51e5b21ca451d4c73a8b4af0b844dc85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color_1: {r: 1, g: 0, b: 0, a: 1}
-  color_2: {r: 1, g: 1, b: 0, a: 1}
-  color_3: {r: 0, g: 1, b: 0, a: 1}
-  color_4: {r: 0, g: 1, b: 0, a: 1}
+  color_1: {r: 1, g: 0, b: 0.010321617, a: 1}
+  color_2: {r: 1, g: 0.92013705, b: 0, a: 1}
+  color_3: {r: 0.24328054, g: 0.7264151, b: 0.24328054, a: 1}
+  color_4: {r: 0.23380208, g: 0.6981132, b: 0.23380208, a: 1}
 --- !u!1 &1937658540338841396
 GameObject:
   m_ObjectHideFlags: 0
@@ -437,7 +437,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -0.025005, y: -0.00038528}
-  m_SizeDelta: {x: 102.68, y: 277}
+  m_SizeDelta: {x: 118.5, y: 277}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3596745414355361033
 CanvasRenderer:
