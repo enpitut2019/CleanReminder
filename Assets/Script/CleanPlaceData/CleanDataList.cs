@@ -17,6 +17,7 @@ public class CleanPlaceData
 
     //時間などの文字列データ=============================================
     public string LastUpdateTimeText { get { return TimeCovertToString.GetDateTime(LastUpdateTime); } }
+    public string LastCleanDayTimeText { get { return TimeCovertToString.GetLastDateTime(LastUpdateTime); } }
     public string CleanIntervalText { get { return TimeCovertToString.GetTimeSpan(CleanInterval); } }
     public string NextCleanLeftTimeText { get { return TimeCovertToString.GetTimeSpan(NextCleanLeftTime); } }
     //==============================================

@@ -9,6 +9,7 @@ public class DisplayCleanPlaceData : MonoBehaviour
     [SerializeField] Text nextCleanTime;
     [SerializeField] Text intervalTime;
     [SerializeField] Text placeName;
+    [SerializeField] Text lastCleanDayTime;
 
     Animator animator;
 
@@ -54,6 +55,7 @@ public class DisplayCleanPlaceData : MonoBehaviour
             nextCleanTime.text = myData.NextCleanLeftTimeText;
             intervalTime.text = myData.CleanIntervalText;
             placeName.text = myData.Place;
+            lastCleanDayTime.text = myData.LastCleanDayTimeText;
         }
     }
 
