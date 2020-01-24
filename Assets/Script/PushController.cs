@@ -66,7 +66,7 @@ public class PushController : MonoBehaviour
     void SetPush_FromPushData(PushData data)
     {
         if (!TimeCalucurator.CheckDate_NotOver(data.pushTime)) return;
-//#if UNITY_ANDROID
+#if UNITY_ANDROID
         if (!data.IsTimeOver)//期限を超えていない場合
         {
             var push= pushObject.Push_scedule(data.pushTime, 0, Create_pushTitle(data), Create_pushMessage(data));
@@ -79,9 +79,9 @@ public class PushController : MonoBehaviour
                 Create_pushTimeOver()+"。"+ Create_pushMessage(data));
             push.SendPush();
         }
-//#elif UNITY_IPHONE
+#elif UNITY_IPHONE//IOS向けの通知が現在実装できないため、IOSを除外している
 
-//#endif
+#endif
     }
 
     /// <summary>
