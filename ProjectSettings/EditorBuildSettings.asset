@@ -6,9 +6,18 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: Assets/Scenes/MainScene.unity
-    guid: 3fe6a8c0519d6d848b3a712de66ea41f
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: Assets/Scenes/MainScene_0107.unity
+    guid: 7fcfd4cccbce45d429a81f4a6ab42244
+  - enabled: 0
+    path: Assets/Scenes/aojiru_camTest.unity
+    guid: 01aa5c270a90a174d8f7887fb0c1259b
+  - enabled: 0
+    path: Assets/Scenes/Application_Icon.unity
+    guid: 895d2059193d04adf881fb600d2b4a88
   - enabled: 1
-    path: Assets/Scenes/InterfaceTest.unity
-    guid: 7cb27026457af5e4280e99b9ecc31ef9
+    path: Assets/Scenes/osoujiKanrikunn/osoujiKanrikunn_0109.unity
+    guid: 2894ebd1d42f6f142be842ffc31eb3f4
   m_configObjects: {}

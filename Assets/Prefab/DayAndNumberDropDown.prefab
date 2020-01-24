@@ -1752,9 +1752,7 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: Day
       m_Image: {fileID: 0}
-    - m_Text: Month
-      m_Image: {fileID: 0}
-    - m_Text: Year
+    - m_Text: Week
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:

@@ -8,7 +8,8 @@ using System;
 /// <summary>
 /// GameObjectなどを操作し、データを画面に表示するクラス
 /// </summary>
-public class Main_UI : MainBase,IRecieveDayAndNumber
+public class Main_UI : MainBase,
+    IRecieveDayAndNumber,IRecivePushTimeNumber
 {
     [SerializeField] GameObject addPlacePanel;//データを追加するときに出てくるパネル
     [SerializeField] InputField addPlaceInputField;//データを追加するときに使うinputField
@@ -16,16 +17,16 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
     [SerializeField] LayOutTextList layoutTextList;//プレイリストのデータ
     [SerializeField] DisplayCleanPlaceData PlaceDataPanel;//現在選択しているplaceDataの情報を表示するパネル
 
-    [SerializeField] GameObject setIntervalPanel;//インターバルの入力をする時のパネル
+    [SerializeField] SetIntervalPanel setIntervalPanel;//インターバルの入力をする時のパネル
     [SerializeField] InputField setIntervalDataInputField;//インターバルの入力をするためのinputField
     [SerializeField] Dropdown setIntervalDataDropdownDay;
     [SerializeField] Dropdown setIntervalDataDropdownNumber;
     [SerializeField] GameObject changePanel;//何の変更をするか選択する時のパネル
-    [SerializeField] GameObject removePanel;//削除の確認するパネル
-    [SerializeField] GameObject renamePanel;//名前を変更するパネル
+    [SerializeField] GameObject optinPanel;//通地時間を設定するパネル
+    [SerializeField] RenameData RenamePanel;//名前を変更するパネル
+    [SerializeField] RemovePanel RemovePanel;//現在選択しているplaceDataの情報を表示するパネル
     [SerializeField] InputField renamePlaceInputField;//名前変更するinputField
 
-    [SerializeField] PushObject pushObject;
 
 
 
@@ -39,7 +40,6 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
         {
             case CurrentMode.DISPLAY:
 
-                SetPush_FromCleanPlaceList();
                 NonActiveInputPanel();
                 DisplayData();
                 break;
@@ -47,10 +47,15 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
                 ActiveInputPanel();
                 break;
             case CurrentMode.DATAUPDATETODISPLAY:
+                pushCtrl.SetPush_FromCleanPlaceList(cleanDataList.placeDataList);
+                break;
+            case CurrentMode.DATAUPDATETOPLACEDATA:
+                pushCtrl.SetPush_FromCleanPlaceList(cleanDataList.placeDataList);
                 break;
             case CurrentMode.REMOVECHECK:
-                removePanel.SetActive(true);
-
+                RemovePanel.gameObject.SetActive(true);
+                RemovePanel.SetRemoveData(cleanDataList.GetCleanPlaceData(nowTargetIndex));
+                RemovePanel.RemoveName();
                 break;
             case CurrentMode.PLACEDATAMODE:
                 PlaceDataPanel.gameObject.SetActive(true);
@@ -58,13 +63,20 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
                 PlaceDataPanel.DisplayData();
                 break;
             case CurrentMode.SETINTERVALMODE:
-                setIntervalPanel.SetActive(true);
+                setIntervalPanel.gameObject.SetActive(true);
+                setIntervalPanel.SetIntervalData(cleanDataList.GetCleanPlaceData(nowTargetIndex));
+                setIntervalPanel.IntervalPlaceName();
                 break;
             case CurrentMode.CHANGE:
                 changePanel.SetActive(true);
                 break;
             case CurrentMode.RENAME:
-                renamePanel.SetActive(true);
+                RenamePanel.gameObject.SetActive(true);
+                RenamePanel.SetRenameData(cleanDataList.GetCleanPlaceData(nowTargetIndex));
+                RenamePanel.RenameName();
+                break;
+            case CurrentMode.OPTION:
+                optinPanel.SetActive(true);
                 break;
         }
     }
@@ -82,7 +94,7 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
             case CurrentMode.DATAUPDATETODISPLAY:
                 break;
             case CurrentMode.REMOVECHECK:
-                removePanel.SetActive(false);
+                RemovePanel.gameObject.SetActive(false);
                 break;
             case CurrentMode.REMOVE:
                 break;
@@ -90,7 +102,7 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
                 PlaceDataPanel.gameObject.SetActive(false);
                 break;
             case CurrentMode.SETINTERVALMODE:
-                setIntervalPanel.SetActive(false);
+                setIntervalPanel.gameObject.SetActive(false);
                 setIntervalDataDropdownDay.value = 0;
                 setIntervalDataDropdownNumber.value = 0;
                 break;
@@ -100,8 +112,11 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
                 changePanel.SetActive(false);
                 break;
             case CurrentMode.RENAME:
-                renamePanel.SetActive(false);
+                RenamePanel.gameObject.SetActive(false);
                 InitInputFieldTextRename();
+                break;
+            case CurrentMode.OPTION:
+                optinPanel.SetActive(false);
                 break;
         }
     }
@@ -127,13 +142,14 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
     //+ボタンから追加ウィンドウを表示
     public void ChangeAddPlaceMode()
     {
-        SetInputData("i");
+        AddInputData("i");
+
         Enter();
     }
     //キャンセル押したときに追加ウィンドウを閉じる
     public void ChangeDisplayMode()
     {
-        SetInputData("display");
+        AddInputData("display");
         Enter();
     }
     public void OpenPlaceDataMode(int n)
@@ -143,23 +159,23 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
             n = nowTargetIndex; //今の開いているplacedataの場所を代入
         }
         SetTargetIndex(n);
-        SetInputData("placeData");
+        AddInputData("placeData");
         Enter();
     }
     //データの追加と表示
     public void AddPlaceData()
     {
-        SetInputData(addPlaceInputField.textComponent.text);
+        AddInputData(addPlaceInputField.textComponent.text);
         Enter();
     }
     public void RenamePlaceData()
     {
-        SetInputData(renamePlaceInputField.textComponent.text);
+        AddInputData(renamePlaceInputField.textComponent.text);
         Enter();
     }
     public void ChangeResetMode()
     {
-        SetInputData("reset");
+        AddInputData("reset");
         Enter();
     }
     /// <summary>
@@ -167,23 +183,23 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
     /// </summary>
     public void RemovePlaceData()
     {
-        SetInputData("remove");
+        AddInputData("remove");
         Enter();
 
-        StartCoroutine(WaitFrame(1, () => SetInputData(nowTargetIndex.ToString())));
+        StartCoroutine(WaitFrame(1, () => AddInputData(nowTargetIndex.ToString())));
         StartCoroutine(WaitFrame(1, () => Enter()));
     }
 
 
     public void ChengeSetIntervalMode()
     {
-        SetInputData("interval");
+        AddInputData("interval");
         Enter();
     }
 
     public void SetIntervalData()
     {
-        SetInputData(setIntervalDataInputField.textComponent.text);
+        AddInputData(setIntervalDataInputField.textComponent.text);
         Enter();
     }
     /// <summary>
@@ -191,7 +207,7 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
     /// </summary>
     public void ChangeChangeMode()
     {
-        SetInputData("change");
+        AddInputData("change");
         Enter();
     }
     /// <summary>
@@ -199,18 +215,34 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
     /// </summary>
     public void ChangeRemoveCheckMode()
     {
-        SetInputData("removecheck");
+        AddInputData("removecheck");
         Enter();
     }
     public void ChangePlaceDataMode()
     {
-        SetInputData("dataUpdateToPlaceData");
+        AddInputData("dataUpdateToPlaceData");
         Enter();
     }
     public void ChangeRenameMode()
     {
-        SetInputData("rename");
+        AddInputData("rename");
         Enter();
+    }
+
+    public void OpenOption()
+    {
+        AddInputData("option");
+        Enter();
+    }
+
+    /// <summary>
+    /// push通知を送るタイミングを変更する関数
+    /// </summary>
+    /// <param name="hour"></param>
+    public void ChangePushTiming(int hour)
+    {
+        pushCtrl.SetPushTiming(hour);
+        cleanDataList.SetPushTIiming(hour);
     }
 
     #region InputDataを扱わないボタン
@@ -262,73 +294,43 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
 
     public void SetIntervalDataDropdownDay()
     {
-        SetInputData(setIntervalDataDropdownDay.captionText.text);
+        AddInputData(setIntervalDataDropdownDay.captionText.text);
         Enter();
     }
 
     public void SetIntervalDataDropdownNumber()
     {
-        SetInputData(setIntervalDataDropdownNumber.captionText.text);
+        AddInputData(setIntervalDataDropdownNumber.captionText.text);
         Enter();
     }
 
     #region 通知関連の関数
-    /// <summary>
-    /// cleanPlaceDataの情報をもとに通知を作成する関数
-    /// </summary>
-    void SetPush_FromCleanPlaceData(CleanPlaceData data)
-    {
-        DateTime d = TimeCalucurator.SetDateTimeToNoon(data.NextCleanDate);
-        if (TimeCalucurator.CheckDate_Today(d)) return;
-
-        pushObject.Push_Scedule(d, 0);
-    }
-    /// <summary>
-    /// cleanPlaceListのデータをもとに通知を作成する関数
-    /// これを呼ぶと現在登録されているすべてのデータについて通知が作成される
-    /// </summary>
-    void SetPush_FromCleanPlaceList()
-    {
-        var tempList = new List<CleanPlaceData>();//送信する日にちをかぶりなく追加するためのリスト
-        foreach(var data in cleanDataList.placeDataList)
-        {
-            bool addFlag = true;
-            foreach(var tdata in tempList)//すでに追加されている日にちかどうかを確認
-            {
-                if (tdata.NextCleanDate.Day == data.NextCleanDate.Day)//かぶりありならbreak
-                {
-                    addFlag = false;
-                    break;
-                }
-
-            }
-
-            if (addFlag)//かぶりなしなら追加
-            {
-                tempList.Add(data);
-            }
-        }
-        if (tempList == null) return;
-        pushObject.SetLastSetDate();
-        foreach(var data in tempList)
-        {
-            SetPush_FromCleanPlaceData(data);
-            Debug.Log(data);
-        }
-    }
     #endregion
 
     #region Interfaceの関数
     //DayとNumberのデータを受け取るときのインターフェース
     public void RecieveDayAndNumberAction(string Day, int number)
     {
+        if (currentMode == CurrentMode.SETINTERVALMODE)
+        {
+            AddInputData(Day);
+            Enter();
+            StartCoroutine(WaitFrame(1, () => AddInputData(number.ToString())));
+            StartCoroutine(WaitFrame(1, () => Enter())); 
+        }
+        else if (currentMode == CurrentMode.ADDPLACEMODE)
+        {
 
-        SetInputData(Day);
-        Enter();
-
-        StartCoroutine(WaitFrame(1, () => SetInputData(number.ToString())));
-        StartCoroutine(WaitFrame(1, () => Enter())); 
+            AddInputData(Day);
+            AddInputData(number.ToString());
+        }
         
+    }
+
+    public void RecivePushTimeNumber(string num)
+    {
+        AddInputData(num);
+        Enter();
     }
     #endregion
 
@@ -337,7 +339,7 @@ public class Main_UI : MainBase,IRecieveDayAndNumber
     public void Debug_timeToNoon()
     {
         //SetPush_FromCleanPlaceData(cleanDataList.GetCleanPlaceData(0));
-        SetPush_FromCleanPlaceList();
+        pushCtrl.SetPush_FromCleanPlaceList(cleanDataList.placeDataList);
     }
     #endregion
 }
