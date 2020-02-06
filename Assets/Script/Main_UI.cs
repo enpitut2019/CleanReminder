@@ -241,7 +241,7 @@ public class Main_UI : MainBase,
     /// <param name="hour"></param>
     public void ChangePushTiming(int hour)
     {
-        pushCtrl.SetPushTiming(hour);
+        pushCtrl.SetPushTime(hour);
         cleanDataList.SetPushTIiming(hour);
     }
 

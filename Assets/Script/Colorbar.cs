@@ -3,33 +3,56 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//掃除のバーの色と長さの変更を実行するクラス
 public class Colorbar : MonoBehaviour
 {
-    public Color color_1, color_2, color_3, color_4;
-    private Image image_HPgauge;
-    private float timeRatio;
+    //_safeColor2はいらないかもしれない
+    public Color _overTimeColor, _soonClenaColor, _safeColor, _safeColor2;
+    private Image cleanBar;
+    
 
-
-
-    // Update is called once per frame
     public void ChangeColor(CleanPlaceData data)
     {
-        image_HPgauge = gameObject.GetComponent<Image>();
-        timeRatio = data.FloatLastCleanPassTime()/data.FloatCleanInterval();
-
-        if (timeRatio > 0.85f)
+        //cleanBarの取得==========================================
+        if (cleanBar == null)
         {
-            image_HPgauge.color = Color.Lerp(color_2, color_1, (timeRatio - 0.85f) * 4f);
+            cleanBar = gameObject.GetComponent<Image>();
         }
-        else if (timeRatio > 0.50f)
+
+        //色の決定======================================================
+
+        //次の掃除までの経過割合
+        //最後に掃除してからの経過時間/掃除間隔
+        float pastTimeRatio = data.FloatLastCleanPassTime()/data.FloatCleanInterval();
+
+        //規格化
+        //範囲の最小値が0で最大値が1になるような値
+        float normalizedValue = 0;
+        //(1/0.25f)
+        float extendValue = 4f;
+
+        if (pastTimeRatio > 0.75f)
         {
-            image_HPgauge.color = Color.Lerp(color_3, color_2, (timeRatio - 0.50f) * 4f);
+            normalizedValue = (pastTimeRatio - 0.75f) * extendValue;
+            cleanBar.color = Color.Lerp(_soonClenaColor, _overTimeColor, normalizedValue );
+        }
+        else if (pastTimeRatio > 0.50f)
+        {
+            normalizedValue = (pastTimeRatio - 0.50f) * extendValue;
+            cleanBar.color = Color.Lerp(_safeColor, _soonClenaColor,normalizedValue);
+        }
+        else if (pastTimeRatio > 0.25f)
+        {
+            normalizedValue = (pastTimeRatio - 0.25f) * extendValue;
+            cleanBar.color = Color.Lerp(_safeColor2, _safeColor, normalizedValue);
         }
         else
         {
-            image_HPgauge.color = Color.Lerp(color_4, color_3, timeRatio * 4f);
+            cleanBar.color = _safeColor2;
         }
 
-        image_HPgauge.fillAmount = timeRatio;
+        //長さの決定===================================================
+        cleanBar.fillAmount = pastTimeRatio;
     }
+
 }

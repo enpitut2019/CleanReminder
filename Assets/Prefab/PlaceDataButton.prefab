@@ -86,10 +86,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51e5b21ca451d4c73a8b4af0b844dc85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color_1: {r: 1, g: 0, b: 0.010321617, a: 1}
-  color_2: {r: 1, g: 0.92013705, b: 0, a: 1}
-  color_3: {r: 0.24328054, g: 0.7264151, b: 0.24328054, a: 1}
-  color_4: {r: 0.23380208, g: 0.6981132, b: 0.23380208, a: 1}
+  _overTimeColor: {r: 1, g: 0, b: 0, a: 1}
+  _soonClenaColor: {r: 1, g: 0.92156863, b: 0, a: 1}
+  _safeColor: {r: 0.24313726, g: 0.7254902, b: 0.24313726, a: 1}
+  _safeColor2: {r: 0.24313726, g: 0.7254902, b: 0.24313726, a: 1}
 --- !u!1 &1937658540338841396
 GameObject:
   m_ObjectHideFlags: 0

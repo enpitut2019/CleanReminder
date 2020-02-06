@@ -5,13 +5,14 @@ using System.IO;
 
 public class DataSaveClass
 {
+    #region Static関数
     /// <summary>
     /// データをpathの位置にjson形式で保存する
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="data"></param>
     /// <param name="path"></param>
-    public void SaveData<T>(T data,string path)
+    public static void SaveData<T>(T data,string path)
     {
         StreamWriter writer;
  
@@ -29,7 +30,7 @@ public class DataSaveClass
     /// <typeparam name="T"></typeparam>
     /// <param name="path"></param>
     /// <returns></returns>
-    public T LoadData<T>(string path)
+    public static T LoadData<T>(string path)
         where T : new()
     {
         string datastr = "";
@@ -47,7 +48,7 @@ public class DataSaveClass
     /// ファイルが存在するかどうかの確認
     /// </summary>
     /// <returns></returns>
-    bool CheckFile(string path){
+    static bool CheckFile(string path){
         //return File.Exists(Application.dataPath + "/savedata.json");
         return File.Exists(CreateDataPath(path));
     }
@@ -57,7 +58,7 @@ public class DataSaveClass
     /// </summary>
     /// <param name="path"></param>
     /// <returns></returns>
-    string CreateDataPath(string path)
+    static string CreateDataPath(string path)
     {
 #if UNITY_EDITOR
         return Application.dataPath + "/" + path + ".json";
@@ -66,6 +67,8 @@ public class DataSaveClass
         return Application.persistentDataPath + "/" + path + ".json";
 #endif
     }
+    #endregion
+
 
     public void InitData<T>(string path)
         where T : new()

@@ -37,9 +37,7 @@ public class MainBase : MonoBehaviour
 
     [SerializeField] protected int nowTargetIndex = -1;//MainBaseに実装を映したい
     CleanPlaceData makingNowData;//作成中のデータin ADDPLACEMODE 終了後空っぽになる
-
-
-    DataSaveClass dataSave = new DataSaveClass();//セーブとロードを行うクラス
+    
 
     [SerializeField] protected PushController pushCtrl;//push通知を送ったりするクラス
     #region データをセーブするpath群
@@ -47,14 +45,16 @@ public class MainBase : MonoBehaviour
     #endregion
 
     CurrentMode nextMode;
+    #region Monobehabiour関数
     void Start()
     {
-        LoadData();
-        foreach(var d in cleanDataList.placeDataList)
+        LoadCleanDataList();
+        foreach(CleanPlaceData placeData in cleanDataList.placeDataList)
         {
-            d.InitAction();
+            placeData.InitAction();
         }
-        pushCtrl.SetPushTiming(cleanDataList.PushTiming);
+
+        pushCtrl.SetPushTime(cleanDataList.PushTiming);
         cleanDataList.DeadLineSort();
         ChangeMode(CurrentMode.DISPLAY);
         SEDataTime data = new SEDataTime();
@@ -169,13 +169,13 @@ public class MainBase : MonoBehaviour
                 case CurrentMode.DATAUPDATETODISPLAY:
                     ResetInputData();
                     ChangeMode(CurrentMode.DISPLAY);
-                    SaveData();
+                    SaveCleanDataList();
                     WaitInput();
                     break;
                 case CurrentMode.DATAUPDATETOPLACEDATA:
                     ResetInputData();
                     ChangeMode(CurrentMode.PLACEDATAMODE);
-                    SaveData();
+                    SaveCleanDataList();
                     WaitInput();
                     break;
                 case CurrentMode.REMOVECHECK:
@@ -355,7 +355,7 @@ public class MainBase : MonoBehaviour
                         }
                         else if (result)//入力が数字だった時
                         {
-                            pushCtrl.SetPushTiming(num);
+                            pushCtrl.SetPushTime(num);
                             cleanDataList.SetPushTIiming(num);
                             WaitInput();
                             ResetInputData();
@@ -371,62 +371,10 @@ public class MainBase : MonoBehaviour
         }
 
     }
-
-    /// <summary>
-    /// キー入力でデータを入力するための関数
-    /// デバック用
-    /// </summary>
-    void InputUpdate()
-    {
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            Enter();//入力の確定
-        }
-        
-        //if (Input.GetKeyDown(KeyCode.I))
-        //{
-        //    AddInputData("i");//AddPlaceModeに入るための文字列の入力
-        //}
-        //if (Input.GetKeyDown(KeyCode.D))
-        //{
-        //    AddInputData("display");//DisPlayModeに入るための文字列の入力
-        //}
-        //if (Input.GetKeyDown(KeyCode.R))
-        //{
-        //    AddInputData("remove");
-        //}
-        //if (Input.GetKeyDown(KeyCode.P))
-        //{
-        //    AddInputData("placeData");
-        //    SetTargetIndex(0);
-        //}
-        //if (Input.GetKeyDown(KeyCode.N))
-        //{
-        //    AddInputData("interval");
-        //}
-        //if (Input.GetKeyDown(KeyCode.E))
-        //{
-        //    AddInputData("reset");
-        //}
-        //if (Input.GetKeyDown(KeyCode.C))
-        //{
-        //    AddInputData("change");
-        //}
-        //if (Input.GetKeyDown(KeyCode.B))
-        //{
-        //    AddInputData("removecheck");
-        //}
-        //if (Input.GetKeyDown(KeyCode.U))
-        //{
-        //    AddInputData("dataUpdateToPlaceData");
-        //}
-        //if (Input.GetKeyDown(KeyCode.A))
-        //{
-        //    AddInputData("rename");
-        //}
-    }
+    #endregion
 
 
+    #region mode関連の関数
     /// <summary>
     /// currentModeの変更
     /// </summary>
@@ -477,7 +425,9 @@ public class MainBase : MonoBehaviour
                 break;
         }
     }
+    #endregion
 
+    #region 入力関連の関数
     /// <summary>
     /// 入力の確定
     /// </summary>
@@ -491,6 +441,61 @@ public class MainBase : MonoBehaviour
     void WaitInput()
     {
         canInput = true;
+    }
+
+
+    /// <summary>
+    /// キー入力でデータを入力するための関数
+    /// デバック用
+    /// </summary>
+    void InputUpdate()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            Enter();//入力の確定
+        }
+
+        //if (Input.GetKeyDown(KeyCode.I))
+        //{
+        //    AddInputData("i");//AddPlaceModeに入るための文字列の入力
+        //}
+        //if (Input.GetKeyDown(KeyCode.D))
+        //{
+        //    AddInputData("display");//DisPlayModeに入るための文字列の入力
+        //}
+        //if (Input.GetKeyDown(KeyCode.R))
+        //{
+        //    AddInputData("remove");
+        //}
+        //if (Input.GetKeyDown(KeyCode.P))
+        //{
+        //    AddInputData("placeData");
+        //    SetTargetIndex(0);
+        //}
+        //if (Input.GetKeyDown(KeyCode.N))
+        //{
+        //    AddInputData("interval");
+        //}
+        //if (Input.GetKeyDown(KeyCode.E))
+        //{
+        //    AddInputData("reset");
+        //}
+        //if (Input.GetKeyDown(KeyCode.C))
+        //{
+        //    AddInputData("change");
+        //}
+        //if (Input.GetKeyDown(KeyCode.B))
+        //{
+        //    AddInputData("removecheck");
+        //}
+        //if (Input.GetKeyDown(KeyCode.U))
+        //{
+        //    AddInputData("dataUpdateToPlaceData");
+        //}
+        //if (Input.GetKeyDown(KeyCode.A))
+        //{
+        //    AddInputData("rename");
+        //}
     }
 
     /// <summary>
@@ -509,7 +514,9 @@ public class MainBase : MonoBehaviour
     {
         inputDataList = new List<string>();
     }
+    #endregion
 
+    #region 現在のインデックスについて
     /// <summary>
     /// 現在のplaceDataの番号
     /// </summary>
@@ -523,52 +530,60 @@ public class MainBase : MonoBehaviour
     {
         nowTargetIndex = -1;
     }
+    #endregion
+    #region Save&Load関連の関数
     /// <summary>
     /// データをjsonファイルに書き込む
     /// </summary>
-    void SaveData(){
-        dataSave.SaveData<CleanDataList>(cleanDataList, cleanDataListPath);
-        Debug.Log("save");
+    void SaveCleanDataList(){
+        DataSaveClass.SaveData<CleanDataList>(cleanDataList, cleanDataListPath);
     }
 
     /// <summary>
     /// データをjsonファイルから読み込み
     /// </summary>
-    void LoadData(){
-        cleanDataList=dataSave.LoadData<CleanDataList>(cleanDataListPath);
+    void LoadCleanDataList(){
+        cleanDataList=DataSaveClass.LoadData<CleanDataList>(cleanDataListPath);
     }
-    
+    #endregion
+
+
+    #region　不要かもしれない関数
+    //検証が不十分なためコメントアウトした
 
 
     /// <summary>
     /// データの初期化（デバッグボタンで呼ぶ）
     /// </summary>
-    public void InitData()
-    {
-        dataSave.InitData<CleanDataList>(cleanDataListPath);
-    }
+    //public void InitData()
+    //{
+    //    dataSave.InitData<CleanDataList>(cleanDataListPath);
+    //}
 
-    [ContextMenu("testTimeLimit")]
-    public void Debug_testLimit()
-    {
-        var nowData = cleanDataList.GetCleanPlaceData(nowTargetIndex);
-        //var data= nowData.CleanInterval.DayDataUntilNextClean(nowData.CleanInterval,nowData.LastUpdateTime);
-        //Debug.Log(data);
-    }
 
-    /// <summary>
-    /// nフレーム後にuaを実行
-    /// </summary>
-    /// <param name="n"></param>
-    /// <param name="ua"></param>
-    /// <returns></returns>
-    public IEnumerator WaitFrame(int n, UnityAction ua)
-    {
-        for (int i = 0; i < n; i++)
-        {
-            yield return null;
-        }
-        ua.Invoke();
-    }
+    //[ContextMenu("testTimeLimit")]
+    //public void Debug_testLimit()
+    //{
+    //    var nowData = cleanDataList.GetCleanPlaceData(nowTargetIndex);
+    //    //var data= nowData.CleanInterval.DayDataUntilNextClean(nowData.CleanInterval,nowData.LastUpdateTime);
+    //    //Debug.Log(data);
+    //}
 
+
+
+    ///// <summary>
+    ///// nフレーム後にuaを実行
+    ///// </summary>
+    ///// <param name="n"></param>
+    ///// <param name="ua"></param>
+    ///// <returns></returns>
+    //public IEnumerator WaitFrame(int n, UnityAction ua)
+    //{
+    //    for (int i = 0; i < n; i++)
+    //    {
+    //        yield return null;
+    //    }
+    //    ua.Invoke();
+    //}
+    #endregion
 }
