@@ -46,12 +46,6 @@ public class Main_UI : MainBase,
             case CurrentMode.ADDPLACEMODE:
                 ActiveInputPanel();
                 break;
-            case CurrentMode.DATAUPDATETODISPLAY:
-                pushCtrl.SetPush_FromCleanPlaceList(cleanDataList.placeDataList);
-                break;
-            case CurrentMode.DATAUPDATETOPLACEDATA:
-                pushCtrl.SetPush_FromCleanPlaceList(cleanDataList.placeDataList);
-                break;
             case CurrentMode.REMOVECHECK:
                 RemovePanel.gameObject.SetActive(true);
                 RemovePanel.SetRemoveData(cleanDataList.GetCleanPlaceData(nowTargetIndex));
@@ -91,8 +85,6 @@ public class Main_UI : MainBase,
             case CurrentMode.ADDPLACEMODE:
                 InitInputFieldText();
                 break;
-            case CurrentMode.DATAUPDATETODISPLAY:
-                break;
             case CurrentMode.REMOVECHECK:
                 RemovePanel.gameObject.SetActive(false);
                 break;
@@ -106,8 +98,6 @@ public class Main_UI : MainBase,
                 setIntervalDataDropdownDay.value = 0;
                 setIntervalDataDropdownNumber.value = 0;
                 break;
-            case CurrentMode.RESET://RESETMODEの時
-                break;
             case CurrentMode.CHANGE:
                 changePanel.SetActive(false);
                 break;
@@ -119,6 +109,13 @@ public class Main_UI : MainBase,
                 optinPanel.SetActive(false);
                 break;
         }
+    }
+
+    protected override void ChangeModeUpdate(CurrentMode nextMode)
+    {
+        base.ChangeModeUpdate(nextMode);
+
+        pushCtrl.SetPush_FromCleanPlaceList(cleanDataList.placeDataList);
     }
     /// <summary>
     /// 追加ウィンドウの表示
@@ -311,14 +308,14 @@ public class Main_UI : MainBase,
     //DayとNumberのデータを受け取るときのインターフェース
     public void RecieveDayAndNumberAction(string Day, int number)
     {
-        if (currentMode == CurrentMode.SETINTERVALMODE)
+        if (_currentMode == CurrentMode.SETINTERVALMODE)
         {
             AddInputData(Day);
             Enter();
             StartCoroutine(WaitFrame(1, () => AddInputData(number.ToString())));
             StartCoroutine(WaitFrame(1, () => Enter())); 
         }
-        else if (currentMode == CurrentMode.ADDPLACEMODE)
+        else if (_currentMode == CurrentMode.ADDPLACEMODE)
         {
 
             AddInputData(Day);
