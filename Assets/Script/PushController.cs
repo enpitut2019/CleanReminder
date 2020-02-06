@@ -161,7 +161,7 @@ public class PushController : MonoBehaviour
     /// 何時に通知が来るかを設定する関数
     /// </summary>
     /// <param name="hour"></param>
-    public void SetPushTiming(int hour)
+    public void SetPushTime(int hour)
     {
         pushTimingHour = hour;
     }
