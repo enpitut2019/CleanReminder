@@ -1455,7 +1455,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 308143874}
+      - m_Target: {fileID: 308143877}
         m_MethodName: Animation_CleanFinish
         m_Mode: 1
         m_Arguments:
@@ -1772,6 +1772,7 @@ GameObject:
   - component: {fileID: 308143874}
   - component: {fileID: 308143875}
   - component: {fileID: 308143876}
+  - component: {fileID: 308143877}
   m_Layer: 5
   m_Name: PlaceDataPanel
   m_TagString: Untagged
@@ -1864,8 +1865,6 @@ MonoBehaviour:
   intervalTime: {fileID: 186505610}
   placeName: {fileID: 1192084492}
   lastCleanDayTime: {fileID: 1966925028}
-  animType_awake: 1
-  main: {fileID: 648793232}
 --- !u!95 &308143875
 Animator:
   serializedVersion: 3
@@ -1901,6 +1900,19 @@ MonoBehaviour:
   clips_:
   - {fileID: 8300000, guid: eefa79ae611eb394aa1701ba7a00b363, type: 3}
   - {fileID: 8300000, guid: c5361f1eaea68c643b4dbaa68a74c4ca, type: 3}
+--- !u!114 &308143877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 308143870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4437f3435913b4546adea9fcd3f55747, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animType_awake: 0
 --- !u!1 &338512865
 GameObject:
   m_ObjectHideFlags: 0
@@ -1912,6 +1924,7 @@ GameObject:
   - component: {fileID: 338512866}
   - component: {fileID: 338512868}
   - component: {fileID: 338512867}
+  - component: {fileID: 338512869}
   m_Layer: 5
   m_Name: AddPlacePanel
   m_TagString: Untagged
@@ -1975,6 +1988,49 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 338512865}
   m_CullTransparentMesh: 0
+--- !u!114 &338512869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 338512865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95a14fe5ef6dacb4fb12b4371fbd2b69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beforePanel: {fileID: 0}
+  nextPanel: []
+  key: []
+  awakeAction:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  closeAction:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &363387013
 GameObject:
   m_ObjectHideFlags: 0
@@ -2620,10 +2676,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564b0a539a7e3204f85b4a6295baeb67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentMode: 0
+  _currentMode: 0
   cleanDataList:
-    placeDataList: []
     pushTiming: 18
+    placeDataList: []
   inputDataList: []
   canInput: 1
   nowTargetIndex: -1

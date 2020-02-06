@@ -96,10 +96,9 @@ public class CleanDataList
     /// 締め切り（次の掃除までの残り期間）が近い順にソート
     /// </summary>
     /// <returns></returns>
-    public List<CleanPlaceData> DeadLineSort()
+    public void DeadLineSort()
     {
         placeDataList.Sort((a,b) => a.GetLeftDay() - b.GetLeftDay());
-        return placeDataList;
     }
 
 }
