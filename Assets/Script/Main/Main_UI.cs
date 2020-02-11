@@ -76,6 +76,8 @@ public class Main_UI : MainBase,
                 break;
             case CurrentMode.HOMERU:
                 homeruPanel.SetActive(true);
+                var word = homeruPanel.GetComponent<HomeruController>();
+                word.SetHomeruWord();
                 break;
         }
     }
