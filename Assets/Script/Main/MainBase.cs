@@ -37,6 +37,9 @@ public class MainBase : MonoBehaviour
     
 
     [SerializeField] protected PushController pushCtrl;//push通知を送ったりするクラス
+
+    [SerializeField] ModeStack _modeStack = new ModeStack();
+
     #region データをセーブするpath群
     string cleanDataListPath = "cleanPlaceData";
     #endregion
@@ -307,14 +310,31 @@ public class MainBase : MonoBehaviour
     void ChangeMode(CurrentMode nextMode,bool addOpen)
     {
         Debug.Log("addOpen"+addOpen);
+
         if (_currentMode == nextMode)
         {
             Debug.Log("おなじモードが呼び出されています");
             return;
         }
+
+        if (addOpen)
+        {
+            _modeStack.Push(nextMode);
+            AwakeModeAction(nextMode);
+        }
+        else
+        {
+            var popList= _modeStack.ToPop(nextMode);
+            foreach(var pop in popList)
+            {
+                EndModeAction(pop);
+            }
+            AwakeModeAction(nextMode);
+        }
+
         //現在のモードの終了処理を行い、次のモードの開始処理を行う
-        EndModeAction(_currentMode);
-        AwakeModeAction(nextMode);
+        //EndModeAction(_currentMode);
+        //AwakeModeAction(nextMode);
 
         _currentMode = nextMode;
 
