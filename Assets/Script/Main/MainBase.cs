@@ -23,7 +23,8 @@ public class MainBase : MonoBehaviour
         SETINTERVALMODE,//掃除する間隔の登録をする状態
         CHANGE,//変更ボタンを押して何を変更するか選択する状態
         RENAME,//名前を変更する状態
-        OPTION//オプション設定画面 現在は通知時刻設定のみ
+        OPTION,//オプション設定画面 現在は通知時刻設定のみ
+        HOMERU//ほめる状態
     }
 
     [SerializeField] protected CurrentMode _currentMode = CurrentMode.DISPLAY;
@@ -200,9 +201,7 @@ public class MainBase : MonoBehaviour
                     {
                         var nowData = cleanDataList.GetCleanPlaceData(nowTargetIndex);
                         nowData.ResetLastUpdateTime();
-
-                        SetAnimMode(CurrentMode.PLACEDATAMODE, CurrentMode.DISPLAY);
-                        ChangeModeUpdate(CurrentMode.DISPLAY, addOpen: false);
+                        ChangeModeUpdate(CurrentMode.HOMERU, addOpen: true);
                     }
                     else if (inputDataTop == "change")
                     {
@@ -300,8 +299,17 @@ public class MainBase : MonoBehaviour
                         {
                             ReInput(reset: true);
                         }
+                        break;
                     }
-                    break;
+                case CurrentMode.HOMERU:
+                    {
+                        if (inputDataTop == "placeData")//バツボタンでもどる
+                        {
+                            ChangeMode(CurrentMode.PLACEDATAMODE, addOpen: false);
+                        }
+                        break;
+                    }
+        
             }
         }
 
