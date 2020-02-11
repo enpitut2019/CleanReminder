@@ -35,7 +35,7 @@ public class PushTimeSetter : MonoBehaviour
 
     void DisplayNowTiming()
     {
-        nowTimeText.text = "現在の設定時刻" + pushController.PushTimingHour + "時";
+        //nowTimeText.text = "現在の設定時刻" + pushController.PushTimingHour + "時";
     }
 
     IEnumerator DataUpdate(int frame)

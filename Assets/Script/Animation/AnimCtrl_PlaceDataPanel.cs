@@ -51,7 +51,8 @@ public class AnimCtrl_PlaceDataPanel : MonoBehaviour
 
     public void AnimEvent_ChengeDisplayMode()
     {
-        main.ChangeDisplayMode();
+        //main.ChangeDisplayMode();
+        main.AnimationEvent_CoalEndAnimation();
     }
 
 }
