@@ -303,9 +303,10 @@ public class MainBase : MonoBehaviour
                     }
                 case CurrentMode.HOMERU:
                     {
-                        if (inputDataTop == "placeData")//バツボタンでもどる
+                        if (inputDataTop == "dataUpdateToPlaceData")//バツボタンでもどる
                         {
-                            ChangeMode(CurrentMode.PLACEDATAMODE, addOpen: false);
+                            SetAnimMode(CurrentMode.PLACEDATAMODE,CurrentMode.DISPLAY);
+                            ChangeMode(CurrentMode.DISPLAY, addOpen: false);
                         }
                         break;
                     }
@@ -423,10 +424,15 @@ public class MainBase : MonoBehaviour
     {
 
         var popList = _modeStack.ToPop((CurrentMode)_animCoalMode);
-        foreach (var pop in popList)
+        if (popList != null)
         {
-            EndModeAction(pop);
+            foreach (var pop in popList)
+            {
+                EndModeAction(pop);
+                _currentMode = pop;
+            }
         }
+        //Debug.Log(((CurrentMode)_animCoalMode).ToString());
 
         animCoaledEvent.AddListener(() => ChangeMode((CurrentMode)_animedChengeMode, addOpen));//anim終了後の関数を登録
         AnimCoal((CurrentMode)_animCoalMode);//アニメーション呼び出し
