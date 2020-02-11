@@ -26,8 +26,9 @@ public class Main_UI : MainBase,
     [SerializeField] RenameData RenamePanel;//名前を変更するパネル
     [SerializeField] RemovePanel RemovePanel;//現在選択しているplaceDataの情報を表示するパネル
     [SerializeField] InputField renamePlaceInputField;//名前変更するinputField
+    [SerializeField] GameObject homeruPanel;//ほめるパネル
 
-
+    
 
 
     //[SerializeField]int nowTargetIndex=-1;//MainBaseに実装を映したい
@@ -72,6 +73,9 @@ public class Main_UI : MainBase,
             case CurrentMode.OPTION:
                 optinPanel.SetActive(true);
                 break;
+            case CurrentMode.HOMERU:
+                homeruPanel.SetActive(true);
+                break;
         }
     }
     //モード終了時の処理
@@ -107,6 +111,9 @@ public class Main_UI : MainBase,
                 break;
             case CurrentMode.OPTION:
                 optinPanel.SetActive(false);
+                break;
+            case CurrentMode.HOMERU:
+                homeruPanel.SetActive(false);
                 break;
         }
     }
