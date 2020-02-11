@@ -26,6 +26,7 @@ public class Main_UI : MainBase,
     [SerializeField] RenameData RenamePanel;//名前を変更するパネル
     [SerializeField] RemovePanel RemovePanel;//現在選択しているplaceDataの情報を表示するパネル
     [SerializeField] InputField renamePlaceInputField;//名前変更するinputField
+    
 
 
 
@@ -329,6 +330,22 @@ public class Main_UI : MainBase,
         Enter();
     }
     #endregion
+
+    public override void AnimCoal(CurrentMode coalAnimMode)
+    {
+        base.AnimCoal(coalAnimMode);
+
+        switch (coalAnimMode)
+        {
+            case CurrentMode.PLACEDATAMODE:
+                var anim= PlaceDataPanel.GetComponent<Animator>();
+                anim.SetTrigger("Finish");
+                break;
+            default:
+                Debug.Log("not set animation data");
+                break;
+        }
+    }
 
     #region Debug用の関数
     [ContextMenu("debug_timeToNoon")]

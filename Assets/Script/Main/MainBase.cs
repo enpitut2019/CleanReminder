@@ -40,6 +40,11 @@ public class MainBase : MonoBehaviour
 
     [SerializeField] ModeStack _modeStack = new ModeStack();
 
+    [SerializeField] CurrentMode? _animCoalMode = null;
+    [SerializeField] CurrentMode? _animedChengeMode = null;
+    bool _AnimMode { get { return _animCoalMode != null && _animedChengeMode != null; } }
+    UnityEvent animCoaledEvent = new UnityEvent();//アニメーションが終わった後に呼ばれる関数
+
     #region データをセーブするpath群
     string cleanDataListPath = "cleanPlaceData";
     #endregion
@@ -195,7 +200,9 @@ public class MainBase : MonoBehaviour
                     {
                         var nowData = cleanDataList.GetCleanPlaceData(nowTargetIndex);
                         nowData.ResetLastUpdateTime();
-                        ChangeModeUpdate(CurrentMode.PLACEDATAMODE, addOpen: true);
+
+                        SetAnimMode(CurrentMode.PLACEDATAMODE, CurrentMode.DISPLAY);
+                        ChangeModeUpdate(CurrentMode.DISPLAY, addOpen: false);
                     }
                     else if (inputDataTop == "change")
                     {
@@ -309,7 +316,7 @@ public class MainBase : MonoBehaviour
     /// <param name="nextMode"></param>
     void ChangeMode(CurrentMode nextMode,bool addOpen)
     {
-        Debug.Log("addOpen"+addOpen);
+        //Debug.Log("addOpen"+addOpen);
 
         if (_currentMode == nextMode)
         {
@@ -324,6 +331,13 @@ public class MainBase : MonoBehaviour
         }
         else
         {
+
+            if (_AnimMode )
+            {
+                AnimCoalPop(addOpen);
+                return;
+            }
+
             var popList= _modeStack.ToPop(nextMode);
             foreach(var pop in popList)
             {
@@ -394,6 +408,22 @@ public class MainBase : MonoBehaviour
                 break;
         }
     }
+
+    //animModeの時にmodeChengeで呼ばれる関数
+    //animEndまで閉じてanimの処理を実行
+    void AnimCoalPop(bool addOpen)
+    {
+
+        var popList = _modeStack.ToPop((CurrentMode)_animCoalMode);
+        foreach (var pop in popList)
+        {
+            EndModeAction(pop);
+        }
+
+        animCoaledEvent.AddListener(() => ChangeMode((CurrentMode)_animedChengeMode, addOpen));//anim終了後の関数を登録
+        AnimCoal((CurrentMode)_animCoalMode);//アニメーション呼び出し
+    }
+
     #endregion
 
     #region 入力関連の関数
@@ -516,6 +546,39 @@ public class MainBase : MonoBehaviour
     }
     #endregion
 
+    #region animation
+
+    //アニメーションを呼ぶ状態を設定する関数
+    //ChengeModeを呼ぶ前に呼んでおく
+    void SetAnimMode(CurrentMode animCoalMode, CurrentMode animNextMode)
+    {
+        _animCoalMode = animCoalMode;
+        _animedChengeMode = animNextMode;
+    }
+    //アニメーションを読んだ後にアニメーションイベントで呼ばれる関数
+    public void AnimationEvent_CoalEndAnimation()
+    {
+        _animCoalMode = null;
+        animCoaledEvent.Invoke();
+        animCoaledEvent = new UnityEvent();
+        _animedChengeMode = null;
+    }
+
+    //アニメーションを実際に呼ぶ関数
+    //ChengeMode内で呼ばれる
+    public virtual void AnimCoal(CurrentMode coalAnimMode)
+    {
+        switch (coalAnimMode)
+        {
+            case CurrentMode.PLACEDATAMODE:
+
+                break;
+            default:
+                Debug.Log("not set animation data");
+                break;
+        }
+    }
+    #endregion
 
     #region　不要かもしれない関数
     //検証が不十分なためコメントアウトした
