@@ -111,9 +111,9 @@ public class Main_UI : MainBase,
         }
     }
 
-    protected override void ChangeModeUpdate(CurrentMode nextMode)
+    protected override void ChangeModeUpdate(CurrentMode nextMode,bool addOpen)
     {
-        base.ChangeModeUpdate(nextMode);
+        base.ChangeModeUpdate(nextMode,addOpen);
 
         pushCtrl.SetPush_FromCleanPlaceList(cleanDataList.placeDataList);
     }
@@ -123,7 +123,6 @@ public class Main_UI : MainBase,
     void ActiveInputPanel()
     {
         addPlacePanel.SetActive(true);
-
     }
     /// <summary>
     ///追加ウィンドウの非表示
