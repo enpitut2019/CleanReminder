@@ -52,7 +52,7 @@ public class MainBase : MonoBehaviour
         }
         pushCtrl.SetPushTime(cleanDataList.PushTiming);
         cleanDataList.DeadLineSort();
-        ChangeMode(CurrentMode.DISPLAY);
+        ChangeMode(CurrentMode.DISPLAY,addOpen:true);
     }
 
     void Update()
@@ -68,16 +68,16 @@ public class MainBase : MonoBehaviour
                 case CurrentMode.DISPLAY:
                     if (inputDataTop == "i")
                     {
-                        ChangeMode(CurrentMode.ADDPLACEMODE);
+                        ChangeMode(CurrentMode.ADDPLACEMODE, addOpen: true);
                     }
                     else if (inputDataTop == "placeData")
                     {
                         
-                        ChangeMode(CurrentMode.PLACEDATAMODE);
+                        ChangeMode(CurrentMode.PLACEDATAMODE, addOpen: true);
                     }
                     else if(inputDataTop=="option")
                     {
-                        ChangeMode(CurrentMode.OPTION);
+                        ChangeMode(CurrentMode.OPTION, addOpen: true);
                     }
                     else
                     {
@@ -88,7 +88,7 @@ public class MainBase : MonoBehaviour
                     {
                         if (inputDataTop == "display")
                         {
-                            ChangeMode(CurrentMode.DISPLAY);
+                            ChangeMode(CurrentMode.DISPLAY, addOpen: false);
                         }else if (inputDataList.Count == 5)
                         {
                             Debug.Log(inputDataList[0]);
@@ -140,7 +140,7 @@ public class MainBase : MonoBehaviour
                             time = time.AddDays(- intervalRate * int.Parse(inputDataList[2]) + intervalRate_next * int.Parse(inputDataList[4]));
                             localData.SetLastUpdateTime(time);
                             cleanDataList.AddPlaceList(localData);
-                            ChangeModeUpdate(CurrentMode.DISPLAY);
+                            ChangeModeUpdate(CurrentMode.DISPLAY, addOpen: false);
                         }
 
                         break;
@@ -149,11 +149,11 @@ public class MainBase : MonoBehaviour
                     {
                         if (inputDataTop == "remove")//削除ボタンを押した時
                         {
-                            ChangeMode(CurrentMode.REMOVE);
+                            ChangeMode(CurrentMode.REMOVE, addOpen: true);
                         }
                         else if (inputDataTop == "placeData")//キャンセルボタンを押した時
                         {
-                            ChangeMode(CurrentMode.PLACEDATAMODE);
+                            ChangeMode(CurrentMode.PLACEDATAMODE, addOpen: false);
                         }
                         break;
                     }
@@ -164,7 +164,7 @@ public class MainBase : MonoBehaviour
                         if (result)//入力が数字だった時
                         {
                             cleanDataList.RemoveData(num);
-                            ChangeModeUpdate(CurrentMode.DISPLAY);
+                            ChangeModeUpdate(CurrentMode.DISPLAY, addOpen: false);
                         }
                         else//入力が数字以外だった場合
                         {
@@ -182,21 +182,21 @@ public class MainBase : MonoBehaviour
 
                     if (inputDataTop == "display")
                     {
-                        ChangeMode(CurrentMode.DISPLAY);
+                        ChangeMode(CurrentMode.DISPLAY, addOpen: false);
                     }
-                    else if (inputDataTop == "interval")
-                    {
-                        ChangeMode(CurrentMode.SETINTERVALMODE);
-                    }
+                    //else if (inputDataTop == "interval")
+                    //{
+                    //    ChangeMode(CurrentMode.SETINTERVALMODE, addOpen: true);
+                    //}
                     else if (inputDataTop == "reset")
                     {
                         var nowData = cleanDataList.GetCleanPlaceData(nowTargetIndex);
                         nowData.ResetLastUpdateTime();
-                        ChangeModeUpdate(CurrentMode.PLACEDATAMODE);
+                        ChangeModeUpdate(CurrentMode.PLACEDATAMODE, addOpen: true);
                     }
                     else if (inputDataTop == "change")
                     {
-                        ChangeMode(CurrentMode.CHANGE);
+                        ChangeMode(CurrentMode.CHANGE, addOpen: true);
                     }
                     break;
                 case CurrentMode.SETINTERVALMODE:
@@ -205,7 +205,7 @@ public class MainBase : MonoBehaviour
                         bool result = int.TryParse(inputDataTop, out num);
                         if (inputDataTop == "placeData")//キャンセルボタンを押した時
                         {
-                            ChangeMode(CurrentMode.PLACEDATAMODE);
+                            ChangeMode(CurrentMode.PLACEDATAMODE, addOpen: false);
                         }
                         else if (result)//入力が数字だった時
                         {
@@ -213,7 +213,7 @@ public class MainBase : MonoBehaviour
                             if (nowData.CheckHaveTarget())
                             {
                                 nowData.SetCleanIntervalDate(num);
-                                ChangeModeUpdate(CurrentMode.PLACEDATAMODE);
+                                ChangeModeUpdate(CurrentMode.PLACEDATAMODE, addOpen: false);
                             }
                             else
                             {
@@ -237,19 +237,19 @@ public class MainBase : MonoBehaviour
                     {
                         if (inputDataTop == "placeData")//バツボタンでもどる
                         {
-                            ChangeMode(CurrentMode.PLACEDATAMODE);
+                            ChangeMode(CurrentMode.PLACEDATAMODE, addOpen: false);
                         }
                         else if (inputDataTop == "interval")//時間間隔の変更へ
                         {
-                            ChangeMode(CurrentMode.SETINTERVALMODE);
+                            ChangeMode(CurrentMode.SETINTERVALMODE, addOpen: true);
                         }
                         else if (inputDataTop == "removecheck")//削除の確認へ
                         {
-                            ChangeMode(CurrentMode.REMOVECHECK);
+                            ChangeMode(CurrentMode.REMOVECHECK, addOpen: true);
                         }
                         else if (inputDataTop == "rename")//名前の変更へ
                         {
-                            ChangeMode(CurrentMode.RENAME);
+                            ChangeMode(CurrentMode.RENAME, addOpen: true);
                         }
                         break;
                     }
@@ -258,13 +258,13 @@ public class MainBase : MonoBehaviour
 
                         if (inputDataTop == "placeData")
                         {
-                            ChangeMode(CurrentMode.PLACEDATAMODE);
+                            ChangeMode(CurrentMode.PLACEDATAMODE, addOpen: false);
                         }
                         else if (inputDataTop != "")
                         {
                             //順序逆だとエラーを吐きました
                             cleanDataList.RenamePlaceList(inputDataTop, nowTargetIndex);
-                            ChangeModeUpdate(CurrentMode.PLACEDATAMODE);
+                            ChangeModeUpdate(CurrentMode.PLACEDATAMODE, addOpen: false);
                         }
                         else
                         {
@@ -278,7 +278,7 @@ public class MainBase : MonoBehaviour
                         bool result = int.TryParse(inputDataTop, out num);
                         if (inputDataTop == "display")
                         {
-                            ChangeModeUpdate(CurrentMode.DISPLAY);
+                            ChangeModeUpdate(CurrentMode.DISPLAY, addOpen: false);
                         }
                         else if (result)//入力が数字だった時
                         {
@@ -304,8 +304,9 @@ public class MainBase : MonoBehaviour
     /// currentModeの変更
     /// </summary>
     /// <param name="nextMode"></param>
-    void ChangeMode(CurrentMode nextMode)
+    void ChangeMode(CurrentMode nextMode,bool addOpen)
     {
+        Debug.Log("addOpen"+addOpen);
         if (_currentMode == nextMode)
         {
             Debug.Log("おなじモードが呼び出されています");
@@ -324,7 +325,7 @@ public class MainBase : MonoBehaviour
     //最後に呼ばないとエラーを吐く？
     //名前変更時にエラーを吐いた
     //モード変更の際にデータのセーブも行う
-    protected virtual void ChangeModeUpdate(CurrentMode nextMode)
+    protected virtual void ChangeModeUpdate(CurrentMode nextMode,bool addOpen)
     {
         //同じモードを呼び出したときの挙動が不安
         //この処理は　reset入力時の　PlaceDataMode->PlaceDataMode　で必要になった
@@ -336,8 +337,7 @@ public class MainBase : MonoBehaviour
         }
         else
         {
-
-            ChangeMode(nextMode);
+            ChangeMode(nextMode,addOpen);
         }
 
         SaveCleanDataList();
